@@ -3,21 +3,97 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --umang-green: #22c55e;
+  --umang-green: #699C78;
   --umang-teal: #14b8a6;
-  --umang-navy: #1A2238;
-  --umang-cyan: #3FE4D7;
+  --umang-navy: #16355A;
+  --umang-cyan: #6CAAB7;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Navbar uses Inter */
+header {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Department cards: sharp image, subtle card radius, soft shadow (design spec) */
+.dept-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 4px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+.dept-card .dept-card-image {
+  border-radius: 0;
+  overflow: hidden;
+}
+.dept-card .dept-card-content {
+  border-radius: 0;
+  background-color: #ffffff;
+  padding: 0 8px 16px 8px;
+}
+.dept-card-cta {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* About Us service cards: first card no left border, no radius */
+.about-us-cards .about-us-service-card:first-child {
+  border-left: none;
+}
+
+/* Expert team cards: image rounded top to match card */
+.expert-team-card-image {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+/* Latest stories: zig-zag layout, responsive image heights */
+.story-card-zigzag {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.story-card-zigzag > div:first-child {
+  border-radius: 0;
+}
+.story-card-zigzag .story-card-image-tall {
+  height: 12rem;
+}
+.story-card-zigzag .story-card-image-short {
+  height: 10rem;
+}
+@media (min-width: 768px) {
+  .story-card-zigzag .story-card-image-tall {
+    height: 20rem;
+  }
+  .story-card-zigzag .story-card-image-short {
+    height: 14rem;
+  }
+}
+
+/* Footer Flaticon social icons */
+footer .fi-brands-facebook,
+footer .fi-brands-twitter,
+footer .fi-brands-google,
+footer .fi-brands-youtube,
+footer .fi-brands-linkedin {
+  font-size: 1.25rem;
+  color: inherit;
 }
