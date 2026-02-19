@@ -42,6 +42,7 @@ export default function Footer() {
   return (
     <footer className="relative bg-white">
       {/* White area: space for certification band; band overlaps into dark section (md+) */}
+        <div className="text-center text-xs font-semibold uppercase tracking-wider text-[#16355A] opacity-60 sm:mb-3 sm:text-xs md:mb-4">over empanelments</div>
       <div className="bg-white pb-40 md:pt-14 lg:pb-2 relative">
         {/* Certification band: full-width on mobile to avoid dark peeking at edges; floating on desktop */}
         <div className="mx-auto max-w-4xl left-0 right-0 my-3 px-4 sm:px-4 absolute md:left-1/2 md:top-0 md:z-10 md:-translate-x-1/2 md:px-6">

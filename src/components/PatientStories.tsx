@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef } from "react";
+import type { GoogleReview } from "@/lib/google-places";
 
-const testimonials = [
+const FALLBACK_TESTIMONIALS: GoogleReview[] = [
   {
     quote:
       "After years of trying, we finally became parents thanks to the IVF treatment at Umang Hospital. Dr. Geetika's expertise and emotional support was incredible. The best fertility center in Bilaspur!",
@@ -47,8 +48,17 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-export default function PatientStories() {
+const GOOGLE_MAPS_PLACE_URL = "https://www.google.com/maps/search/?api=1&query_place_id=";
+
+type PatientStoriesProps = {
+  reviews?: GoogleReview[] | null;
+  googlePlaceId?: string | null;
+};
+
+export default function PatientStories({ reviews, googlePlaceId }: PatientStoriesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const testimonials = reviews?.length ? reviews : FALLBACK_TESTIMONIALS;
+  const placeUrl = googlePlaceId ? `${GOOGLE_MAPS_PLACE_URL}${encodeURIComponent(googlePlaceId)}` : null;
 
   return (
     <section className="bg-white py-10 sm:py-16 md:py-24">
@@ -92,12 +102,25 @@ export default function PatientStories() {
                 />
                 <div className="min-w-0">
                   <p className="truncate font-bold text-[#1e293b] sm:text-base">{t.name}</p>
-                  <p className="text-xs text-gray-500 sm:text-sm">{t.location}</p>
+                  <p className="text-xs text-gray-500 sm:text-sm">{t.relativeTime ?? t.location}</p>
                 </div>
               </div>
             </article>
           ))}
         </div>
+        {placeUrl && (
+          <p className="mt-6 text-center sm:mt-8">
+            <a
+              href={placeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--umang-green)] hover:underline"
+            >
+              View all reviews on Google
+              <span aria-hidden>↗</span>
+            </a>
+          </p>
+        )}
       </div>
     </section>
   );

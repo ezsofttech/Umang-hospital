@@ -7,8 +7,12 @@ import StatsBar from "@/components/StatsBar";
 import PatientStories from "@/components/PatientStories";
 import LatestStories from "@/components/LatestStories";
 import Footer from "@/components/Footer";
+import { getGooglePlaceReviews } from "@/lib/google-places";
 
-export default function Home() {
+export default async function Home() {
+  const googleReviews = await getGooglePlaceReviews();
+  const googlePlaceId = process.env.GOOGLE_PLACE_ID?.trim() || undefined;
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -18,7 +22,7 @@ export default function Home() {
         <Departments />
         <ExpertHero />
         <StatsBar />
-        <PatientStories />
+        <PatientStories reviews={googleReviews ?? undefined} googlePlaceId={googlePlaceId} />
         <LatestStories />
         <Footer />
       </main>
