@@ -35,7 +35,7 @@ export default function AboutUs() {
   return (
     <section id="about" className="bg-white py-12 sm:py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
               ABOUT US
@@ -44,14 +44,14 @@ export default function AboutUs() {
               <span className="text-[var(--umang-navy)]">Bilaspur&apos;s Premier IVF & </span>
               <span className="text-[var(--umang-green)]">Super Specialty Hospital</span>
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-gray-700 sm:mt-6 sm:text-base">
+            <p className="mt-3 text-sm leading-relaxed text-gray-700 sm:mt-4 sm:text-base">
               Umang IVF & Super Specialty Hospital Has Been Serving The People Of Bilaspur And
               Chhattisgarh With Dedication And Compassion. As The Region&apos;s Leading IVF Center
               And Super Specialty Hospital, We Combine Cutting-Edge Technology With Personalized Care
               — From Advanced Fertility Treatment, Cosmetic Surgery To Cardiology, Urology, And 24/7
               Emergency Services.
             </p>
-            <ul className="mt-8 space-y-4">
+            <ul className="mt-6 space-y-3">
               {features.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--umang-navy)] text-sm font-bold text-white">
@@ -62,7 +62,7 @@ export default function AboutUs() {
               ))}
             </ul>
           </div>
-          <div className="relative flex justify-center lg:justify-end">
+          <div className="relative flex justify-center lg:justify-end lg:items-center">
             <div className="relative h-[260px] w-[260px] sm:h-[320px] sm:w-[320px] md:h-[400px] md:w-[320px] lg:h-[500px] lg:w-[350px]">
               <div
                 className="h-full w-full"

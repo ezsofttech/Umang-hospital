@@ -26,9 +26,10 @@ export default function Departments() {
             Minimally Invasive Surgeries.
           </p>
         </div>
-        <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile: horizontal scroll (one row); sm+: grid */}
+        <div className="-mx-4 grid auto-cols-[minmax(280px,1fr)] grid-flow-col gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid-flow-row sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
           {departments.map((dept, i) => (
-            <article key={i} className="dept-card">
+            <article key={i} className="dept-card min-w-[280px] sm:min-w-0">
               <div
                 className="dept-card-image h-40 bg-gray-200 bg-cover bg-center sm:h-48"
                 style={{ backgroundImage: `url(${dept.image})` }}
@@ -43,7 +44,7 @@ export default function Departments() {
           ))}
           <Link
             href="/services"
-            className="dept-card-cta flex min-h-[160px] flex-col justify-end bg-[#6FA179] p-4 text-white transition hover:opacity-95 sm:min-h-[200px] sm:p-6"
+            className="dept-card-cta flex min-h-[160px] min-w-[280px] flex-col justify-end bg-[#6FA179] p-4 text-white transition hover:opacity-95 sm:min-w-0 sm:min-h-[200px] sm:p-6"
           >
             <span className="block text-lg font-bold leading-tight sm:text-xl md:text-2xl">
               Explore

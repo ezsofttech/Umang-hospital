@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import FooterAccordion from "./FooterAccordion";
 
 const quickLinks = [
   { label: "About Us", href: "/#about" },
@@ -78,13 +79,71 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Main footer - dark navy; extra top padding so band overlaps into this (Figma) */}
+      {/* Main footer - dark navy; mobile: accordions, desktop: grid */}
       <div className="bg-[#141630] text-white">
         <div className="mx-auto max-w-7xl px-4 pt-20 pb-14 sm:px-6 sm:pt-24 sm:pb-20 md:pt-28 md:pb-28 lg:px-8">
-          <div className="grid gap-10 text-left sm:gap-14 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-20">
-            {/* Column 1: Logo + Follow Us */}
+          {/* Mobile: stacked logo + accordions */}
+          <div className="md:hidden">
+            <div className="inline-block bg-white px-4 py-2">
+              <Image
+                src="/images/uamng-final.svg"
+                alt="UMANG Hospital - IVF & Super Specialty Centre"
+                width={180}
+                height={100}
+                className="h-auto w-32 object-contain"
+              />
+            </div>
+            <p className="mt-6 text-sm font-medium text-white/95">Follow Us on</p>
+            <div className="flex gap-1 pt-2">
+              {social.map((s, i) => (
+                <Link
+                  key={i}
+                  href={s.href}
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:opacity-90"
+                  aria-label={s.aria}
+                >
+                  <i className={`fi ${s.icon} text-lg`} aria-hidden />
+                </Link>
+              ))}
+            </div>
+            <div className="mt-6">
+              <FooterAccordion title="Quick Links">
+                <ul className="space-y-2.5">
+                  {quickLinks.map((link, i) => (
+                    <li key={i}>
+                      <Link href={link.href} className="text-sm text-white/90 transition hover:text-white">
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </FooterAccordion>
+              <FooterAccordion title="Department">
+                <ul className="space-y-2.5">
+                  {departments.map((name, i) => (
+                    <li key={i}>
+                      <Link href="/#departments" className="text-sm text-white/90 transition hover:text-white">
+                        {name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </FooterAccordion>
+              <FooterAccordion title="Office">
+                <p className="text-sm leading-relaxed text-white/90">
+                  In front of Rani Sati Mandir, Gaurav Path-Ring Road-2, Bilaspur,
+                  Chhattisgarh 495001
+                </p>
+                <p className="mt-3 text-sm text-white/90">+91 7710203022 / +91 8889450411</p>
+                <p className="mt-1 text-sm text-white/90">umanghospitalbsp@gmail.com</p>
+              </FooterAccordion>
+            </div>
+          </div>
+
+          {/* Desktop: 4-column grid */}
+          <div className="hidden gap-10 text-left md:grid md:grid-cols-2 lg:grid-cols-4 lg:gap-20">
             <div>
-              <div className="inline-block bg-white px-4 py-2 sm:px-4 sm:py-3">
+              <div className="inline-block bg-white px-4 py-2 sm:py-3">
                 <Image
                   src="/images/uamng-final.svg"
                   alt="UMANG Hospital - IVF & Super Specialty Centre"
@@ -93,9 +152,7 @@ export default function Footer() {
                   className="h-auto w-32 object-contain sm:w-40"
                 />
               </div>
-              <p className="mt-10 text-sm font-medium text-white/95 sm:mb-1 sm:mt-24">
-                Follow Us on
-              </p>
+              <p className="mt-10 text-sm font-medium text-white/95 sm:mb-1 sm:mt-24">Follow Us on</p>
               <div className="flex">
                 {social.map((s, i) => (
                   <Link
@@ -109,63 +166,39 @@ export default function Footer() {
                 ))}
               </div>
             </div>
-
-            {/* Column 2: Quick Links */}
             <div>
-              <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-[#699C78]">
-                QUICK LINKS
-              </h3>
+              <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-[#699C78]">QUICK LINKS</h3>
               <ul className="space-y-2.5">
                 {quickLinks.map((link, i) => (
                   <li key={i}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-white/90 transition hover:text-white"
-                    >
+                    <Link href={link.href} className="text-sm text-white/90 transition hover:text-white">
                       {link.label}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-
-            {/* Column 3: Department */}
             <div>
-              <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-[#699C78]">
-                DEPARTMENT
-              </h3>
+              <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-[#699C78]">DEPARTMENT</h3>
               <ul className="space-y-2.5">
                 {departments.map((name, i) => (
                   <li key={i}>
-                    <Link
-                      href="/#departments"
-                      className="text-sm text-white/90 transition hover:text-white"
-                    >
+                    <Link href="/#departments" className="text-sm text-white/90 transition hover:text-white">
                       {name}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-
-            {/* Column 4: Office, Phone, Email */}
             <div>
-              <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-[#699C78]">
-                OFFICE
-              </h3>
+              <h3 className="mb-2 text-xs font-bold uppercase tracking-wider text-[#699C78]">OFFICE</h3>
               <p className="text-sm leading-relaxed text-white/90">
                 In front of Rani Sati Mandir, Gaurav Path-Ring Road-2, Bilaspur,
                 Chhattisgarh 495001
               </p>
-              <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-[#699C78]">
-                PHONE
-              </h3>
-              <p className="text-sm text-white/90">
-                +91 7710203022 / +91 8889450411
-              </p>
-              <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-[#699C78]">
-                EMAIL
-              </h3>
+              <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-[#699C78]">PHONE</h3>
+              <p className="text-sm text-white/90">+91 7710203022 / +91 8889450411</p>
+              <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-[#699C78]">EMAIL</h3>
               <p className="text-sm text-white/90">umanghospitalbsp@gmail.com</p>
             </div>
           </div>
