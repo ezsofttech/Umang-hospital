@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function DoctorHero() {
   return (
-    <section className="bg-[#1e3a5f] px-4 py-10 sm:px-6 sm:py-12 md:py-16 lg:px-8">
+    <section className="bg-[var(--umang-navy)] px-4 py-10 sm:px-6 sm:py-12 md:py-16 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <nav className="mb-3 text-xs text-white/90 sm:mb-4 sm:text-sm" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5">

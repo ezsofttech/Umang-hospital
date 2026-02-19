@@ -8,7 +8,7 @@ export default function ServicesHero({
   subtitle: string;
 }) {
   return (
-    <section className="bg-[#1e3a5f] px-4 py-10 sm:px-6 sm:py-12 md:py-16 lg:px-8">
+    <section className="bg-[var(--umang-navy)] px-4 py-10 sm:px-6 sm:py-12 md:py-16 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <nav className="mb-3 text-xs text-[#FFFFFF] sm:mb-4 sm:text-sm">
           <Link href="/" className="hover:text-[var(--umang-teal)]">
