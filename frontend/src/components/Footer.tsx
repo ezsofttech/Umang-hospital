@@ -24,9 +24,9 @@ const departments = [
 ];
 
 const social = [
-  { name: "Facebook", href: "#", aria: "Facebook", icon: "fi-brands-facebook" },
+  { name: "Facebook", href: "https://www.facebook.com/UmangIVFSSH", aria: "Facebook", icon: "fi-brands-facebook" },
+  { name: "Instagram", href: "https://www.instagram.com/umangivfssh_bilaspur", aria: "Instagram", icon: "fi-brands-instagram" },
   { name: "X", href: "#", aria: "X (Twitter)", icon: "fi-brands-twitter" },
-  { name: "Google", href: "#", aria: "Google", icon: "fi-brands-google" },
   { name: "YouTube", href: "#", aria: "YouTube", icon: "fi-brands-youtube" },
   { name: "LinkedIn", href: "#", aria: "LinkedIn", icon: "fi-brands-linkedin" },
 ];
@@ -42,7 +42,7 @@ export default function Footer() {
   return (
     <footer className="relative bg-white">
       {/* White area: space for certification band; band overlaps into dark section (md+) */}
-        <div className="text-center text-xs font-semibold uppercase tracking-wider text-[#16355A] opacity-60 sm:mb-3 sm:text-xs md:mb-4">over empanelments</div>
+      <div className="text-center text-xs font-semibold uppercase tracking-wider text-[#16355A] opacity-60 sm:mb-3 sm:text-xs md:mb-4">over empanelments</div>
       <div className="bg-white pb-40 md:pt-14 lg:pb-2 relative">
         {/* Certification band: full-width on mobile to avoid dark peeking at edges; floating on desktop */}
         <div className="mx-auto max-w-4xl left-0 right-0 my-3 px-4 sm:px-4 absolute md:left-1/2 md:top-0 md:z-10 md:-translate-x-1/2 md:px-6">
@@ -71,7 +71,7 @@ export default function Footer() {
                     alt={logo.alt}
                     width={100}
                     height={50}
-                    className="h-10 w-auto max-w-[72px] shrink-0 object-contain sm:h-12 sm:max-w-none"
+                    className="h-10 w-auto max-w-18 shrink-0 object-contain sm:h-12 sm:max-w-none"
                   />
                 ))}
               </div>
@@ -165,6 +165,8 @@ export default function Footer() {
                     href={s.href}
                     className="flex h-9 w-9 items-center justify-center rounded-full text-white transition hover:opacity-90 sm:h-10 sm:w-10"
                     aria-label={s.aria}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <i className={`fi ${s.icon} text-lg sm:text-xl`} aria-hidden />
                   </Link>

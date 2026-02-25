@@ -24,93 +24,157 @@ const doctors: Doctor[] = [
     tag: "LEAD IVF SPECIALIST",
     name: "Dr. Geetika Sharma",
     role: "Senior Consultant & IVF Specialist",
-    qualification: "MBBS, MS (OBG), Fellowship in Reproductive Medicine",
+    qualification:
+      "D.G.O, D.N.B, Advanced Diploma in Reproductive Medicine, Fellowship in IVF",
+
     about:
-      "Dr. Geetika Sharma has over 15 years of experience in Obstetrics, Gynaecology, and Reproductive Medicine. She leads the IVF & Reproductive Medicine department at Umang IVF & Super Speciality Hospital, Bilaspur, with a focus on personalized treatment and high IVF success rates. Her expertise includes complex infertility cases, high-risk pregnancies, advanced laparoscopic gynaecological surgeries, and comprehensive women's healthcare.",
+      "Dr. Geetika Sharma is a highly qualified IVF Specialist with D.G.O, D.N.B, Advanced Diploma in Reproductive Medicine, and Fellowship in IVF. She specializes in infertility evaluation and advanced reproductive treatments, providing personalized fertility care using modern IVF techniques and evidence-based protocols to help couples achieve successful pregnancy outcomes.",
+
     specializations:
-      "She Specializes In IVF, IUI, High-Risk Pregnancies, Normal And Cesarean Deliveries, Laparoscopic Gynecological Surgeries, And Comprehensive Infertility Treatments.",
+      "She specializes in IVF, ICSI, IUI, infertility evaluation, reproductive medicine, high-risk pregnancy management, and comprehensive fertility treatments.",
+
     image: "/images/doctor-img.svg",
     experience: "15+",
     department: "Infertility / IVF / Reproductive Medicine",
     departmentDescription:
       "Best IVF Centre in Bilaspur with advanced fertility treatments — IUI, IVF, ICSI, egg freezing, and donor programs led by Dr. Geetika Sharma.",
     departmentHref: "/services",
+
     expertise: [
       "In Vitro Fertilization (IVF)",
       "Intracytoplasmic Sperm Injection (ICSI)",
       "Intrauterine Insemination (IUI)",
+      "Infertility Diagnosis & Treatment",
+      "Reproductive Medicine",
+      "Fertility Preservation",
       "High-Risk Pregnancy Management",
-      "Laparoscopic Gynaecology",
-      "PCOS & Endometriosis Treatment",
-      "Recurrent Miscarriage Management",
-      "Egg Freezing & Donor Programs",
+      "Hormonal & Ovulation Disorders Treatment",
     ],
   },
+
   {
-    slug: "dr-rajendra-singh",
+    slug: "dr-vikas-sharma",
     tag: "PLASTIC SURGEON & HAIR TRANSPLANT SPECIALIST",
-    name: "Dr. Rajendra Singh",
+    name: "Dr. Vikas Sharma",
     role: "Plastic Surgeon & Hair Transplant Specialist",
-    qualification: "MBBS, MS (Surgery), MCh (Plastic Surgery)",
+    qualification: "MBBS, MCh (Plastic Surgery)",
+
     about:
-      "Dr. Rajendra Singh Is A Renowned Plastic Surgeon And Hair Transplant Specialist At Umang Hospital, Bilaspur. With Over 15 Years Of Experience, He Delivers Expert Care In Cosmetic, Reconstructive, And Hair Restoration Procedures.",
+      "Dr. Vikas Sharma is a qualified Plastic Surgeon with MBBS and MCh in Plastic Surgery. He specializes in cosmetic, reconstructive, and hair transplant procedures, delivering safe and advanced surgical care with a focus on aesthetic excellence and natural-looking results.",
+
     specializations:
-      "Specializations Include Rhinoplasty, Liposuction, Abdominoplasty, Breast Surgery, Facelifts, Blepharoplasty, Otoplasty, Burn Reconstruction, And Advanced Hair Transplant Techniques.",
+      "He specializes in cosmetic surgery, hair transplant procedures, reconstructive surgery, burn reconstruction, and aesthetic surgical treatments.",
+
     image: "/images/doctor-One-img.svg",
     experience: "15+",
     department: "Burn / Plastic Surgery",
-    departmentDescription: "Expert plastic surgery and hair transplant care at Umang Hospital, Bilaspur.",
+    departmentDescription:
+      "Expert plastic surgery and hair transplant care at Umang Hospital, Bilaspur.",
     departmentHref: "/#departments",
-    expertise: ["Rhinoplasty", "Liposuction", "Hair Transplant", "Burn Reconstruction", "Cosmetic Surgery"],
+
+    expertise: [
+      "Hair Transplant Surgery",
+      "Cosmetic & Aesthetic Surgery",
+      "Reconstructive Surgery",
+      "Burn Reconstruction",
+      "Scar Revision Surgery",
+      "Skin & Soft Tissue Reconstruction",
+      "Facial Cosmetic Procedures",
+      "Body Contouring Procedures",
+    ],
   },
+
   {
-    slug: "dr-anil-verma",
-    tag: "PLASTIC SURGEON & HAIR TRANSPLANT SPECIALIST",
-    name: "Dr. Anil Verma",
-    role: "Plastic Surgeon & Hair Transplant Specialist",
-    qualification: "MBBS, MS (Surgery), MCh (Plastic Surgery)",
+    slug: "dr-dubey",
+    tag: "CARDIOLOGY SPECIALIST",
+    name: "Dr. (Col.) Y.S. Dubey",
+    role: "Senior Consultant Cardiologist",
+    qualification: "MBBS, MD, DM (Cardiology)",
+
     about:
-      "Dr. Anil Verma Brings Extensive Experience In Plastic Surgery And Hair Restoration To Umang Hospital. He Is Committed To Patient-Centered Care And Natural-Looking Results.",
+      "Dr. (Col.) Y.S. Dubey is a highly qualified Cardiologist with MBBS, MD, and DM in Cardiology. He specializes in the diagnosis, treatment, and prevention of cardiovascular diseases, providing advanced cardiac care using modern diagnostic and therapeutic techniques.",
+
     specializations:
-      "Expert In Cosmetic Surgery, Hair Transplant, Reconstructive Procedures, And Minimally Invasive Aesthetic Treatments.",
+      "He specializes in heart disease management, cardiac evaluation, hypertension treatment, preventive cardiology, and comprehensive cardiovascular care.",
+
     image: "/images/doctor-Two-img.svg",
     experience: "15+",
-    department: "Burn / Plastic Surgery",
+    department: "Cardiology",
     departmentHref: "/#departments",
-    expertise: ["Cosmetic Surgery", "Hair Transplant", "Reconstructive Procedures"],
+
+    expertise: [
+      "Heart Disease Diagnosis & Treatment",
+      "ECG & Cardiac Evaluation",
+      "Hypertension Management",
+      "Preventive Cardiology",
+      "Heart Failure Management",
+      "Cardiac Risk Assessment",
+      "Non-Invasive Cardiology Procedures",
+      "Comprehensive Cardiac Care",
+    ],
   },
+
   {
-    slug: "dr-sunita-patel",
-    tag: "PLASTIC SURGEON & HAIR TRANSPLANT SPECIALIST",
-    name: "Dr. Sunita Patel",
-    role: "Plastic Surgeon & Hair Transplant Specialist",
-    qualification: "MBBS, MS (Surgery), MCh (Plastic Surgery)",
+    slug: "dr-aradhana-tode",
+    tag: "DENTAL & ORAL HEALTH SPECIALIST",
+    name: "Dr. Aradhana Tode",
+    role: "Dental Surgeon & Oral Health Specialist",
+    qualification:
+      "BDS, MHA, CERP (American Dental Association), PGDCC, FMC (Germany)",
+
     about:
-      "Dr. Sunita Patel Is A Skilled Plastic Surgeon At Umang Hospital With A Focus On Safe, Evidence-Based Cosmetic And Reconstructive Surgery For Patients In Bilaspur And Chhattisgarh.",
+      "Dr. Aradhana Tode is a qualified Dental Surgeon with BDS and advanced certifications in dental and healthcare management. She specializes in comprehensive dental care, cosmetic dentistry, and preventive oral health treatments, providing modern and patient-focused dental solutions.",
+
     specializations:
-      "Specializations Include Body Contouring, Facial Rejuvenation, Hair Transplant, And Post-Burn Reconstruction.",
+      "She specializes in cosmetic dentistry, preventive dental care, oral health management, smile design, and comprehensive dental treatments.",
+
     image: "/images/doctor-three-img.svg",
     experience: "15+",
-    department: "Burn / Plastic Surgery",
+    department: "Dental Care",
     departmentHref: "/#departments",
-    expertise: ["Body Contouring", "Facial Rejuvenation", "Hair Transplant"],
+
+    expertise: [
+      "Cosmetic Dentistry",
+      "Smile Design",
+      "Preventive Dental Care",
+      "Dental Restoration Procedures",
+      "Oral Health Treatment",
+      "Teeth Whitening",
+      "Dental Consultation & Diagnosis",
+      "Comprehensive Dental Care",
+    ],
   },
   {
-    slug: "dr-vikram-sharma",
-    tag: "PLASTIC SURGEON & HAIR TRANSPLANT SPECIALIST",
-    name: "Dr. Vikram Sharma",
-    role: "Plastic Surgeon & Hair Transplant Specialist",
-    qualification: "MBBS, MS (Surgery), MCh (Plastic Surgery)",
-    about:
-      "Dr. Vikram Sharma Is Part Of Umang Hospital's Expert Plastic Surgery And Hair Transplant Team, Delivering High-Quality Care With A Personal Touch For Every Patient.",
-    specializations:
-      "Expert In Cosmetic Surgery, Hair Restoration, Skin Grafting, And Reconstructive Procedures.",
-    image: "/images/doctor-four-img.svg",
-    experience: "15+",
-    department: "Burn / Plastic Surgery",
-    departmentHref: "/#departments",
-    expertise: ["Cosmetic Surgery", "Hair Restoration", "Reconstructive Procedures"],
-  },
+  slug: "dr-sangeeta-joshi",
+  tag: "PEDIATRICS SPECIALIST",
+  name: "Dr. Sangeeta Joshi",
+  role: "Consultant Pediatrician",
+  qualification: "MBBS, MD Pediatrics",
+
+  about:
+    "Dr. Sangeeta Joshi is a qualified Pediatrician with MBBS and MD in Pediatrics. She specializes in the medical care of infants, children, and adolescents, providing comprehensive pediatric care including diagnosis, treatment, preventive care, and growth and developmental monitoring using modern and evidence-based medical practices.",
+
+  specializations:
+    "She specializes in newborn care, child health management, vaccination, growth and development monitoring, pediatric illness treatment, and preventive pediatric healthcare.",
+
+  image: "/images/doctor-four-img.svg",
+  experience: "15+",
+  department: "Pediatrics",
+  departmentDescription:
+    "Expert pediatric care including newborn care, vaccination, and child health management at Umang Hospital, Bilaspur.",
+  departmentHref: "/#departments",
+
+  expertise: [
+    "Newborn Care & Neonatal Management",
+    "Child Health Evaluation & Treatment",
+    "Vaccination & Immunization",
+    "Growth & Development Monitoring",
+    "Pediatric Infection Treatment",
+    "Nutritional Assessment & Guidance",
+    "Preventive Pediatric Healthcare",
+    "General Pediatric Consultation",
+  ],
+},
 ];
 
 export function getDoctors(): Doctor[] {
