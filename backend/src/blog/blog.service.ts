@@ -5,10 +5,14 @@ import { Blog, BlogDocument } from './blog.schema';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { toResponse, toResponseList } from '../utils/mongo';
+import { UploadService } from '../upload/upload.service';
 
 @Injectable()
 export class BlogService {
-  constructor(@InjectModel(Blog.name) private blogModel: Model<BlogDocument>) {}
+  constructor(
+    @InjectModel(Blog.name) private blogModel: Model<BlogDocument>,
+    private readonly uploadService: UploadService,
+  ) {}
 
   async create(dto: CreateBlogDto) {
     const doc = await this.blogModel.create(dto);
@@ -44,6 +48,7 @@ export class BlogService {
   async remove(id: string) {
     const result = await this.blogModel.findByIdAndDelete(id).exec();
     if (!result) throw new NotFoundException('Blog not found');
+    if (result.image) await this.uploadService.deleteImage(result.image);
     return toResponse(result.toObject());
   }
 }

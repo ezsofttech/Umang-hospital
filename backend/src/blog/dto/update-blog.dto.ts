@@ -20,4 +20,8 @@ export class UpdateBlogDto {
   @IsOptional()
   @IsBoolean()
   published?: boolean;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
 }

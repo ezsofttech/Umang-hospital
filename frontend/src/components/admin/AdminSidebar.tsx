@@ -2,11 +2,27 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
-const menuItems = [
+const adminMenuItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fi-sr-home" },
   { href: "/admin/blogs", label: "Blogs", icon: "fi-sr-document" },
   { href: "/admin/blogs/new", label: "Create Post", icon: "fi-sr-plus" },
+  { href: "/admin/categories", label: "Categories", icon: "fi-sr-folder" },
+  { href: "/admin/subcategories", label: "Subcategories", icon: "fi-sr-list" },
+  { href: "/admin/doctors", label: "Doctors", icon: "fi-sr-user-md" },
+  { href: "/admin/messages", label: "Messages", icon: "fi-sr-envelope" },
+  { href: "/admin/staff", label: "Staff", icon: "fi-sr-users" },
+  { href: "/admin/settings", label: "Settings", icon: "fi-sr-settings" },
+];
+
+const staffMenuItems = [
+  { href: "/admin/dashboard", label: "Dashboard", icon: "fi-sr-home" },
+  { href: "/admin/blogs", label: "Blogs", icon: "fi-sr-document" },
+  { href: "/admin/blogs/new", label: "Create Post", icon: "fi-sr-plus" },
+  { href: "/admin/categories", label: "Categories", icon: "fi-sr-folder" },
+  { href: "/admin/subcategories", label: "Subcategories", icon: "fi-sr-list" },
+  { href: "/admin/doctors", label: "Doctors", icon: "fi-sr-user-md" },
   { href: "/admin/messages", label: "Messages", icon: "fi-sr-envelope" },
   { href: "/admin/settings", label: "Settings", icon: "fi-sr-settings" },
 ];
@@ -15,6 +31,9 @@ type Props = { collapsed: boolean; onLinkClick?: () => void };
 
 export default function AdminSidebar({ collapsed, onLinkClick }: Props) {
   const pathname = usePathname();
+  const { user } = useAuth();
+
+  const menuItems = user?.role === "admin" ? adminMenuItems : staffMenuItems;
 
   return (
     <aside
@@ -29,7 +48,12 @@ export default function AdminSidebar({ collapsed, onLinkClick }: Props) {
             A
           </div>
           {!collapsed && (
-            <span className="text-lg font-bold text-[var(--umang-navy)] transition-opacity duration-300 opacity-100">Admin</span>
+            <div className="transition-opacity duration-300 opacity-100">
+              <span className="block text-base font-bold text-[var(--umang-navy)]">Admin</span>
+              {user && (
+                <span className="block text-xs capitalize text-gray-400">{user.role}</span>
+              )}
+            </div>
           )}
         </Link>
       </div>
@@ -67,21 +91,9 @@ export default function AdminSidebar({ collapsed, onLinkClick }: Props) {
           })}
         </nav>
 
-        <div className={`mt-auto border-t border-gray-200 pt-4 transition-all duration-300 ${collapsed ? "px-2" : "px-4 sm:px-6"}`}>
-          <form action="/api/admin/logout" method="POST">
-            <button
-              type="submit"
-              title={collapsed ? "Logout" : undefined}
-              className={`group relative flex items-center gap-3 rounded-lg text-sm font-medium text-gray-600 transition hover:bg-red-100 hover:text-red-600 ${collapsed ? "h-10 w-10 justify-center px-0 py-0" : "w-full px-3 py-2 justify-start"}`}
-            >
-              <i className="fi fi-sr-exit text-lg shrink-0" aria-hidden />
-              {!collapsed && (
-                <span className="flex-1 transition-opacity duration-300 opacity-100">Logout</span>
-              )}
-            </button>
-          </form>
-        </div>
+
       </div>
     </aside>
   );
 }
+

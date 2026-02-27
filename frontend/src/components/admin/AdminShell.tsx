@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import AdminSidebar from "./AdminSidebar";
 import AdminTopbar from "./AdminTopbar";
+import { useAuth } from "@/context/AuthContext";
 
 type Props = { children: React.ReactNode };
 
@@ -22,10 +24,34 @@ function useIsMobile() {
 export default function AdminShell({ children }: Props) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const isMobile = useIsMobile();
+  const pathname = usePathname();
+  const router = useRouter();
+  const { user, isLoading, isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (isMobile) setSidebarCollapsed(true);
   }, [isMobile]);
+
+  // Redirect first-time login users to change password
+  useEffect(() => {
+    if (!isLoading && isAuthenticated && user?.isFirstLogin && pathname !== "/admin/settings") {
+      router.replace("/admin/settings?tab=password&firstLogin=1");
+    }
+  }, [isLoading, isAuthenticated, user, pathname, router]);
+
+  // Don't wrap login or setup page in the shell
+  if (pathname === "/admin/login" || pathname === "/admin/setup") {
+    return <>{children}</>;
+  }
+
+  // Show loading while verifying auth
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-50">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--umang-teal)] border-t-transparent" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">

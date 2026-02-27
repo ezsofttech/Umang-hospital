@@ -1,18 +1,24 @@
-import { notFound } from "next/navigation";
+"use client";
+
+import { Suspense } from "react";
+import { notFound, useParams } from "next/navigation";
 import Link from "next/link";
-import { getBlog } from "@/lib/api";
+import { useBlog } from "@/hooks/useBlog";
 import AdminBlogForm from "@/components/admin/AdminBlogForm";
 
-type Props = { params: Promise<{ id: string }> };
+function BlogContent() {
+  const params = useParams();
+  const id = params.id as string;
+  const { data: blog, isLoading, error } = useBlog(id);
 
-export default async function EditBlogPage({ params }: Props) {
-  const { id } = await params;
-  let blog = null;
-  try {
-    blog = await getBlog(id);
-  } catch {
+  if (isLoading) {
+    return <div className="rounded-xl border border-gray-200 bg-white p-6 text-center text-gray-600">Loading blog...</div>;
+  }
+
+  if (error || !blog) {
     notFound();
   }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -23,5 +29,13 @@ export default async function EditBlogPage({ params }: Props) {
       </div>
       <AdminBlogForm blog={blog} />
     </div>
+  );
+}
+
+export default function EditBlogPage() {
+  return (
+    <Suspense fallback={<div className="text-gray-600">Loading...</div>}>
+      <BlogContent />
+    </Suspense>
   );
 }

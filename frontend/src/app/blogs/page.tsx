@@ -3,7 +3,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import BlogsHero from "@/components/BlogsHero";
 import Footer from "@/components/Footer";
-import { getBlogs } from "@/lib/api";
+import { fetchBlogs } from "@/lib/serverApi";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
 
@@ -15,10 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogsPage() {
-  let blogs: { id: string; title: string; slug: string; excerpt: string | null; createdAt: string }[] = [];
+  let blogs: { id: string; title: string; slug: string; excerpt: string | null; image?: string | null; createdAt: string }[] = [];
   let error = "";
   try {
-    blogs = await getBlogs(true);
+    blogs = await fetchBlogs(true);
   } catch {
     error = "Unable to load posts.";
   }
@@ -45,8 +45,19 @@ export default async function BlogsPage() {
               <li key={post.id}>
                 <Link
                   href={`/blogs/${post.slug}`}
-                  className="flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:border-[var(--umang-teal)] hover:shadow-md"
+                  className="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:border-[var(--umang-teal)] hover:shadow-md"
                 >
+                  {post.image ? (
+                    <div className="h-44 overflow-hidden bg-gray-100">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="h-full w-full object-cover transition group-hover:scale-105"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-44 bg-gradient-to-br from-[var(--umang-navy)] to-[var(--umang-teal)] opacity-80" />
+                  )}
                   <div className="flex flex-1 flex-col p-5 sm:p-6">
                     <time className="text-xs font-medium text-gray-500" dateTime={post.createdAt}>
                       {new Date(post.createdAt).toLocaleDateString("en-IN", {

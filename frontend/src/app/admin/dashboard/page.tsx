@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getBlogs, getMessages } from "@/lib/api";
+import { fetchBlogs, fetchMessages } from "@/lib/serverApi";
 import DashboardStats from "@/components/admin/DashboardStats";
 import DashboardRecent from "@/components/admin/DashboardRecent";
 import DataManagement from "@/components/admin/DataManagement";
@@ -15,8 +15,8 @@ export default async function AdminDashboardPage() {
 
   try {
     const [blogsRes, messagesRes] = await Promise.all([
-      getBlogs(false),
-      getMessages(),
+      fetchBlogs(false),
+      fetchMessages(),
     ]);
     blogCount = blogsRes.length;
     messageCount = messagesRes.length;

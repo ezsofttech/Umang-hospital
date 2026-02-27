@@ -4,7 +4,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import BlogsHero from "@/components/BlogsHero";
 import Footer from "@/components/Footer";
-import { getBlogBySlug, getBlogs } from "@/lib/api";
+import { fetchBlogs, fetchBlogBySlug } from "@/lib/serverApi";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
 
@@ -12,7 +12,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
   try {
-    const blogs = await getBlogs(true);
+    const blogs = await fetchBlogs(true);
     return blogs.map((b) => ({ slug: b.slug }));
   } catch {
     return [];
@@ -21,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getBlogBySlug(slug);
+  const post = await fetchBlogBySlug(slug);
   if (!post) return { title: "Post not found" };
   const title = `${post.title} | UMANG Hospital Blog`;
   const description = post.excerpt ?? post.body.slice(0, 160);
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getBlogBySlug(slug);
+  const post = await fetchBlogBySlug(slug);
   if (!post) notFound();
 
   return (
@@ -68,9 +68,19 @@ export default async function BlogPostPage({ params }: Props) {
             <p className="mb-6 text-justify text-lg text-gray-600">{post.excerpt}</p>
           )}
 
+          {post.image && (
+            <div className="mb-8 overflow-hidden rounded-xl">
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full max-h-[420px] object-cover"
+              />
+            </div>
+          )}
+
           <div
-            className="blog-body space-y-4 text-justify text-gray-700 [&_p]:leading-relaxed [&_p]:text-justify [&_a]:text-[var(--umang-teal)] [&_a]:underline [&_a:hover]:opacity-90 [&_h2]:mt-8 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-[var(--umang-navy)] [&_h3]:mt-6 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-[var(--umang-navy)]"
-            dangerouslySetInnerHTML={{ __html: formatBody(post.body) }}
+            className="prose max-w-none text-gray-700"
+            dangerouslySetInnerHTML={{ __html: post.body }}
           />
         </article>
 
@@ -91,17 +101,4 @@ export default async function BlogPostPage({ params }: Props) {
   );
 }
 
-function formatBody(body: string): string {
-  return body
-    .split("\n\n")
-    .map((p) => (p.trim() ? `<p>${escapeHtml(p)}</p>` : ""))
-    .join("\n");
-}
 
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}

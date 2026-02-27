@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import type { Message } from "@/lib/api";
-import { markMessageRead, deleteMessage } from "@/lib/api";
+import type { Message } from "@/types";
+import { useMarkMessageRead, useDeleteMessage } from "@/hooks/useMessage";
 import EmptyState from "./EmptyState";
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -23,6 +23,8 @@ export default function AdminMessageList({ initialMessages }: Props) {
   const [page, setPage] = useState(1);
   const [viewId, setViewId] = useState<string | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const markReadMutation = useMarkMessageRead();
+  const deleteMutation = useDeleteMessage();
 
   const filtered = useMemo(() => {
     if (!search.trim()) return messages;
@@ -45,7 +47,7 @@ export default function AdminMessageList({ initialMessages }: Props) {
 
   async function handleMarkRead(id: string) {
     try {
-      const updated = await markMessageRead(id);
+      const updated = await markReadMutation.mutateAsync(id);
       setMessages((prev) => prev.map((m) => (m.id === id ? updated : m)));
     } catch {
       // ignore
@@ -54,7 +56,7 @@ export default function AdminMessageList({ initialMessages }: Props) {
 
   async function handleDelete(id: string) {
     try {
-      await deleteMessage(id);
+      await deleteMutation.mutateAsync(id);
       setMessages((prev) => prev.filter((m) => m.id !== id));
       setDeleteId(null);
       if (viewId === id) setViewId(null);

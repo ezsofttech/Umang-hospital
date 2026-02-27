@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import type { Blog } from "@/lib/api";
-import { deleteBlog } from "@/lib/api";
+import type { Blog } from "@/types";
+import { useDeleteBlog } from "@/hooks/useBlog";
 import EmptyState from "./EmptyState";
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -16,6 +16,7 @@ export default function BlogsTable({ blogs: initialBlogs }: Props) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const deleteMutation = useDeleteBlog();
 
   const filtered = useMemo(() => {
     if (!search.trim()) return blogs;
@@ -35,7 +36,7 @@ export default function BlogsTable({ blogs: initialBlogs }: Props) {
 
   async function handleDelete(id: string) {
     try {
-      await deleteBlog(id);
+      await deleteMutation.mutateAsync(id);
       setBlogs((prev) => prev.filter((b) => b.id !== id));
       setDeleteId(null);
     } catch {

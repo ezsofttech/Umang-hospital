@@ -17,4 +17,8 @@ export class CreateBlogDto {
   @IsOptional()
   @IsBoolean()
   published?: boolean;
+
+  @IsOptional()
+  @IsString()
+  image?: string;
 }

@@ -1,15 +1,11 @@
+"use client";
+
 import Link from "next/link";
-import { getBlogs } from "@/lib/api";
+import { useBlogs } from "@/hooks/useBlog";
 import BlogsTable from "@/components/admin/BlogsTable";
 
-export default async function AdminBlogsPage() {
-  let blogs: Awaited<ReturnType<typeof getBlogs>> = [];
-  let error = "";
-  try {
-    blogs = await getBlogs(false);
-  } catch (e) {
-    error = "Could not load blogs.";
-  }
+export default function AdminBlogsPage() {
+  const { data: blogs = [], isLoading, error } = useBlogs(false);
 
   return (
     <div className="space-y-6">
@@ -24,13 +20,19 @@ export default async function AdminBlogsPage() {
         </Link>
       </div>
 
-      {error && (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-          {error}
+      {isLoading && (
+        <div className="rounded-xl border border-gray-200 bg-white p-6 text-center text-gray-600">
+          Loading blogs...
         </div>
       )}
 
-      <BlogsTable blogs={blogs} />
+      {error && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          Could not load blogs.
+        </div>
+      )}
+
+      {!isLoading && !error && <BlogsTable blogs={blogs} />}
     </div>
   );
 }

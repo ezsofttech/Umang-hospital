@@ -19,6 +19,9 @@ export class Blog {
 
   @Prop({ default: false })
   published: boolean;
+
+  @Prop()
+  image?: string;
 }
 
 export const BlogSchema = SchemaFactory.createForClass(Blog);

@@ -62,6 +62,16 @@ export default function DoctorProfileView({ doctor }: Props) {
             <p className="mt-3 leading-relaxed text-justify text-gray-700 sm:text-base">{doctor.about}</p>
           </section>
 
+          {/* Specializations */}
+          {doctor.specializations && (
+            <section aria-labelledby="specializations-heading">
+              <h2 id="specializations-heading" className="text-lg font-bold text-[var(--umang-navy)] sm:text-xl">
+                Specializations
+              </h2>
+              <p className="mt-3 leading-relaxed text-justify text-gray-700 sm:text-base">{doctor.specializations}</p>
+            </section>
+          )}
+
           {/* Areas of expertise */}
           {doctor.expertise && doctor.expertise.length > 0 && (
             <section aria-labelledby="expertise-heading">

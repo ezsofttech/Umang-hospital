@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { submitMessage } from "@/lib/api";
+import { useCreateMessage } from "@/hooks/useMessage";
 
 const HOSPITAL_EMAIL = "umanghospitalbsp@gmail.com";
 
@@ -10,15 +10,14 @@ export default function ContactForm() {
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const createMessageMutation = useCreateMessage();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    setSending(true);
     try {
-      await submitMessage({ name, email, description });
+      await createMessageMutation.mutateAsync({ name, email, description });
       setSubmitted(true);
       setName("");
       setEmail("");
@@ -33,8 +32,6 @@ export default function ContactForm() {
       setName("");
       setEmail("");
       setDescription("");
-    } finally {
-      setSending(false);
     }
   }
 
@@ -121,11 +118,11 @@ export default function ContactForm() {
         {error && <p className="text-sm text-red-600">{error}</p>}
         <button
           type="submit"
-          disabled={sending}
+          disabled={createMessageMutation.isPending}
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--umang-navy)] px-4 py-3 text-sm font-medium text-white transition hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-[var(--umang-teal)] focus:ring-offset-2 disabled:opacity-70 sm:py-3.5 sm:text-base"
         >
           <i className="fi fi-sr-send text-lg" aria-hidden />
-          {sending ? "Sending…" : "Send message"}
+          {createMessageMutation.isPending ? "Sending…" : "Send message"}
         </button>
       </div>
     </form>

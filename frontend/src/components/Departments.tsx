@@ -1,16 +1,11 @@
-import Link from "next/link";
+"use client";
 
-const departments = [
-  { title: "IVF & Fertility Treatment", description: "Advanced IVF, IUI & Fertility Solutions For Couples Dreaming Of Parenthood", image: "/images/ivf-img.svg" },
-  { title: "Gynecology & Obstetrics", description: "Advanced IVF, IUI & Fertility Solutions For Couples Dreaming Of Parenthood", image: "/images/gynecology-img.svg" },
-  { title: "Plastic Surgery", description: "Advanced IVF, IUI & Fertility Solutions For Couples Dreaming Of Parenthood", image: "/images/plastic-surgery-img.svg" },
-  { title: "Hair Transplant", description: "Advanced Hair Restoration With Natural Results For Lasting Confidence.", image: "/images/hair-transplant-img.svg" },
-  { title: "IVF & Fertility Treatment", description: "Advanced IVF, IUI & Fertility Solutions For Couples Dreaming Of Parenthood", image: "/images/medical-ad-img.svg" },
-  { title: "Gynecology & Obstetrics", description: "Advanced IVF, IUI & Fertility Solutions For Couples Dreaming Of Parenthood", image: "/images/medical-ad-two.svg" },
-  { title: "Plastic Surgery", description: "Advanced IVF, IUI & Fertility Solutions For Couples Dreaming Of Parenthood", image: "/images/medical-ad-three.svg" },
-];
+import Link from "next/link";
+import { useCategories } from "@/hooks/useCategories";
 
 export default function Departments() {
+  const { data: categories = [], isLoading, error } = useCategories();
+
   return (
     <section id="departments" className="bg-gray-50 py-12 sm:py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -26,35 +21,47 @@ export default function Departments() {
             Minimally Invasive Surgeries.
           </p>
         </div>
-        {/* Mobile: horizontal scroll (one row); sm+: grid */}
-        <div className="-mx-4 grid auto-cols-[minmax(280px,1fr)] grid-flow-col gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid-flow-row sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
-          {departments.map((dept, i) => (
-            <article key={i} className="dept-card min-w-[280px] sm:min-w-0">
-              <div
-                className="dept-card-image h-40 bg-gray-200 bg-cover bg-center sm:h-48"
-                style={{ backgroundImage: `url(${dept.image})` }}
-              />
-              <div className="dept-card-content">
-                <h3 className="text-sm font-bold text-[var(--umang-navy)] sm:text-base">{dept.title}</h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-justify text-[#4A4A4A] sm:mt-2 sm:text-sm">
-                  {dept.description}
-                </p>
-              </div>
-            </article>
-          ))}
-          <Link
-            href="/services"
-            className="dept-card-cta flex min-h-[160px] min-w-[280px] flex-col justify-end bg-[#6FA179] p-4 text-white transition hover:opacity-95 sm:min-w-0 sm:min-h-[200px] sm:p-6"
-          >
-            <span className="block text-lg font-bold leading-tight sm:text-xl md:text-2xl">
-              Explore
-            </span>
-            <span className="block text-lg font-bold leading-tight sm:text-xl md:text-2xl">
-              More Services
-            </span>
-            <i className="fi fi-sr-arrow-up-right mt-3 h-6 w-6 sm:mt-4 sm:h-8 sm:w-8" aria-hidden />
-          </Link>
-        </div>
+
+        {isLoading ? (
+          <div className="flex justify-center py-12">
+            <div className="text-gray-600">Loading departments...</div>
+          </div>
+        ) : error ? (
+          <div className="flex justify-center py-12">
+            <div className="text-red-600">Failed to load departments</div>
+          </div>
+        ) : (
+          <div className="-mx-4 grid auto-cols-[minmax(280px,1fr)] grid-flow-col gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid-flow-row sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
+            {categories.map((category) => (
+              <Link key={category._id} href={`/departments/${category._id}`}>
+                <article className="dept-card min-w-[280px] sm:min-w-0 cursor-pointer transition-transform hover:scale-105">
+                  <div
+                    className="dept-card-image h-40 bg-gray-200 bg-cover bg-center sm:h-48"
+                    style={{ backgroundImage: `url(${category.image})` }}
+                  />
+                  <div className="dept-card-content">
+                    <h3 className="text-sm font-bold text-[var(--umang-navy)] sm:text-base">{category.title}</h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-justify text-[#4A4A4A] sm:mt-2 sm:text-sm">
+                      {category.description}
+                    </p>
+                  </div>
+                </article>
+              </Link>
+            ))}
+            <Link
+              href="/departments"
+              className="dept-card-cta flex min-h-[160px] min-w-[280px] flex-col justify-end bg-[#6FA179] p-4 text-white transition hover:opacity-95 sm:min-w-0 sm:min-h-[200px] sm:p-6"
+            >
+              <span className="block text-lg font-bold leading-tight sm:text-xl md:text-2xl">
+                Explore
+              </span>
+              <span className="block text-lg font-bold leading-tight sm:text-xl md:text-2xl">
+                All Departments
+              </span>
+              <i className="fi fi-sr-arrow-up-right mt-3 h-6 w-6 sm:mt-4 sm:h-8 sm:w-8" aria-hidden />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );

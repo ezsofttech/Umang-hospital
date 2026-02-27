@@ -1,11 +1,30 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getDoctors } from "@/data/doctors";
+import type { Doctor as ApiDoctor } from "@/types";
 
 const VISIBLE_EXPERTISE = 5;
 
-export default function ExpertTeam() {
-  const doctors = getDoctors();
+type AnyDoctor = {
+  slug: string;
+  name: string;
+  tag?: string;
+  role: string;
+  qualification?: string;
+  about?: string;
+  specializations?: string;
+  image?: string;
+  experience?: string;
+  department?: string;
+  expertise?: string[];
+};
+
+interface Props {
+  doctors?: AnyDoctor[];
+}
+
+export default function ExpertTeam({ doctors: propDoctors }: Props) {
+  const doctors: AnyDoctor[] = propDoctors && propDoctors.length > 0 ? propDoctors : getDoctors();
 
   return (
     <section className="border-t border-gray-200 bg-gray-50/50 py-10 sm:py-16 md:py-24">
@@ -34,13 +53,19 @@ export default function ExpertTeam() {
                 {/* Header: dark bar with avatar + name + role */}
                 <div className="flex items-center gap-4 bg-[#1e3a5f] px-4 py-4 sm:px-5 sm:py-4">
                   <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-white/30 bg-white/10 sm:h-16 sm:w-16">
-                    <Image
-                      src={doc.image}
-                      alt=""
-                      fill
-                      className="object-cover object-top"
-                      sizes="64px"
-                    />
+                    {doc.image ? (
+                      <Image
+                        src={doc.image}
+                        alt=""
+                        fill
+                        className="object-cover object-top"
+                        sizes="64px"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-white/40">
+                        <i className="fi fi-sr-user text-2xl" aria-hidden />
+                      </div>
+                    )}
                   </div>
                   <div className="min-w-0">
                     <h3 className="truncate text-lg font-bold text-white sm:text-xl">
