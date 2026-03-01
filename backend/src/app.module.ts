@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BlogModule } from './blog/blog.module';
 import { MessageModule } from './message/message.module';
@@ -7,6 +7,8 @@ import { SubcategoryModule } from './subcategory/subcategory.module';
 import { AuthModule } from './auth/auth.module';
 import { DoctorModule } from './doctor/doctor.module';
 import { UploadModule } from './upload/upload.module';
+import { SlugMigrationModule } from './migration/slug-migration.module';
+import { SlugMigrationService } from './migration/slug-migration.service';
 
 @Module({
   imports: [
@@ -18,6 +20,14 @@ import { UploadModule } from './upload/upload.module';
     SubcategoryModule,
     DoctorModule,
     UploadModule,
+    SlugMigrationModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private slugMigrationService: SlugMigrationService) {}
+
+  async onModuleInit() {
+    // Run slug migration on app startup
+    await this.slugMigrationService.runMigration();
+  }
+}

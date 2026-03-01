@@ -33,7 +33,7 @@ export default function Departments() {
         ) : (
           <div className="-mx-4 grid auto-cols-[minmax(280px,1fr)] grid-flow-col gap-4 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid-flow-row sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
             {categories.map((category) => (
-              <Link key={category._id} href={`/departments/${category._id}`}>
+              <Link key={category._id} href={`/departments/${category.slug || category._id}`}>
                 <article className="dept-card min-w-[280px] sm:min-w-0 cursor-pointer transition-transform hover:scale-105">
                   <div
                     className="dept-card-image h-40 bg-gray-200 bg-cover bg-center sm:h-48"

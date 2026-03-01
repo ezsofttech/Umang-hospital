@@ -51,7 +51,7 @@ export default function DepartmentsPage() {
 
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                   {categories.map((category) => (
-                    <Link key={category._id} href={`/departments/${category._id}`}>
+                    <Link key={category._id} href={`/departments/${category.slug || category._id}`}>
                       <article className="group cursor-pointer">
                         <div
                           className="h-48 bg-gray-200 bg-cover bg-center rounded-lg transition-transform duration-300 group-hover:scale-105"

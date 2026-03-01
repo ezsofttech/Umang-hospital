@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Category } from './category.schema';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UploadService } from '../upload/upload.service';
+import { generateSlug } from '../utils/slug';
 
 const MOCK_CATEGORIES = [
   {
@@ -36,7 +37,11 @@ export class CategoryService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const newCategory = new this.categoryModel(createCategoryDto);
+    const slug = generateSlug(createCategoryDto.title);
+    const newCategory = new this.categoryModel({
+      ...createCategoryDto,
+      slug,
+    });
     return await newCategory.save();
   }
 
@@ -44,17 +49,35 @@ export class CategoryService {
     const count = await this.categoryModel.countDocuments({});
     if (count === 0) {
       // Seed mock data if no categories exist
-      return await this.categoryModel.insertMany(MOCK_CATEGORIES);
+      const categoriesWithSlugs = MOCK_CATEGORIES.map(cat => ({
+        ...cat,
+        slug: generateSlug(cat.title),
+      }));
+      return await this.categoryModel.insertMany(categoriesWithSlugs);
     }
     return await this.categoryModel.find({ active: true });
   }
 
   async findOne(id: string) {
-    return await this.categoryModel.findById(id);
+    // Return null if id is not provided
+    if (!id || id === 'undefined') {
+      return null;
+    }
+    
+    // Try to find by ID first, then by slug
+    let result = await this.categoryModel.findById(id).catch(() => null);
+    if (!result) {
+      result = await this.categoryModel.findOne({ slug: id });
+    }
+    return result;
   }
 
   async update(id: string, updateCategoryDto: CreateCategoryDto) {
-    return await this.categoryModel.findByIdAndUpdate(id, updateCategoryDto, { new: true });
+    const updateData = { ...updateCategoryDto };
+    if (updateCategoryDto.title) {
+      updateData['slug'] = generateSlug(updateCategoryDto.title);
+    }
+    return await this.categoryModel.findByIdAndUpdate(id, updateData, { new: true });
   }
 
   async remove(id: string) {

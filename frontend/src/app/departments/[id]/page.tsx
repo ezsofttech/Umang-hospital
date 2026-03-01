@@ -63,7 +63,7 @@ export default function CategoryDetailPage() {
                 ) : (
                   <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     {subcategories.map((subcategory) => (
-                      <Link key={subcategory._id} href={`/subcategories/${subcategory._id}`}>
+                      <Link key={subcategory._id} href={`/subcategories/${subcategory.slug || subcategory._id}`}>
                         <article className="group cursor-pointer h-full">
                           <div className="bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 group-hover:shadow-lg h-full flex flex-col">
                             {subcategory.image && (

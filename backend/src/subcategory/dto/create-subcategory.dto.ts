@@ -6,6 +6,10 @@ export class CreateSubcategoryDto {
 
   @IsOptional()
   @IsString()
+  slug?: string;
+
+  @IsOptional()
+  @IsString()
   description?: string;
 
   @IsOptional()

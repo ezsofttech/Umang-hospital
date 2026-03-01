@@ -5,6 +5,7 @@ import { Subcategory } from './subcategory.schema';
 import { CreateSubcategoryDto } from './dto/create-subcategory.dto';
 import { Category } from '../category/category.schema';
 import { UploadService } from '../upload/upload.service';
+import { generateSlug } from '../utils/slug';
 
 // Mock subcategories template
 const createMockSubcategories = (categories: any[]) => {
@@ -110,7 +111,11 @@ export class SubcategoryService {
   ) {}
 
   async create(createSubcategoryDto: CreateSubcategoryDto) {
-    const newSubcategory = new this.subcategoryModel(createSubcategoryDto);
+    const slug = generateSlug(createSubcategoryDto.title);
+    const newSubcategory = new this.subcategoryModel({
+      ...createSubcategoryDto,
+      slug,
+    });
     return await newSubcategory.save();
   }
 
@@ -127,7 +132,11 @@ export class SubcategoryService {
       // Seed mock subcategories with actual category IDs
       const mockData = createMockSubcategories(categories);
       if (mockData.length > 0) {
-        return await this.subcategoryModel.insertMany(mockData);
+        const mockDataWithSlugs = mockData.map(item => ({
+          ...item,
+          slug: generateSlug(item.title),
+        }));
+        return await this.subcategoryModel.insertMany(mockDataWithSlugs);
       }
       return [];
     }
@@ -135,15 +144,44 @@ export class SubcategoryService {
   }
 
   async findByCategory(categoryId: string) {
-    return await this.subcategoryModel.find({ categoryId, active: true });
+    // Return empty array if categoryId is not provided
+    if (!categoryId || categoryId === 'undefined') {
+      return [];
+    }
+    
+    // Try to find category by ID, then by slug to get the actual ID
+    let category = await this.categoryModel.findById(categoryId).catch(() => null);
+    if (!category) {
+      category = await this.categoryModel.findOne({ slug: categoryId });
+    }
+    
+    if (!category) {
+      return [];
+    }
+
+    return await this.subcategoryModel.find({ categoryId: category._id, active: true });
   }
 
   async findOne(id: string) {
-    return await this.subcategoryModel.findById(id);
+    // Return null if id is not provided
+    if (!id || id === 'undefined') {
+      return null;
+    }
+    
+    // Try to find by ID first, then by slug
+    let result = await this.subcategoryModel.findById(id).catch(() => null);
+    if (!result) {
+      result = await this.subcategoryModel.findOne({ slug: id });
+    }
+    return result;
   }
 
   async update(id: string, updateSubcategoryDto: CreateSubcategoryDto) {
-    return await this.subcategoryModel.findByIdAndUpdate(id, updateSubcategoryDto, { new: true });
+    const updateData = { ...updateSubcategoryDto };
+    if (updateSubcategoryDto.title) {
+      updateData['slug'] = generateSlug(updateSubcategoryDto.title);
+    }
+    return await this.subcategoryModel.findByIdAndUpdate(id, updateData, { new: true });
   }
 
   async remove(id: string) {

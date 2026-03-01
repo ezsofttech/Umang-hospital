@@ -6,6 +6,9 @@ export class Category extends Document {
   @Prop({ required: true })
   title: string;
 
+  @Prop({ unique: true, sparse: true })
+  slug: string;
+
   @Prop()
   description: string;
 

@@ -36,7 +36,7 @@ export default function SubcategoryDetailPage() {
               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="mb-4">
                   <Link
-                    href={category ? `/departments/${category._id}` : '/departments'}
+                    href={category ? `/departments/${category.slug || category._id}` : '/departments'}
                     className="inline-block w-fit text-white/80 hover:text-white transition"
                   >
                     ← Back to {category ? category.title : 'Departments'}
