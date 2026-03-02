@@ -1,19 +1,33 @@
-import { Controller, Post, UseGuards, Logger } from '@nestjs/common';
+import { Controller, Post, Logger, Body, BadRequestException } from '@nestjs/common';
 import { SlugMigrationService } from './slug-migration.service';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RoleGuard } from '../auth/guards/role.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
 
-@Controller('migration')
-@UseGuards(JwtAuthGuard, RoleGuard)
+@Controller('api/migration')
 export class SlugMigrationController {
   private readonly logger = new Logger(SlugMigrationController.name);
+  private readonly ADMIN_KEY = process.env.MIGRATION_ADMIN_KEY || 'admin-migration-key';
 
   constructor(private readonly slugMigrationService: SlugMigrationService) {}
 
+  private validateAdminKey(key?: string) {
+    if (!key || key !== this.ADMIN_KEY) {
+      throw new BadRequestException('Invalid or missing admin key');
+    }
+  }
+
+  @Post('seed-slugs')
+  async seedSlugs(@Body() body?: { adminKey?: string }) {
+    this.validateAdminKey(body?.adminKey);
+    this.logger.log('Seed-slugs endpoint triggered');
+    await this.slugMigrationService.runMigration();
+    return {
+      success: true,
+      message: 'Slug migration completed successfully',
+    };
+  }
+
   @Post('slugs/run')
-  @Roles('admin')
-  async runAllMigrations() {
+  async runAllMigrations(@Body() body?: { adminKey?: string }) {
+    this.validateAdminKey(body?.adminKey);
     this.logger.log('Admin triggered slug migration');
     await this.slugMigrationService.runMigration();
     return {
@@ -23,8 +37,8 @@ export class SlugMigrationController {
   }
 
   @Post('slugs/categories')
-  @Roles('admin')
-  async migrateCategories() {
+  async migrateCategories(@Body() body?: { adminKey?: string }) {
+    this.validateAdminKey(body?.adminKey);
     this.logger.log('Admin triggered category slug migration');
     await this.slugMigrationService.migrateCategory();
     return {
@@ -34,8 +48,8 @@ export class SlugMigrationController {
   }
 
   @Post('slugs/subcategories')
-  @Roles('admin')
-  async migrateSubcategories() {
+  async migrateSubcategories(@Body() body?: { adminKey?: string }) {
+    this.validateAdminKey(body?.adminKey);
     this.logger.log('Admin triggered subcategory slug migration');
     await this.slugMigrationService.migrateSubcategory();
     return {
@@ -45,8 +59,8 @@ export class SlugMigrationController {
   }
 
   @Post('slugs/blogs')
-  @Roles('admin')
-  async migrateBlogs() {
+  async migrateBlogs(@Body() body?: { adminKey?: string }) {
+    this.validateAdminKey(body?.adminKey);
     this.logger.log('Admin triggered blog slug migration');
     await this.slugMigrationService.migrateBlog();
     return {
@@ -56,8 +70,8 @@ export class SlugMigrationController {
   }
 
   @Post('slugs/doctors')
-  @Roles('admin')
-  async migrateDoctor() {
+  async migrateDoctor(@Body() body?: { adminKey?: string }) {
+    this.validateAdminKey(body?.adminKey);
     this.logger.log('Admin triggered doctor slug migration');
     await this.slugMigrationService.migrateDoctor();
     return {
@@ -67,8 +81,8 @@ export class SlugMigrationController {
   }
 
   @Post('slugs/users')
-  @Roles('admin')
-  async migrateUsers() {
+  async migrateUsers(@Body() body?: { adminKey?: string }) {
+    this.validateAdminKey(body?.adminKey);
     this.logger.log('Admin triggered user slug migration');
     await this.slugMigrationService.migrateUser();
     return {

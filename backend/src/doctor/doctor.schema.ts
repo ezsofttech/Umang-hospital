@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { generateSlug } from '../utils/slug';
 
 export type DoctorDocument = Doctor & Document;
 
@@ -57,4 +58,11 @@ export class Doctor {
 export const DoctorSchema = SchemaFactory.createForClass(Doctor);
 DoctorSchema.virtual('id').get(function () {
   return this._id?.toString();
+});
+
+DoctorSchema.pre('save', function (next) {
+  if (!this.slug && this.name) {
+    this.slug = generateSlug(this.name);
+  }
+  next();
 });

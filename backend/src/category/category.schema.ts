@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { generateSlug } from '../utils/slug';
 
 @Schema({ timestamps: true })
 export class Category extends Document {
@@ -26,3 +27,10 @@ export class Category extends Document {
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
+
+CategorySchema.pre('save', function (next) {
+  if (!this.slug && this.title) {
+    this.slug = generateSlug(this.title);
+  }
+  next();
+});
