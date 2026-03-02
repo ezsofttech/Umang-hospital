@@ -9,16 +9,21 @@ import type { Message } from '@/types';
 import { API_URL } from '@/lib/config';
 
 async function apiFetch<T>(path: string, params?: Record<string, string>): Promise<T> {
-  const url = new URL(`${API_URL}${path}`);
-  if (params) {
-    Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-  }
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10_000);
   try {
+    const url = new URL(`${API_URL}${path}`);
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+    }
     const res = await fetch(url.toString(), { cache: 'no-store', signal: controller.signal });
     if (!res.ok) throw new Error(`API error ${res.status}`);
-    return res.json() as Promise<T>;
+    const text = await res.text();
+    try {
+      return JSON.parse(text) as T;
+    } catch {
+      throw new Error(`Invalid JSON response from ${path}`);
+    }
   } finally {
     clearTimeout(timeout);
   }
@@ -73,7 +78,8 @@ export async function fetchDoctorBySlug(slug: string): Promise<Doctor | null> {
 // Categories
 export async function fetchCategories(): Promise<Category[]> {
   try {
-    return await apiFetch<Category[]>('/categories');
+    const result = await apiFetch<Category[]>('/categories');
+    return Array.isArray(result) ? result : [];
   } catch {
     return [];
   }
@@ -97,7 +103,8 @@ export async function fetchCategoryBySlug(slug: string): Promise<Category | null
 // Subcategories
 export async function fetchSubcategories(): Promise<Subcategory[]> {
   try {
-    return await apiFetch<Subcategory[]>('/subcategories');
+    const result = await apiFetch<Subcategory[]>('/subcategories');
+    return Array.isArray(result) ? result : [];
   } catch {
     return [];
   }
@@ -118,8 +125,10 @@ export async function fetchSubcategoryBySlug(slug: string): Promise<Subcategory 
 }
 
 export async function fetchSubcategoriesByCategory(categoryId: string): Promise<Subcategory[]> {
+  if (!categoryId) return [];
   try {
-    return await apiFetch<Subcategory[]>(`/subcategories/category/${encodeURIComponent(categoryId)}`);
+    const result = await apiFetch<Subcategory[]>(`/subcategories/category/${encodeURIComponent(categoryId)}`);
+    return Array.isArray(result) ? result : [];
   } catch {
     return [];
   }
