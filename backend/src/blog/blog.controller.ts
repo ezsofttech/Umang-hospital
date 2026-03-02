@@ -7,20 +7,14 @@ import { UpdateBlogDto } from './dto/update-blog.dto';
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
-  @Post()
-  create(@Body() dto: CreateBlogDto) {
-    return this.blogService.create(dto);
-  }
-
-  @Get()
-  findAll(@Query('published') published?: string) {
-    const publishedOnly = published === 'true';
-    return this.blogService.findAll(publishedOnly);
-  }
-
   @Post('migrate/regenerate-slugs')
   async regenerateSlugs() {
     return await this.blogService.regenerateMissingSlugs();
+  }
+
+  @Post()
+  create(@Body() dto: CreateBlogDto) {
+    return this.blogService.create(dto);
   }
 
   @Get('slug/:slug')
@@ -31,6 +25,12 @@ export class BlogController {
   @Get(':slugOrId')
   async findOne(@Param('slugOrId') slugOrId: string) {
     return await this.blogService.findOneBySlugOrId(slugOrId);
+  }
+
+  @Get()
+  findAll(@Query('published') published?: string) {
+    const publishedOnly = published === 'true';
+    return this.blogService.findAll(publishedOnly);
   }
 
   @Patch(':id')

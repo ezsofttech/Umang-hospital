@@ -6,19 +6,14 @@ import { CreateSubcategoryDto } from './dto/create-subcategory.dto';
 export class SubcategoryController {
   constructor(private readonly subcategoryService: SubcategoryService) {}
 
-  @Post()
-  async create(@Body() createSubcategoryDto: CreateSubcategoryDto) {
-    return await this.subcategoryService.create(createSubcategoryDto);
-  }
-
-  @Get()
-  async findAll() {
-    return await this.subcategoryService.findAll();
-  }
-
   @Post('migrate/regenerate-slugs')
   async regenerateSlugs() {
     return await this.subcategoryService.regenerateMissingSlugs();
+  }
+
+  @Post()
+  async create(@Body() createSubcategoryDto: CreateSubcategoryDto) {
+    return await this.subcategoryService.create(createSubcategoryDto);
   }
 
   @Get('category/:categoryId')
@@ -29,6 +24,11 @@ export class SubcategoryController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.subcategoryService.findOne(id);
+  }
+
+  @Get()
+  async findAll() {
+    return await this.subcategoryService.findAll();
   }
 
   @Put(':id')

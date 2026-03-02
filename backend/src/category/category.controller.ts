@@ -6,6 +6,11 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @Post('migrate/regenerate-slugs')
+  async regenerateSlugs() {
+    return await this.categoryService.regenerateMissingSlugs();
+  }
+
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     return await this.categoryService.create(createCategoryDto);
@@ -14,11 +19,6 @@ export class CategoryController {
   @Get()
   async findAll() {
     return await this.categoryService.findAll();
-  }
-
-  @Post('migrate/regenerate-slugs')
-  async regenerateSlugs() {
-    return await this.categoryService.regenerateMissingSlugs();
   }
 
   @Get(':id')

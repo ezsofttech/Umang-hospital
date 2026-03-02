@@ -7,19 +7,14 @@ import { UpdateDoctorDto } from './dto/update-doctor.dto';
 export class DoctorController {
   constructor(private readonly doctorService: DoctorService) {}
 
-  @Post()
-  create(@Body() dto: CreateDoctorDto) {
-    return this.doctorService.create(dto);
-  }
-
-  @Get()
-  findAll(@Query('active') active?: string) {
-    return this.doctorService.findAll(active === 'true');
-  }
-
   @Post('migrate/regenerate-slugs')
   async regenerateSlugs() {
     return await this.doctorService.regenerateMissingSlugs();
+  }
+
+  @Post()
+  create(@Body() dto: CreateDoctorDto) {
+    return this.doctorService.create(dto);
   }
 
   @Get('slug/:slug')
@@ -30,6 +25,11 @@ export class DoctorController {
   @Get(':slugOrId')
   async findOne(@Param('slugOrId') slugOrId: string) {
     return await this.doctorService.findOneBySlugOrId(slugOrId);
+  }
+
+  @Get()
+  findAll(@Query('active') active?: string) {
+    return this.doctorService.findAll(active === 'true');
   }
 
   @Patch(':id')
