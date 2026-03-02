@@ -4,8 +4,9 @@ export class CreateDoctorDto {
   @IsString()
   name: string;
 
+  @IsOptional()
   @IsString()
-  slug: string;
+  slug?: string;
 
   @IsOptional()
   @IsString()
@@ -21,6 +22,14 @@ export class CreateDoctorDto {
   @IsOptional()
   @IsString()
   about?: string;
+
+  @IsOptional()
+  @IsString()
+  metaDescription?: string;
+
+  @IsOptional()
+  @IsString()
+  keywords?: string;
 
   @IsOptional()
   @IsString()

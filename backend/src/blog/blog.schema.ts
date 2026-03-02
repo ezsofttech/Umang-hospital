@@ -14,6 +14,12 @@ export class Blog {
   @Prop()
   excerpt?: string;
 
+  @Prop()
+  metaDescription?: string;
+
+  @Prop()
+  keywords?: string;
+
   @Prop({ required: true })
   body: string;
 
@@ -22,6 +28,12 @@ export class Blog {
 
   @Prop()
   image?: string;
+
+  @Prop()
+  author?: string;
+
+  @Prop([String])
+  tags?: string[];
 }
 
 export const BlogSchema = SchemaFactory.createForClass(Blog);

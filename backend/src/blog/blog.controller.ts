@@ -18,14 +18,19 @@ export class BlogController {
     return this.blogService.findAll(publishedOnly);
   }
 
+  @Post('migrate/regenerate-slugs')
+  async regenerateSlugs() {
+    return await this.blogService.regenerateMissingSlugs();
+  }
+
   @Get('slug/:slug')
   findBySlug(@Param('slug') slug: string) {
     return this.blogService.findBySlug(slug);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.blogService.findOne(id);
+  @Get(':slugOrId')
+  async findOne(@Param('slugOrId') slugOrId: string) {
+    return await this.blogService.findOneBySlugOrId(slugOrId);
   }
 
   @Patch(':id')

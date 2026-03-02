@@ -9,17 +9,17 @@ import { useCategory } from '@/hooks/useCategories';
 
 export default function SubcategoryDetailPage() {
   const params = useParams();
-  const subcategoryId = params.id as string;
+  const slug = params.slug as string;
 
-  const { data: subcategory, isLoading: subcategoryLoading, error: subcategoryError } = useSubcategory(subcategoryId);
+  const { data: subcategory, isLoading: subcategoryLoading, error: subcategoryError } = useSubcategory(slug);
   const { data: category, isLoading: categoryLoading } = useCategory(subcategory?.categoryId || '');
 
-  const loading = subcategoryLoading || categoryLoading;
+  const loading = subcategoryLoading || subcategoryLoading;
   const error = subcategoryError;
 
   return (
     <div className="min-h-screen bg-white">
-      <Header currentPath={`/subcategories/${subcategoryId}`} />
+      <Header currentPath={`/subcategories/${slug}`} />
       <main>
         {loading ? (
           <div className="flex justify-center items-center py-20">

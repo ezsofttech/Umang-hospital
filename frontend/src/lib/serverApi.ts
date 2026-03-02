@@ -4,7 +4,7 @@
  * `url.parse()` deprecation warning (DEP0169) on Node.js 22+.
  */
 
-import type { Blog, Doctor } from '@/types';
+import type { Blog, Doctor, Category, Subcategory } from '@/types';
 import type { Message } from '@/types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
@@ -48,5 +48,47 @@ export async function fetchDoctorBySlug(slug: string): Promise<Doctor | null> {
     return await apiFetch<Doctor>(`/doctors/slug/${encodeURIComponent(slug)}`);
   } catch {
     return null;
+  }
+}
+
+// Categories
+export async function fetchCategories(): Promise<Category[]> {
+  try {
+    return await apiFetch<Category[]>('/categories');
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchCategoryBySlug(slug: string): Promise<Category | null> {
+  try {
+    return await apiFetch<Category>(`/categories/${encodeURIComponent(slug)}`);
+  } catch {
+    return null;
+  }
+}
+
+// Subcategories
+export async function fetchSubcategories(): Promise<Subcategory[]> {
+  try {
+    return await apiFetch<Subcategory[]>('/subcategories');
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchSubcategoryBySlug(slug: string): Promise<Subcategory | null> {
+  try {
+    return await apiFetch<Subcategory>(`/subcategories/${encodeURIComponent(slug)}`);
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchSubcategoriesByCategory(categoryId: string): Promise<Subcategory[]> {
+  try {
+    return await apiFetch<Subcategory[]>(`/subcategories/category/${encodeURIComponent(categoryId)}`);
+  } catch {
+    return [];
   }
 }

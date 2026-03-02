@@ -64,12 +64,20 @@ export class CategoryService {
       return null;
     }
     
-    // Try to find by ID first, then by slug
-    let result = await this.categoryModel.findById(id).catch(() => null);
-    if (!result) {
-      result = await this.categoryModel.findOne({ slug: id });
+    try {
+      // Try to find by ID first (in case it's a valid MongoDB ObjectId)
+      let result = await this.categoryModel.findById(id).catch(() => null);
+      if (result) {
+        return result;
+      }
+      
+      // If not found by ID, try to find by slug
+      result = await this.categoryModel.findOne({ slug: id }).catch(() => null);
+      return result;
+    } catch (error) {
+      console.error('Error in findOne:', error);
+      return null;
     }
-    return result;
   }
 
   async update(id: string, updateCategoryDto: CreateCategoryDto) {

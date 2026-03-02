@@ -14,6 +14,14 @@ export class CreateSubcategoryDto {
 
   @IsOptional()
   @IsString()
+  metaDescription?: string;
+
+  @IsOptional()
+  @IsString()
+  keywords?: string;
+
+  @IsOptional()
+  @IsString()
   explanation?: string;
 
   @IsOptional()

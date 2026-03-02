@@ -3,6 +3,8 @@ export type Subcategory = {
   title: string;
   slug: string;
   description: string;
+  metaDescription?: string;
+  keywords?: string;
   explanation: string;
   image: string;
   categoryId: string;

@@ -17,14 +17,19 @@ export class DoctorController {
     return this.doctorService.findAll(active === 'true');
   }
 
+  @Post('migrate/regenerate-slugs')
+  async regenerateSlugs() {
+    return await this.doctorService.regenerateMissingSlugs();
+  }
+
   @Get('slug/:slug')
   findBySlug(@Param('slug') slug: string) {
     return this.doctorService.findBySlug(slug);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.doctorService.findOne(id);
+  @Get(':slugOrId')
+  async findOne(@Param('slugOrId') slugOrId: string) {
+    return await this.doctorService.findOneBySlugOrId(slugOrId);
   }
 
   @Patch(':id')

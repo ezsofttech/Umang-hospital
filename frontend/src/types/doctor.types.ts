@@ -6,8 +6,8 @@ export type Doctor = {
   tag?: string;
   role: string;
   qualification?: string;
-  about?: string;
-  specializations?: string;
+  about?: string;  metaDescription?: string;
+  keywords?: string;  specializations?: string;
   image?: string;
   experience?: string;
   department?: string;

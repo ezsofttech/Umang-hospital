@@ -13,6 +13,12 @@ export class Category extends Document {
   description: string;
 
   @Prop()
+  metaDescription: string;
+
+  @Prop()
+  keywords: string;
+
+  @Prop()
   image: string;
 
   @Prop({ default: true })

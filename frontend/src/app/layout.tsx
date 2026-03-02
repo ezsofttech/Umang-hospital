@@ -88,9 +88,56 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Hospital",
+    "name": "UMANG Hospital",
+    "alternateName": "Umang IVF & Super Specialty Hospital",
+    "description": "Leading IVF center and super specialty hospital in Bilaspur, Chhattisgarh. NABH certified with advanced medical facilities.",
+    "url": SITE_URL,
+    "logo": `${SITE_URL}/images/uamng-final.svg`,
+    "image": `${SITE_URL}/images/uamng-final.svg`,
+    "telephone": "+91-XXXX-XXXX",
+    "email": "info@umanghospital.com",
+    "hasCredential": "NABH Certified",
+    "medicalSpecialty": [
+      "IVF & Fertility Treatment",
+      "Gynecology & Obstetrics", 
+      "Plastic Surgery",
+      "Hair Transplant",
+      "Cardiology"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Hospital Address",
+      "addressLocality": "Bilaspur",
+      "addressRegion": "Chhattisgarh", 
+      "postalCode": "495001",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 22.0797,
+      "longitude": 82.1409
+    },
+    "openingHours": "Mo-Su 00:00-23:59",
+    "paymentAccepted": "Cash, Credit Card, Insurance",
+    "currenciesAccepted": "INR",
+    "priceRange": "$$",
+    "sameAs": [
+      "https://www.facebook.com/umanghospital",
+      "https://www.instagram.com/umanghospital",
+      "https://www.youtube.com/umanghospital"
+    ]
+  };
+
   return (
     <html lang="en">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/brands/all.css"

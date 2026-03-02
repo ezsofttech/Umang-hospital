@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Category } from '../category/category.schema';
 import { Subcategory } from '../subcategory/subcategory.schema';
+import { Blog } from '../blog/blog.schema';
+import { Doctor } from '../doctor/doctor.schema';
 import { generateSlug } from '../utils/slug';
 
 @Injectable()
@@ -12,6 +14,8 @@ export class SlugMigrationService {
   constructor(
     @InjectModel(Category.name) private categoryModel: Model<Category>,
     @InjectModel(Subcategory.name) private subcategoryModel: Model<Subcategory>,
+    @InjectModel(Blog.name) private blogModel: Model<Blog>,
+    @InjectModel(Doctor.name) private doctorModel: Model<Doctor>,
   ) {}
 
   async migrateCategory() {
@@ -80,10 +84,80 @@ export class SlugMigrationService {
     }
   }
 
+  async migrateBlog() {
+    try {
+      // Find all blogs without slug
+      const blogsWithoutSlug = await this.blogModel.find({
+        $or: [{ slug: { $exists: false } }, { slug: null }, { slug: '' }],
+      });
+
+      if (blogsWithoutSlug.length === 0) {
+        this.logger.log('✓ All blogs already have slugs');
+        return;
+      }
+
+      this.logger.log(
+        `Migrating ${blogsWithoutSlug.length} blogs with missing slugs...`,
+      );
+
+      for (const blog of blogsWithoutSlug) {
+        const slug = generateSlug(blog.title);
+        await this.blogModel.findByIdAndUpdate(
+          blog._id,
+          { slug },
+          { new: true },
+        );
+        this.logger.log(
+          `✓ Updated blog: ${blog.title} -> ${slug}`,
+        );
+      }
+
+      this.logger.log('✓ Blog migration completed');
+    } catch (error) {
+      this.logger.error('Blog migration failed:', error);
+    }
+  }
+
+  async migrateDoctor() {
+    try {
+      // Find all doctors without slug
+      const doctorsWithoutSlug = await this.doctorModel.find({
+        $or: [{ slug: { $exists: false } }, { slug: null }, { slug: '' }],
+      });
+
+      if (doctorsWithoutSlug.length === 0) {
+        this.logger.log('✓ All doctors already have slugs');
+        return;
+      }
+
+      this.logger.log(
+        `Migrating ${doctorsWithoutSlug.length} doctors with missing slugs...`,
+      );
+
+      for (const doctor of doctorsWithoutSlug) {
+        const slug = generateSlug(doctor.name);
+        await this.doctorModel.findByIdAndUpdate(
+          doctor._id,
+          { slug },
+          { new: true },
+        );
+        this.logger.log(
+          `✓ Updated doctor: ${doctor.name} -> ${slug}`,
+        );
+      }
+
+      this.logger.log('✓ Doctor migration completed');
+    } catch (error) {
+      this.logger.error('Doctor migration failed:', error);
+    }
+  }
+
   async runMigration() {
     this.logger.log('Starting slug migration...');
     await this.migrateCategory();
     await this.migrateSubcategory();
+    await this.migrateBlog();
+    await this.migrateDoctor();
     this.logger.log('✓ Slug migration finished');
   }
 }

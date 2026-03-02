@@ -24,6 +24,12 @@ export class Doctor {
   about?: string;
 
   @Prop()
+  metaDescription?: string;
+
+  @Prop()
+  keywords?: string;
+
+  @Prop()
   specializations?: string;
 
   @Prop()
