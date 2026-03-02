@@ -12,6 +12,11 @@ export const subcategoryService = {
     return res.data;
   },
 
+  getBySlug: async (slug: string): Promise<Subcategory> => {
+    const res = await axiosInstance.get(`/subcategories/slug/${encodeURIComponent(slug)}`);
+    return res.data;
+  },
+
   getByCategory: async (categoryId: string): Promise<Subcategory[]> => {
     const res = await axiosInstance.get(`/subcategories/category/${categoryId}`);
     return res.data;

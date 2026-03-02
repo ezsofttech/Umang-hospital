@@ -4,17 +4,17 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { useSubcategory } from '@/hooks/useSubcategories';
+import { useSubcategoryBySlug } from '@/hooks/useSubcategories';
 import { useCategory } from '@/hooks/useCategories';
 
 export default function SubcategoryDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
 
-  const { data: subcategory, isLoading: subcategoryLoading, error: subcategoryError } = useSubcategory(slug);
+  const { data: subcategory, isLoading: subcategoryLoading, error: subcategoryError } = useSubcategoryBySlug(slug);
   const { data: category, isLoading: categoryLoading } = useCategory(subcategory?.categoryId || '');
 
-  const loading = subcategoryLoading || subcategoryLoading;
+  const loading = subcategoryLoading || categoryLoading;
   const error = subcategoryError;
 
   return (

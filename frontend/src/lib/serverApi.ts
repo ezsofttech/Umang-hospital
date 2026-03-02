@@ -13,9 +13,15 @@ async function apiFetch<T>(path: string, params?: Record<string, string>): Promi
   if (params) {
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
   }
-  const res = await fetch(url.toString(), { cache: 'no-store' });
-  if (!res.ok) throw new Error(`API error ${res.status}`);
-  return res.json() as Promise<T>;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
+  try {
+    const res = await fetch(url.toString(), { cache: 'no-store', signal: controller.signal });
+    if (!res.ok) throw new Error(`API error ${res.status}`);
+    return res.json() as Promise<T>;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 export async function fetchBlogs(publishedOnly = false): Promise<Blog[]> {
