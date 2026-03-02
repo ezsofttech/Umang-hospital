@@ -6,8 +6,7 @@
 
 import type { Blog, Doctor, Category, Subcategory } from '@/types';
 import type { Message } from '@/types';
-
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000').replace(/\/+$/, '');
+import { API_URL } from '@/lib/config';
 
 async function apiFetch<T>(path: string, params?: Record<string, string>): Promise<T> {
   const url = new URL(`${API_URL}${path}`);
@@ -20,7 +19,11 @@ async function apiFetch<T>(path: string, params?: Record<string, string>): Promi
 }
 
 export async function fetchBlogs(publishedOnly = false): Promise<Blog[]> {
-  return apiFetch<Blog[]>('/blogs', { published: String(publishedOnly) });
+  try {
+    return await apiFetch<Blog[]>('/blogs', { published: String(publishedOnly) });
+  } catch {
+    return [];
+  }
 }
 
 export async function fetchBlogBySlug(slug: string): Promise<Blog | null> {
@@ -32,7 +35,11 @@ export async function fetchBlogBySlug(slug: string): Promise<Blog | null> {
 }
 
 export async function fetchMessages(): Promise<Message[]> {
-  return apiFetch<Message[]>('/messages');
+  try {
+    return await apiFetch<Message[]>('/messages');
+  } catch {
+    return [];
+  }
 }
 
 export async function fetchDoctors(activeOnly = true): Promise<Doctor[]> {

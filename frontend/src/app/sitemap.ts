@@ -1,7 +1,10 @@
 import { MetadataRoute } from 'next';
 import { fetchBlogs, fetchDoctors, fetchCategories, fetchSubcategories } from '@/lib/serverApi';
+import { SITE_URL } from '@/lib/config';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://umanghospital.com';
+// Always server-render the sitemap so it reflects live DB data
+// and avoids build-time fetch failures against localhost
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes: MetadataRoute.Sitemap = [

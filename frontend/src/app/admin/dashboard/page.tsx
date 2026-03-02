@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { fetchBlogs, fetchMessages } from "@/lib/serverApi";
 import DashboardStats from "@/components/admin/DashboardStats";
 import DashboardRecent from "@/components/admin/DashboardRecent";
 import DataManagement from "@/components/admin/DataManagement";
 import BlogsDataTable from "@/components/admin/BlogsDataTable";
 import MessagesDataTable from "@/components/admin/MessagesDataTable";
+import { API_URL } from "@/lib/config";
 
 export default async function AdminDashboardPage() {
   let blogs: { id: string; title: string; createdAt: string }[] = [];
@@ -13,10 +13,13 @@ export default async function AdminDashboardPage() {
   let blogCount = 0;
   let messageCount = 0;
 
+  // Quick API reachability check before loading data
   try {
+    const ping = await fetch(`${API_URL}/blogs?published=false`, { cache: "no-store" });
+    if (!ping.ok) throw new Error(`HTTP ${ping.status}`);
     const [blogsRes, messagesRes] = await Promise.all([
-      fetchBlogs(false),
-      fetchMessages(),
+      ping.json() as Promise<typeof blogs>,
+      fetch(`${API_URL}/messages`, { cache: "no-store" }).then((r) => r.json() as Promise<typeof messages>).catch(() => []),
     ]);
     blogCount = blogsRes.length;
     messageCount = messagesRes.length;

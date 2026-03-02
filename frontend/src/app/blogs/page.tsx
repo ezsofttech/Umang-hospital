@@ -4,8 +4,7 @@ import Header from "@/components/Header";
 import BlogsHero from "@/components/BlogsHero";
 import Footer from "@/components/Footer";
 import { fetchBlogs } from "@/lib/serverApi";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
+import { SITE_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Blogs | Health & Wellness Articles | UMANG Hospital Bilaspur",

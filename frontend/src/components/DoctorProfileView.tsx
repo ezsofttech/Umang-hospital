@@ -2,8 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Doctor } from "@/data/doctors";
 import { getDoctors } from "@/data/doctors";
-
-const SITE_URL = "https://umanghospital.com";
+import { SITE_URL } from "@/lib/config";
 
 const HOSPITAL_PHONE_1 = "+91 7710203022";
 const HOSPITAL_PHONE_2 = "+91 8889450411";

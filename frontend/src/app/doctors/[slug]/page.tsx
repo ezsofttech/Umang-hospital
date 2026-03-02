@@ -6,8 +6,7 @@ import Footer from "@/components/Footer";
 import { getDoctorBySlug, getAllDoctorSlugs, type Doctor as StaticDoctor } from "@/data/doctors";
 import { fetchDoctorBySlug } from "@/lib/serverApi";
 import type { Metadata } from "next";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
+import { SITE_URL } from "@/lib/config";
 
 type Props = { params: Promise<{ slug: string }> };
 

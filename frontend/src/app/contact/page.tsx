@@ -3,8 +3,7 @@ import Header from "@/components/Header";
 import ContactHero from "@/components/ContactHero";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
+import { SITE_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Contact Us | UMANG Hospital Bilaspur – Address, Phone, Email",

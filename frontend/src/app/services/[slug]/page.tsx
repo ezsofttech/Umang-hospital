@@ -4,8 +4,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { fetchSubcategoryBySlug, fetchCategoryById, fetchSubcategories } from "@/lib/serverApi";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
+import { SITE_URL } from "@/lib/config";
 
 type Props = { params: Promise<{ slug: string }> };
 

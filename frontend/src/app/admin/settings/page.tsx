@@ -5,8 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { authService } from "@/services/auth.service";
 import { KeyRound, User, CheckCircle2, AlertCircle, Eye, EyeOff, DatabaseZap } from "lucide-react";
-
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
+import { API_URL } from "@/lib/config";
 
 function SettingsContent() {
   const { user, token, refreshUser } = useAuth();

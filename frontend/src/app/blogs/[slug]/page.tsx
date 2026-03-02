@@ -5,8 +5,7 @@ import Header from "@/components/Header";
 import BlogsHero from "@/components/BlogsHero";
 import Footer from "@/components/Footer";
 import { fetchBlogs, fetchBlogBySlug } from "@/lib/serverApi";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
+import { SITE_URL } from "@/lib/config";
 
 /** Strip HTML tags so meta description is plain text */
 function stripHtml(html: string): string {
