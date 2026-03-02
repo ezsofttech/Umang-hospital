@@ -12,3 +12,15 @@ export const SITE_URL = (
 export const API_URL = (
   process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000'
 ).replace(/\/+$/, '');
+
+/**
+ * Server-side only API URL.
+ * On VPS, set BACKEND_URL=http://localhost:4000 so server components
+ * call the API directly (avoids loopback/firewall issues with the public domain).
+ * Falls back to NEXT_PUBLIC_API_URL so it works without extra config in dev.
+ */
+export const SERVER_API_URL = (
+  process.env.BACKEND_URL ??
+  process.env.NEXT_PUBLIC_API_URL ??
+  'http://localhost:4000'
+).replace(/\/+$/, '');

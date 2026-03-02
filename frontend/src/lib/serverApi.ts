@@ -6,13 +6,13 @@
 
 import type { Blog, Doctor, Category, Subcategory } from '@/types';
 import type { Message } from '@/types';
-import { API_URL } from '@/lib/config';
+import { SERVER_API_URL } from '@/lib/config';
 
 async function apiFetch<T>(path: string, params?: Record<string, string>): Promise<T> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10_000);
   try {
-    const url = new URL(`${API_URL}${path}`);
+    const url = new URL(`${SERVER_API_URL}${path}`);
     if (params) {
       Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
     }
