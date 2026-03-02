@@ -1,4 +1,4 @@
-import { Controller, Post, Logger, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Logger, Body, BadRequestException } from '@nestjs/common';
 import { SlugMigrationService } from './slug-migration.service';
 
 @Controller('api/migration')
@@ -12,6 +12,17 @@ export class SlugMigrationController {
     if (!key || key !== this.ADMIN_KEY) {
       throw new BadRequestException('Invalid or missing admin key');
     }
+  }
+
+  /** GET endpoint – called from the admin UI with no body required */
+  @Get('slugs/run')
+  async runAllMigrationsGet() {
+    this.logger.log('Admin triggered slug migration via GET');
+    await this.slugMigrationService.runMigration();
+    return {
+      success: true,
+      message: 'Slug migration completed successfully',
+    };
   }
 
   @Post('seed-slugs')

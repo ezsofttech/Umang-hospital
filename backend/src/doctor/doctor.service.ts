@@ -5,7 +5,7 @@ import { Doctor, DoctorDocument } from './doctor.schema';
 import { CreateDoctorDto } from './dto/create-doctor.dto';
 import { UpdateDoctorDto } from './dto/update-doctor.dto';
 import { UploadService } from '../upload/upload.service';
-import { generateSlug } from '../utils/slug';
+import { generateSlug, generateUniqueSlug } from '../utils/slug';
 
 @Injectable()
 export class DoctorService {
@@ -15,7 +15,7 @@ export class DoctorService {
   ) {}
 
   async create(dto: CreateDoctorDto) {
-    const slug = dto.slug || generateSlug(dto.name);
+    const slug = dto.slug || await generateUniqueSlug(dto.name, this.doctorModel);
     const doc = await this.doctorModel.create({ ...dto, slug });
     return doc.toObject();
   }
@@ -70,7 +70,7 @@ export class DoctorService {
   async update(id: string, dto: UpdateDoctorDto) {
     const updateData = { ...dto };
     if (dto.name) {
-      updateData['slug'] = dto.slug || generateSlug(dto.name);
+      updateData['slug'] = dto.slug || await generateUniqueSlug(dto.name, this.doctorModel, id);
     }
     const doc = await this.doctorModel
       .findByIdAndUpdate(id, { $set: updateData }, { new: true })

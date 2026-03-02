@@ -5,7 +5,7 @@ import { Subcategory } from './subcategory.schema';
 import { CreateSubcategoryDto } from './dto/create-subcategory.dto';
 import { Category } from '../category/category.schema';
 import { UploadService } from '../upload/upload.service';
-import { generateSlug } from '../utils/slug';
+import { generateSlug, generateUniqueSlug } from '../utils/slug';
 
 // Mock subcategories template
 const createMockSubcategories = (categories: any[]) => {
@@ -111,7 +111,7 @@ export class SubcategoryService {
   ) {}
 
   async create(createSubcategoryDto: CreateSubcategoryDto) {
-    const slug = createSubcategoryDto.slug || generateSlug(createSubcategoryDto.title);
+    const slug = createSubcategoryDto.slug || await generateUniqueSlug(createSubcategoryDto.title, this.subcategoryModel);
     const newSubcategory = new this.subcategoryModel({
       ...createSubcategoryDto,
       slug,
@@ -162,6 +162,15 @@ export class SubcategoryService {
     return await this.subcategoryModel.find({ categoryId: category._id, active: true });
   }
 
+  async findBySlug(slug: string) {
+    try {
+      return await this.subcategoryModel.findOne({ slug }).catch(() => null);
+    } catch (error) {
+      console.error('Error in findBySlug:', error);
+      return null;
+    }
+  }
+
   async findOne(id: string) {
     // Return null if id is not provided
     if (!id || id === 'undefined') {
@@ -189,7 +198,7 @@ export class SubcategoryService {
     if (updateSubcategoryDto.slug) {
       updateData['slug'] = updateSubcategoryDto.slug;
     } else if (updateSubcategoryDto.title) {
-      updateData['slug'] = generateSlug(updateSubcategoryDto.title);
+      updateData['slug'] = await generateUniqueSlug(updateSubcategoryDto.title, this.subcategoryModel, id);
     }
     return await this.subcategoryModel.findByIdAndUpdate(id, updateData, { new: true });
   }

@@ -16,6 +16,11 @@ export class CategoryController {
     return await this.categoryService.create(createCategoryDto);
   }
 
+  @Get('slug/:slug')
+  async findBySlug(@Param('slug') slug: string) {
+    return await this.categoryService.findBySlug(slug);
+  }
+
   @Get()
   async findAll() {
     return await this.categoryService.findAll();

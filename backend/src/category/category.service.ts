@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Category } from './category.schema';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UploadService } from '../upload/upload.service';
-import { generateSlug } from '../utils/slug';
+import { generateSlug, generateUniqueSlug } from '../utils/slug';
 
 const MOCK_CATEGORIES = [
   {
@@ -37,7 +37,7 @@ export class CategoryService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const slug = createCategoryDto.slug || generateSlug(createCategoryDto.title);
+    const slug = createCategoryDto.slug || await generateUniqueSlug(createCategoryDto.title, this.categoryModel);
     const newCategory = new this.categoryModel({
       ...createCategoryDto,
       slug,
@@ -56,6 +56,15 @@ export class CategoryService {
       return await this.categoryModel.insertMany(categoriesWithSlugs);
     }
     return await this.categoryModel.find({ active: true });
+  }
+
+  async findBySlug(slug: string) {
+    try {
+      return await this.categoryModel.findOne({ slug }).catch(() => null);
+    } catch (error) {
+      console.error('Error in findBySlug:', error);
+      return null;
+    }
   }
 
   async findOne(id: string) {
@@ -85,7 +94,7 @@ export class CategoryService {
     if (updateCategoryDto.slug) {
       updateData['slug'] = updateCategoryDto.slug;
     } else if (updateCategoryDto.title) {
-      updateData['slug'] = generateSlug(updateCategoryDto.title);
+      updateData['slug'] = await generateUniqueSlug(updateCategoryDto.title, this.categoryModel, id);
     }
     return await this.categoryModel.findByIdAndUpdate(id, updateData, { new: true });
   }

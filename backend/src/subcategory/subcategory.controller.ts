@@ -16,19 +16,24 @@ export class SubcategoryController {
     return await this.subcategoryService.create(createSubcategoryDto);
   }
 
+  @Get('slug/:slug')
+  async findBySlug(@Param('slug') slug: string) {
+    return await this.subcategoryService.findBySlug(slug);
+  }
+
   @Get('category/:categoryId')
   async findByCategory(@Param('categoryId') categoryId: string) {
     return await this.subcategoryService.findByCategory(categoryId);
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.subcategoryService.findOne(id);
-  }
-
   @Get()
   async findAll() {
     return await this.subcategoryService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return await this.subcategoryService.findOne(id);
   }
 
   @Put(':id')

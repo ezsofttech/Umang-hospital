@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { fetchSubcategoryBySlug, fetchCategoryBySlug, fetchSubcategories } from "@/lib/serverApi";
+import { fetchSubcategoryBySlug, fetchCategoryById, fetchSubcategories } from "@/lib/serverApi";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
 
@@ -35,12 +35,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `${SITE_URL}/services/${subcategory.slug}`,
       type: "website",
       images: subcategory.image ? [{
-        url: subcategory.image,
+        url: subcategory.image.startsWith('http') ? subcategory.image : `${SITE_URL}${subcategory.image}`,
         alt: `${subcategory.title} services at UMANG Hospital`
       }] : undefined,
     },
     alternates: {
-      canonical: `/services/${subcategory.slug}`,
+      canonical: `${SITE_URL}/services/${subcategory.slug}`,
     },
     keywords: [
       subcategory.title,
@@ -109,7 +109,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     notFound();
   }
 
-  const category = subcategory.categoryId ? await fetchCategoryBySlug(subcategory.categoryId) : null;
+  const category = subcategory.categoryId ? await fetchCategoryById(subcategory.categoryId) : null;
 
   return (
     <div className="min-h-screen bg-white">

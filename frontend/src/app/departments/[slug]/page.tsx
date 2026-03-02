@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
     },
     alternates: {
-      canonical: `/departments/${category.slug}`,
+      canonical: `${SITE_URL}/departments/${category.slug}`,
     },
     keywords: [
       category.title,
@@ -66,7 +66,7 @@ function DepartmentJsonLd({ category, subcategories }: { category: any, subcateg
         "position": index + 1,
         "name": sub.title,
         "description": sub.description,
-        "url": `${SITE_URL}/subcategories/${sub.slug || sub._id}`,
+        "url": `${SITE_URL}/services/${sub.slug || sub._id}`,
       }))
     },
     "provider": {

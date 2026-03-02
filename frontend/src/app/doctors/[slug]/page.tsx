@@ -7,6 +7,8 @@ import { getDoctorBySlug, getAllDoctorSlugs, type Doctor as StaticDoctor } from 
 import { fetchDoctorBySlug } from "@/lib/serverApi";
 import type { Metadata } from "next";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
+
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
@@ -27,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     openGraph: { title, description, type: "profile" },
-    alternates: { canonical: `/doctors/${doctor.slug}` },
+    alternates: { canonical: `${SITE_URL}/doctors/${doctor.slug}` },
   };
 }
 

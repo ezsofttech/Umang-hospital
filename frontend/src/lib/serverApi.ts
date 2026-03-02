@@ -7,7 +7,7 @@
 import type { Blog, Doctor, Category, Subcategory } from '@/types';
 import type { Message } from '@/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000').replace(/\/+$/, '');
 
 async function apiFetch<T>(path: string, params?: Record<string, string>): Promise<T> {
   const url = new URL(`${API_URL}${path}`);
@@ -62,7 +62,7 @@ export async function fetchCategories(): Promise<Category[]> {
 
 export async function fetchCategoryBySlug(slug: string): Promise<Category | null> {
   try {
-    return await apiFetch<Category>(`/categories/${encodeURIComponent(slug)}`);
+    return await apiFetch<Category>(`/categories/slug/${encodeURIComponent(slug)}`);
   } catch {
     return null;
   }
@@ -79,7 +79,7 @@ export async function fetchSubcategories(): Promise<Subcategory[]> {
 
 export async function fetchSubcategoryBySlug(slug: string): Promise<Subcategory | null> {
   try {
-    return await apiFetch<Subcategory>(`/subcategories/${encodeURIComponent(slug)}`);
+    return await apiFetch<Subcategory>(`/subcategories/slug/${encodeURIComponent(slug)}`);
   } catch {
     return null;
   }
@@ -90,5 +90,13 @@ export async function fetchSubcategoriesByCategory(categoryId: string): Promise<
     return await apiFetch<Subcategory[]>(`/subcategories/category/${encodeURIComponent(categoryId)}`);
   } catch {
     return [];
+  }
+}
+
+export async function fetchCategoryById(id: string): Promise<Category | null> {
+  try {
+    return await apiFetch<Category>(`/categories/${encodeURIComponent(id)}`);
+  } catch {
+    return null;
   }
 }

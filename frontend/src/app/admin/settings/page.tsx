@@ -4,7 +4,9 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { authService } from "@/services/auth.service";
-import { KeyRound, User, CheckCircle2, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { KeyRound, User, CheckCircle2, AlertCircle, Eye, EyeOff, DatabaseZap } from "lucide-react";
+
+const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000").replace(/\/+$/, "");
 
 function SettingsContent() {
   const { user, token, refreshUser } = useAuth();
@@ -21,6 +23,27 @@ function SettingsContent() {
   const [pwLoading, setPwLoading] = useState(false);
   const [pwSuccess, setPwSuccess] = useState("");
   const [pwError, setPwError] = useState("");
+
+  // Slug migration state
+  const [migrating, setMigrating] = useState(false);
+  const [migrateSuccess, setMigrateSuccess] = useState("");
+  const [migrateError, setMigrateError] = useState("");
+
+  async function handleRunMigration() {
+    setMigrating(true);
+    setMigrateSuccess("");
+    setMigrateError("");
+    try {
+      const res = await fetch(`${API_URL}/api/migration/slugs/run`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message ?? "Migration failed");
+      setMigrateSuccess(data.message ?? "Slug migration completed successfully.");
+    } catch (err: unknown) {
+      setMigrateError(err instanceof Error ? err.message : "Migration failed. Is the API running?");
+    } finally {
+      setMigrating(false);
+    }
+  }
 
   // Auto-focus password section if firstLogin
   useEffect(() => {
@@ -222,6 +245,46 @@ function SettingsContent() {
             {pwLoading ? "Updating…" : "Update Password"}
           </button>
         </form>
+      </div>
+
+      {/* Database Tools Card */}
+      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mb-4 flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-gray-600">
+            <DatabaseZap size={20} />
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-800">Database Tools</h2>
+            <p className="text-sm text-gray-500">Fix missing slugs on all records (categories, subcategories, doctors, blogs)</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            onClick={handleRunMigration}
+            disabled={migrating}
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--umang-navy)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <DatabaseZap size={15} />
+            {migrating ? "Running migration…" : "Run Slug Migration"}
+          </button>
+          <p className="text-xs text-gray-400">
+            Generates slugs for any records that are missing them. Safe to run multiple times.
+          </p>
+        </div>
+
+        {migrateError && (
+          <div className="mt-3 flex items-center gap-2 rounded-lg bg-red-50 px-3.5 py-2.5 text-sm text-red-600">
+            <AlertCircle size={15} />
+            {migrateError}
+          </div>
+        )}
+        {migrateSuccess && (
+          <div className="mt-3 flex items-center gap-2 rounded-lg bg-green-50 px-3.5 py-2.5 text-sm text-green-700">
+            <CheckCircle2 size={15} />
+            {migrateSuccess}
+          </div>
+        )}
       </div>
     </div>
   );

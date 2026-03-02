@@ -6,7 +6,7 @@ import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { toResponse, toResponseList } from '../utils/mongo';
 import { UploadService } from '../upload/upload.service';
-import { generateSlug } from '../utils/slug';
+import { generateSlug, generateUniqueSlug } from '../utils/slug';
 
 @Injectable()
 export class BlogService {
@@ -16,7 +16,7 @@ export class BlogService {
   ) {}
 
   async create(dto: CreateBlogDto) {
-    const slug = dto.slug || generateSlug(dto.title);
+    const slug = dto.slug || await generateUniqueSlug(dto.title, this.blogModel);
     const doc = await this.blogModel.create({ ...dto, slug });
     return toResponse(doc.toObject());
   }
@@ -79,7 +79,7 @@ export class BlogService {
   async update(id: string, dto: UpdateBlogDto) {
     const updateData = { ...dto };
     if (dto.title) {
-      updateData['slug'] = dto.slug || generateSlug(dto.title);
+      updateData['slug'] = dto.slug || await generateUniqueSlug(dto.title, this.blogModel, id);
     }
     const doc = await this.blogModel
       .findByIdAndUpdate(id, { $set: updateData }, { new: true })

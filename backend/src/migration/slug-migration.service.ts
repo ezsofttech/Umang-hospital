@@ -6,7 +6,7 @@ import { Subcategory } from '../subcategory/subcategory.schema';
 import { Blog } from '../blog/blog.schema';
 import { Doctor } from '../doctor/doctor.schema';
 import { User } from '../user/user.schema';
-import { generateSlug } from '../utils/slug';
+import { generateUniqueSlug } from '../utils/slug';
 
 @Injectable()
 export class SlugMigrationService {
@@ -37,7 +37,7 @@ export class SlugMigrationService {
       );
 
       for (const category of categoriesWithoutSlug) {
-        const slug = generateSlug(category.title);
+        const slug = await generateUniqueSlug(category.title, this.categoryModel, String(category._id));
         await this.categoryModel.findByIdAndUpdate(
           category._id,
           { slug },
@@ -69,7 +69,7 @@ export class SlugMigrationService {
       );
 
       for (const subcategory of subcategoriesWithoutSlug) {
-        const slug = generateSlug(subcategory.title);
+        const slug = await generateUniqueSlug(subcategory.title, this.subcategoryModel, String(subcategory._id));
         await this.subcategoryModel.findByIdAndUpdate(
           subcategory._id,
           { slug },
@@ -103,7 +103,7 @@ export class SlugMigrationService {
       );
 
       for (const blog of blogsWithoutSlug) {
-        const slug = generateSlug(blog.title);
+        const slug = await generateUniqueSlug(blog.title, this.blogModel, String(blog._id));
         await this.blogModel.findByIdAndUpdate(
           blog._id,
           { slug },
@@ -137,7 +137,7 @@ export class SlugMigrationService {
       );
 
       for (const doctor of doctorsWithoutSlug) {
-        const slug = generateSlug(doctor.name);
+        const slug = await generateUniqueSlug(doctor.name, this.doctorModel, String(doctor._id));
         await this.doctorModel.findByIdAndUpdate(
           doctor._id,
           { slug },
@@ -171,7 +171,7 @@ export class SlugMigrationService {
       );
 
       for (const user of usersWithoutSlug) {
-        const slug = generateSlug(user.name);
+        const slug = await generateUniqueSlug(user.name, this.userModel, String(user._id));
         await this.userModel.findByIdAndUpdate(
           user._id,
           { slug },

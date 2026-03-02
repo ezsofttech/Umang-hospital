@@ -8,6 +8,11 @@ import { fetchBlogs, fetchBlogBySlug } from "@/lib/serverApi";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umanghospital.com";
 
+/** Strip HTML tags so meta description is plain text */
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
@@ -24,14 +29,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await fetchBlogBySlug(slug);
   if (!post) return { title: "Post not found" };
   const title = `${post.title} | UMANG Hospital Blog`;
-  const description = post.excerpt ?? post.body.slice(0, 160);
+  const rawDescription = post.excerpt ?? stripHtml(post.body);
+  const description = rawDescription.slice(0, 160);
+  const imageUrl = post.image
+    ? post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`
+    : undefined;
   return {
     title,
     description,
+    keywords: post.keywords ?? (post.tags?.join(", ") ?? undefined),
+    authors: post.author ? [{ name: post.author }] : undefined,
     openGraph: {
       title,
       description,
       url: `${SITE_URL}/blogs/${post.slug}`,
+      type: "article",
+      publishedTime: post.createdAt,
+      modifiedTime: post.updatedAt,
+      images: imageUrl ? [{ url: imageUrl, alt: post.title }] : undefined,
+    },
+    alternates: {
+      canonical: `${SITE_URL}/blogs/${post.slug}`,
     },
   };
 }
@@ -41,8 +59,36 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await fetchBlogBySlug(slug);
   if (!post) notFound();
 
+  const imageUrl = post.image
+    ? post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`
+    : undefined;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt ?? stripHtml(post.body).slice(0, 160),
+    "url": `${SITE_URL}/blogs/${post.slug}`,
+    "datePublished": post.createdAt,
+    "dateModified": post.updatedAt,
+    "author": post.author
+      ? { "@type": "Person", "name": post.author }
+      : { "@type": "Organization", "name": "UMANG Hospital" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "UMANG Hospital",
+      "url": SITE_URL,
+    },
+    ...(imageUrl ? { "image": imageUrl } : {}),
+    ...(post.keywords ? { "keywords": post.keywords } : {}),
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header currentPath="/blogs" />
       <main>
         <BlogsHero title={post.title} />
