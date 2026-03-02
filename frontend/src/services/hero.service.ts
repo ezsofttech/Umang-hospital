@@ -14,9 +14,14 @@ export interface Hero {
 }
 
 export const heroService = {
-  getActive: async (): Promise<Hero> => {
-    const res = await axiosInstance.get('/hero/active');
-    return res.data;
+  getActive: async (): Promise<Hero | null> => {
+    try {
+      const res = await axiosInstance.get('/hero');
+      return res.data;
+    } catch {
+      // Hero not yet created on server — return null so admin can create it
+      return null;
+    }
   },
 
   getAll: async (): Promise<Hero> => {

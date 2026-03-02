@@ -54,7 +54,13 @@ export async function fetchDoctorBySlug(slug: string): Promise<Doctor | null> {
   try {
     return await apiFetch<Doctor>(`/doctors/slug/${encodeURIComponent(slug)}`);
   } catch {
-    return null;
+    // Fallback: fetch all doctors and filter by slug
+    try {
+      const all = await apiFetch<Doctor[]>('/doctors');
+      return all.find((d) => d.slug === slug) ?? null;
+    } catch {
+      return null;
+    }
   }
 }
 
@@ -71,7 +77,14 @@ export async function fetchCategoryBySlug(slug: string): Promise<Category | null
   try {
     return await apiFetch<Category>(`/categories/slug/${encodeURIComponent(slug)}`);
   } catch {
-    return null;
+    // Fallback: fetch all categories and filter by slug
+    // (handles older backend deployments that lack GET /categories/slug/:slug)
+    try {
+      const all = await apiFetch<Category[]>('/categories');
+      return all.find((c) => c.slug === slug) ?? null;
+    } catch {
+      return null;
+    }
   }
 }
 
@@ -88,7 +101,13 @@ export async function fetchSubcategoryBySlug(slug: string): Promise<Subcategory 
   try {
     return await apiFetch<Subcategory>(`/subcategories/slug/${encodeURIComponent(slug)}`);
   } catch {
-    return null;
+    // Fallback: fetch all subcategories and filter by slug
+    try {
+      const all = await apiFetch<Subcategory[]>('/subcategories');
+      return all.find((s) => s.slug === slug) ?? null;
+    } catch {
+      return null;
+    }
   }
 }
 

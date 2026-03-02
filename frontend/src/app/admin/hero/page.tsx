@@ -11,6 +11,7 @@ export default function HeroPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const isNew = !hero?._id;
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -28,15 +29,18 @@ export default function HeroPage() {
         console.log('📥 Fetching hero data...');
         const data = await heroService.getActive();
         console.log('✅ Hero data fetched:', data);
-        setHero(data);
-        setFormData({
-          title: data.title || '',
-          description: data.description || '',
-          subtitle: data.subtitle || '',
-          backgroundImage: data.backgroundImage || '',
-          ctaButtonText: data.ctaButtonText || '',
-          ctaButtonLink: data.ctaButtonLink || '',
-        });
+        if (data) {
+          setHero(data);
+          setFormData({
+            title: data.title || '',
+            description: data.description || '',
+            subtitle: data.subtitle || '',
+            backgroundImage: data.backgroundImage || '',
+            ctaButtonText: data.ctaButtonText || '',
+            ctaButtonLink: data.ctaButtonLink || '',
+          });
+        }
+        // If data is null, hero doesn't exist yet — form stays empty for creation
       } catch (err) {
         console.error('❌ Failed to load hero:', err);
         setError('Failed to load hero section');
@@ -74,24 +78,26 @@ export default function HeroPage() {
       return;
     }
 
-    if (!hero?._id) {
-      setError('Hero ID not found');
-      return;
-    }
-
     try {
       setError(null);
       setSuccess(null);
       setIsSaving(true);
-      
-      console.log('💾 Saving hero with ID:', hero._id);
-      console.log('💾 Sending data:', formData);
-      
-      const updated = await heroService.update(hero._id, formData);
-      console.log('✅ Hero updated successfully:', updated);
-      
-      setHero(updated);
-      setSuccess('Hero section updated successfully!');
+
+      let saved: Hero;
+      if (isNew) {
+        console.log('💾 Creating new hero with data:', formData);
+        saved = await heroService.create(formData);
+        console.log('✅ Hero created successfully:', saved);
+        setSuccess('Hero section created successfully!');
+      } else {
+        console.log('💾 Saving hero with ID:', hero!._id);
+        console.log('💾 Sending data:', formData);
+        saved = await heroService.update(hero!._id!, formData);
+        console.log('✅ Hero updated successfully:', saved);
+        setSuccess('Hero section updated successfully!');
+      }
+
+      setHero(saved);
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
       console.error('❌ Save failed:', err);
@@ -121,7 +127,7 @@ export default function HeroPage() {
             <span className="text-gray-800 font-medium">Hero Section</span>
           </div>
           <h1 className="text-base font-semibold text-[var(--umang-navy)]">
-            Edit Hero Section
+            {isNew ? 'Create Hero Section' : 'Edit Hero Section'}
           </h1>
           {error && <p className="text-xs text-red-600 mt-0.5">{error}</p>}
           {success && <p className="text-xs text-green-600 mt-0.5">✓ {success}</p>}
@@ -132,7 +138,7 @@ export default function HeroPage() {
           className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--umang-teal)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 disabled:opacity-60"
         >
           <i className="fi fi-sr-check text-sm" aria-hidden />
-          {isSaving ? 'Saving...' : 'Save Changes'}
+          {isSaving ? (isNew ? 'Creating...' : 'Saving...') : (isNew ? 'Create Hero' : 'Save Changes')}
         </button>
       </div>
 
