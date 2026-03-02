@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   
-  const corsOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000').split(',').map(o => o.trim());
+  const corsOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000,https://umang.ezsoftapp.in,https://www.umang.ezsoftapp.in').split(',').map(o => o.trim());
   
   app.enableCors({
     origin: corsOrigins,

@@ -19,6 +19,14 @@ export const useSubcategory = (id: string) => {
   });
 };
 
+export const useSubcategoryBySlug = (slug: string) => {
+  return useQuery({
+    queryKey: [...SUBCATEGORY_QUERY_KEY, 'slug', slug],
+    queryFn: () => subcategoryService.getBySlug(slug),
+    enabled: !!slug,
+  });
+};
+
 export const useSubcategoriesByCategory = (categoryId: string) => {
   return useQuery({
     queryKey: [...SUBCATEGORY_QUERY_KEY, 'category', categoryId],
