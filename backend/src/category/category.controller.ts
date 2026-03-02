@@ -16,7 +16,7 @@ export class CategoryController {
     return await this.categoryService.findAll();
   }
 
-  @Get('migrate/regenerate-slugs')
+  @Post('migrate/regenerate-slugs')
   async regenerateSlugs() {
     return await this.categoryService.regenerateMissingSlugs();
   }

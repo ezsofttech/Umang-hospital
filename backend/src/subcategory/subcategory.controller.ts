@@ -16,7 +16,7 @@ export class SubcategoryController {
     return await this.subcategoryService.findAll();
   }
 
-  @Get('migrate/regenerate-slugs')
+  @Post('migrate/regenerate-slugs')
   async regenerateSlugs() {
     return await this.subcategoryService.regenerateMissingSlugs();
   }
