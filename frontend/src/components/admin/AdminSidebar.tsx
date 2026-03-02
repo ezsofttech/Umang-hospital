@@ -6,6 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const adminMenuItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fi-sr-home" },
+  { href: "/admin/hero", label: "Hero Section", icon: "fi-sr-home" },
   { href: "/admin/blogs", label: "Blogs", icon: "fi-sr-document" },
   { href: "/admin/blogs/new", label: "Create Post", icon: "fi-sr-plus" },
   { href: "/admin/categories", label: "Categories", icon: "fi-sr-folder" },
@@ -18,6 +19,7 @@ const adminMenuItems = [
 
 const staffMenuItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "fi-sr-home" },
+  { href: "/admin/hero", label: "Hero Section", icon: "fi-sr-home" },
   { href: "/admin/blogs", label: "Blogs", icon: "fi-sr-document" },
   { href: "/admin/blogs/new", label: "Create Post", icon: "fi-sr-plus" },
   { href: "/admin/categories", label: "Categories", icon: "fi-sr-folder" },

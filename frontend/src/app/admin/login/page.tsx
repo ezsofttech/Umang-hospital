@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 function LoginForm() {
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
@@ -73,15 +74,25 @@ function LoginForm() {
               <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-sm text-gray-800 outline-none transition focus:border-[var(--umang-teal)] focus:ring-2 focus:ring-[var(--umang-teal)]/20"
-                autoComplete="current-password"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 pr-10 text-sm text-gray-800 outline-none transition focus:border-[var(--umang-teal)] focus:ring-2 focus:ring-[var(--umang-teal)]/20"
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  <i className={`fi ${showPassword ? 'fi-sr-eye-crossed' : 'fi-sr-eye'} text-lg`} aria-hidden />
+                </button>
+              </div>
             </div>
           </div>
 
