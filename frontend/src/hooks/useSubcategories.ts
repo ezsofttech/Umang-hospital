@@ -33,6 +33,7 @@ export const useCreateSubcategory = () => {
   return useMutation({
     mutationFn: (data: {
       title: string;
+      slug: string;
       description?: string;
       explanation?: string;
       image?: string;
@@ -58,6 +59,7 @@ export const useUpdateSubcategory = () => {
       id: string;
       data: Partial<{
         title: string;
+        slug: string;
         description: string;
         explanation: string;
         image: string;

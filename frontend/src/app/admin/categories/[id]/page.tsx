@@ -6,6 +6,13 @@ import Link from 'next/link';
 import { useCategory, useCreateCategory, useUpdateCategory } from '@/hooks/useCategories';
 import CloudinaryUpload from '@/components/admin/CloudinaryUpload';
 
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 export default function CategoryFormPage() {
   const router = useRouter();
   const params = useParams();
@@ -17,25 +24,35 @@ export default function CategoryFormPage() {
   const updateCategory = useUpdateCategory();
 
   const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState({ title: '', description: '', image: '' });
+  const [formData, setFormData] = useState({ title: '', slug: '', description: '', image: '' });
 
   useEffect(() => {
     if (isNew || !category) return;
-    setFormData({ title: category.title, description: category.description, image: category.image });
+    setFormData({ title: category.title, slug: category.slug || '', description: category.description, image: category.image });
   }, [category, isNew]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title.trim()) { setError('Category title is required'); return; }
+    const finalSlug = formData.slug || slugify(formData.title);
     try {
       setError(null);
       if (isNew) {
-        await createCategory.mutateAsync({ title: formData.title, description: formData.description, image: formData.image });
+        await createCategory.mutateAsync({ title: formData.title, slug: finalSlug, description: formData.description, image: formData.image });
       } else {
-        await updateCategory.mutateAsync({ id: categoryId, data: { title: formData.title, description: formData.description, image: formData.image } });
+        await updateCategory.mutateAsync({ id: categoryId, data: { title: formData.title, slug: finalSlug, description: formData.description, image: formData.image } });
       }
       router.push('/admin/categories');
     } catch { setError('Failed to save category'); }
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData(prev => ({ 
+      ...prev, 
+      title: value,
+      ...(isNew ? { slug: slugify(value) } : {})
+    }));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -88,8 +105,15 @@ export default function CategoryFormPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Category Title <span className="text-red-500">*</span></label>
-                <input type="text" name="title" value={formData.title} onChange={handleChange}
+                <input type="text" name="title" value={formData.title} onChange={handleTitleChange}
                   placeholder="e.g., IVF &amp; Fertility Treatment" required className={inputCls} />
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="text-xs text-gray-400">Slug:</span>
+                  <input
+                    type="text" name="slug" value={formData.slug} onChange={handleChange} required
+                    className="flex-1 rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-600 outline-none focus:border-[var(--umang-teal)] focus:ring-1 focus:ring-[var(--umang-teal)]"
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Description</label>

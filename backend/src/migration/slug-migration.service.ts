@@ -5,6 +5,7 @@ import { Category } from '../category/category.schema';
 import { Subcategory } from '../subcategory/subcategory.schema';
 import { Blog } from '../blog/blog.schema';
 import { Doctor } from '../doctor/doctor.schema';
+import { User } from '../user/user.schema';
 import { generateSlug } from '../utils/slug';
 
 @Injectable()
@@ -16,6 +17,7 @@ export class SlugMigrationService {
     @InjectModel(Subcategory.name) private subcategoryModel: Model<Subcategory>,
     @InjectModel(Blog.name) private blogModel: Model<Blog>,
     @InjectModel(Doctor.name) private doctorModel: Model<Doctor>,
+    @InjectModel(User.name) private userModel: Model<User>,
   ) {}
 
   async migrateCategory() {
@@ -152,12 +154,47 @@ export class SlugMigrationService {
     }
   }
 
+  async migrateUser() {
+    try {
+      // Find all users without slug
+      const usersWithoutSlug = await this.userModel.find({
+        $or: [{ slug: { $exists: false } }, { slug: null }, { slug: '' }],
+      });
+
+      if (usersWithoutSlug.length === 0) {
+        this.logger.log('✓ All users already have slugs');
+        return;
+      }
+
+      this.logger.log(
+        `Migrating ${usersWithoutSlug.length} users with missing slugs...`,
+      );
+
+      for (const user of usersWithoutSlug) {
+        const slug = generateSlug(user.name);
+        await this.userModel.findByIdAndUpdate(
+          user._id,
+          { slug },
+          { new: true },
+        );
+        this.logger.log(
+          `✓ Updated user: ${user.name} -> ${slug}`,
+        );
+      }
+
+      this.logger.log('✓ User migration completed');
+    } catch (error) {
+      this.logger.error('User migration failed:', error);
+    }
+  }
+
   async runMigration() {
     this.logger.log('Starting slug migration...');
     await this.migrateCategory();
     await this.migrateSubcategory();
     await this.migrateBlog();
     await this.migrateDoctor();
+    await this.migrateUser();
     this.logger.log('✓ Slug migration finished');
   }
 }

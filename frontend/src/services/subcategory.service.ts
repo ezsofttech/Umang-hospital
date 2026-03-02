@@ -19,6 +19,7 @@ export const subcategoryService = {
 
   create: async (data: {
     title: string;
+    slug: string;
     description?: string;
     explanation?: string;
     image?: string;
@@ -32,6 +33,7 @@ export const subcategoryService = {
     id: string,
     data: Partial<{
       title: string;
+      slug: string;
       description: string;
       explanation: string;
       image: string;

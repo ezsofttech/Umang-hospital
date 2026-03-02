@@ -8,6 +8,13 @@ import { useCategories } from '@/hooks/useCategories';
 import CloudinaryUpload from '@/components/admin/CloudinaryUpload';
 import RichTextEditor from '@/components/admin/RichTextEditor';
 
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 export default function SubcategoryFormPage() {
   const router = useRouter();
   const params = useParams();
@@ -21,7 +28,7 @@ export default function SubcategoryFormPage() {
 
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    title: '', description: '', explanation: '', image: '', categoryId: '',
+    title: '', slug: '', description: '', explanation: '', image: '', categoryId: '',
   });
 
   useEffect(() => {
@@ -34,6 +41,7 @@ export default function SubcategoryFormPage() {
     if (isNew || !subcategory) return;
     setFormData({
       title: subcategory.title,
+      slug: subcategory.slug || '',
       description: subcategory.description,
       explanation: subcategory.explanation,
       image: subcategory.image,
@@ -45,15 +53,25 @@ export default function SubcategoryFormPage() {
     e.preventDefault();
     if (!formData.title.trim()) { setError('Subcategory title is required'); return; }
     if (!formData.categoryId) { setError('Please select a category'); return; }
+    const finalSlug = formData.slug || slugify(formData.title);
     try {
       setError(null);
       if (isNew) {
-        await createSubcategory.mutateAsync({ title: formData.title, description: formData.description, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId });
+        await createSubcategory.mutateAsync({ title: formData.title, slug: finalSlug, description: formData.description, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId });
       } else {
-        await updateSubcategory.mutateAsync({ id: subcategoryId, data: { title: formData.title, description: formData.description, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId } });
+        await updateSubcategory.mutateAsync({ id: subcategoryId, data: { title: formData.title, slug: finalSlug, description: formData.description, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId } });
       }
       router.push('/admin/subcategories');
     } catch { setError('Failed to save subcategory'); }
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFormData(prev => ({ 
+      ...prev, 
+      title: value,
+      ...(isNew ? { slug: slugify(value) } : {})
+    }));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -107,8 +125,15 @@ export default function SubcategoryFormPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Title <span className="text-red-500">*</span></label>
-                <input type="text" name="title" value={formData.title} onChange={handleChange}
+                <input type="text" name="title" value={formData.title} onChange={handleTitleChange}
                   placeholder="e.g., IVF Treatment" required className={inputCls} />
+                <div className="mt-3 flex items-center gap-2">
+                  <span className="text-xs text-gray-400">Slug:</span>
+                  <input
+                    type="text" name="slug" value={formData.slug} onChange={handleChange} required
+                    className="flex-1 rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-600 outline-none focus:border-[var(--umang-teal)] focus:ring-1 focus:ring-[var(--umang-teal)]"
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Short Description</label>

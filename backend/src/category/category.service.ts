@@ -37,7 +37,7 @@ export class CategoryService {
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const slug = generateSlug(createCategoryDto.title);
+    const slug = createCategoryDto.slug || generateSlug(createCategoryDto.title);
     const newCategory = new this.categoryModel({
       ...createCategoryDto,
       slug,
@@ -82,7 +82,9 @@ export class CategoryService {
 
   async update(id: string, updateCategoryDto: CreateCategoryDto) {
     const updateData = { ...updateCategoryDto };
-    if (updateCategoryDto.title) {
+    if (updateCategoryDto.slug) {
+      updateData['slug'] = updateCategoryDto.slug;
+    } else if (updateCategoryDto.title) {
       updateData['slug'] = generateSlug(updateCategoryDto.title);
     }
     return await this.categoryModel.findByIdAndUpdate(id, updateData, { new: true });

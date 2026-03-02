@@ -25,6 +25,7 @@ export const useCreateCategory = () => {
   return useMutation({
     mutationFn: (data: {
       title: string;
+      slug: string;
       description?: string;
       image?: string;
     }) => categoryService.create(data),
@@ -43,7 +44,7 @@ export const useUpdateCategory = () => {
       data,
     }: {
       id: string;
-      data: Partial<{ title: string; description: string; image: string; active: boolean }>;
+      data: Partial<{ title: string; slug: string; description: string; image: string; active: boolean }>;
     }) => categoryService.update(id, data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: CATEGORY_QUERY_KEY });

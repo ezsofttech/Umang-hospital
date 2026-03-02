@@ -111,7 +111,7 @@ export class SubcategoryService {
   ) {}
 
   async create(createSubcategoryDto: CreateSubcategoryDto) {
-    const slug = generateSlug(createSubcategoryDto.title);
+    const slug = createSubcategoryDto.slug || generateSlug(createSubcategoryDto.title);
     const newSubcategory = new this.subcategoryModel({
       ...createSubcategoryDto,
       slug,
@@ -186,7 +186,9 @@ export class SubcategoryService {
 
   async update(id: string, updateSubcategoryDto: CreateSubcategoryDto) {
     const updateData = { ...updateSubcategoryDto };
-    if (updateSubcategoryDto.title) {
+    if (updateSubcategoryDto.slug) {
+      updateData['slug'] = updateSubcategoryDto.slug;
+    } else if (updateSubcategoryDto.title) {
       updateData['slug'] = generateSlug(updateSubcategoryDto.title);
     }
     return await this.subcategoryModel.findByIdAndUpdate(id, updateData, { new: true });

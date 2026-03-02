@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SlugMigrationService } from './slug-migration.service';
+import { SlugMigrationController } from './slug-migration.controller';
 import { Category, CategorySchema } from '../category/category.schema';
 import { Subcategory, SubcategorySchema } from '../subcategory/subcategory.schema';
 import { Blog, BlogSchema } from '../blog/blog.schema';
 import { Doctor, DoctorSchema } from '../doctor/doctor.schema';
+import { User, UserSchema } from '../user/user.schema';
 
 @Module({
   imports: [
@@ -13,8 +15,10 @@ import { Doctor, DoctorSchema } from '../doctor/doctor.schema';
       { name: Subcategory.name, schema: SubcategorySchema },
       { name: Blog.name, schema: BlogSchema },
       { name: Doctor.name, schema: DoctorSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
+  controllers: [SlugMigrationController],
   providers: [SlugMigrationService],
   exports: [SlugMigrationService],
 })

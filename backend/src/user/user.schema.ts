@@ -15,6 +15,9 @@ export class User extends Document {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ unique: true, sparse: true })
+  slug: string;
+
   @Prop({ required: true, unique: true })
   email: string;
 
