@@ -189,4 +189,40 @@ export class SubcategoryService {
     if (result?.image) await this.uploadService.deleteImage(result.image);
     return result;
   }
+
+  async regenerateMissingSlugs() {
+    // Find all subcategories that are missing slugs
+    const subcategoriesWithoutSlug = await this.subcategoryModel.find({
+      $or: [{ slug: { $exists: false } }, { slug: null }, { slug: '' }],
+    });
+
+    if (subcategoriesWithoutSlug.length === 0) {
+      return {
+        message: '✓ All subcategories already have slugs',
+        updated: 0,
+        results: [],
+      };
+    }
+
+    const results = [];
+    for (const subcategory of subcategoriesWithoutSlug) {
+      const slug = generateSlug(subcategory.title);
+      const updated = await this.subcategoryModel.findByIdAndUpdate(
+        subcategory._id,
+        { slug },
+        { new: true },
+      );
+      results.push({
+        id: subcategory._id,
+        title: subcategory.title,
+        slug: slug,
+      });
+    }
+
+    return {
+      message: `✓ Successfully updated ${results.length} subcategories with missing slugs`,
+      updated: results.length,
+      results,
+    };
+  }
 }

@@ -85,4 +85,40 @@ export class CategoryService {
     if (result?.image) await this.uploadService.deleteImage(result.image);
     return result;
   }
+
+  async regenerateMissingSlugs() {
+    // Find all categories that are missing slugs
+    const categoriesWithoutSlug = await this.categoryModel.find({
+      $or: [{ slug: { $exists: false } }, { slug: null }, { slug: '' }],
+    });
+
+    if (categoriesWithoutSlug.length === 0) {
+      return {
+        message: '✓ All categories already have slugs',
+        updated: 0,
+        results: [],
+      };
+    }
+
+    const results = [];
+    for (const category of categoriesWithoutSlug) {
+      const slug = generateSlug(category.title);
+      const updated = await this.categoryModel.findByIdAndUpdate(
+        category._id,
+        { slug },
+        { new: true },
+      );
+      results.push({
+        id: category._id,
+        title: category.title,
+        slug: slug,
+      });
+    }
+
+    return {
+      message: `✓ Successfully updated ${results.length} categories with missing slugs`,
+      updated: results.length,
+      results,
+    };
+  }
 }

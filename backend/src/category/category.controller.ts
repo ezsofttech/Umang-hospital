@@ -16,6 +16,11 @@ export class CategoryController {
     return await this.categoryService.findAll();
   }
 
+  @Get('migrate/regenerate-slugs')
+  async regenerateSlugs() {
+    return await this.categoryService.regenerateMissingSlugs();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.categoryService.findOne(id);
