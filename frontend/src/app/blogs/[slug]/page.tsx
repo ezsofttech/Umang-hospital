@@ -18,7 +18,9 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateStaticParams() {
   try {
     const blogs = await fetchBlogs(true);
-    return blogs.map((b) => ({ slug: b.slug }));
+    return blogs
+      .filter((b) => typeof b.slug === 'string' && b.slug.length > 0)
+      .map((b) => ({ slug: b.slug }));
   } catch {
     return [];
   }

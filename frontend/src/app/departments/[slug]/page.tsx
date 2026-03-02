@@ -12,7 +12,9 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateStaticParams() {
   try {
     const categories = await fetchCategories();
-    return categories.map((cat) => ({ slug: cat.slug }));
+    return categories
+      .filter((cat) => typeof cat.slug === 'string' && cat.slug.length > 0)
+      .map((cat) => ({ slug: cat.slug }));
   } catch {
     return [];
   }
