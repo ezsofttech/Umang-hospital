@@ -121,7 +121,6 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
               ? "h3"
               : "p"
           }
-          onMouseDown={(e) => e.preventDefault()}
           onChange={(e) => {
             const v = e.target.value;
             if (v === "p") editor.chain().focus().setParagraph().run();
@@ -134,6 +133,26 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
           <option value="h2">Heading 2</option>
           <option value="h3">Heading 3</option>
         </select>
+
+        <Divider />
+
+        {/* Quick H1 button */}
+        <ToolBtn
+          active={editor.isActive("heading", { level: 1 })}
+          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          title="Heading 1 (H1)"
+        >
+          <span className="text-xs font-bold">H1</span>
+        </ToolBtn>
+
+        {/* Quick Paragraph button */}
+        <ToolBtn
+          active={editor.isActive("paragraph")}
+          onClick={() => editor.chain().focus().setParagraph().run()}
+          title="Paragraph (P)"
+        >
+          <span className="text-xs font-semibold">P</span>
+        </ToolBtn>
 
         <Divider />
 

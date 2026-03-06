@@ -41,11 +41,11 @@ export default function DepartmentHero({ title, description, breadcrumb }: Props
         <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
           {title}
         </h1>
-        {description && (
+        {/* {description && (
           <p className="mt-3 max-w-4xl text-base leading-relaxed text-justify text-white/95 sm:mt-4 sm:text-lg">
             {description}
           </p>
-        )}
+        )} */}
       </div>
     </section>
   );
