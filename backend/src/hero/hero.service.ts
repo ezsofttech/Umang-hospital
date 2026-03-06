@@ -81,6 +81,7 @@ export class HeroService {
       title: newTitle,
       description: newDescription,
       backgroundImage: updateHeroDto.backgroundImage || existing.backgroundImage,
+      logo: updateHeroDto.logo || existing.logo,
       ctaButtonText: updateHeroDto.ctaButtonText || existing.ctaButtonText,
       ctaButtonLink: updateHeroDto.ctaButtonLink || existing.ctaButtonLink,
       subtitle: updateHeroDto.subtitle || existing.subtitle,

@@ -9,6 +9,7 @@ interface Props {
   folder?: string;
   label?: string;
   required?: boolean;
+  isSvgSupported?: boolean;
 }
 
 export default function CloudinaryUpload({
@@ -17,6 +18,7 @@ export default function CloudinaryUpload({
   folder = "umang-hospital",
   label = "Image",
   required = false,
+  isSvgSupported = false,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -28,7 +30,8 @@ export default function CloudinaryUpload({
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await fetch(`${API_URL}/upload/image?folder=${folder}`, {
+      const endpoint = isSvgSupported ? `/upload/logo?folder=${folder}` : `/upload/image?folder=${folder}`;
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
         body: formData,
       });
@@ -75,7 +78,7 @@ export default function CloudinaryUpload({
         <input
           ref={inputRef}
           type="file"
-          accept="image/*"
+          accept={isSvgSupported ? "image/svg+xml,image/png,image/jpeg,image/webp" : "image/*"}
           className="sr-only"
           onChange={handleChange}
           disabled={uploading}
@@ -92,7 +95,9 @@ export default function CloudinaryUpload({
           <>
             <i className="fi fi-sr-upload text-2xl text-gray-400" aria-hidden />
             <p className="text-sm text-gray-600">Click or drag & drop to upload</p>
-            <p className="text-xs text-gray-400">PNG, JPG, WEBP up to 10 MB</p>
+            <p className="text-xs text-gray-400">
+              {isSvgSupported ? "SVG, PNG, JPG, WEBP up to 5 MB" : "PNG, JPG, WEBP up to 10 MB"}
+            </p>
           </>
         )}
       </div>
@@ -104,11 +109,17 @@ export default function CloudinaryUpload({
       {/* Preview */}
       {value && !uploading && (
         <div className="mt-3 flex items-center gap-3">
-          <img
-            src={value}
-            alt="Preview"
-            className="h-24 w-24 rounded-lg border border-gray-200 object-cover shadow-sm"
-          />
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-2 shadow-sm">
+            <img
+              src={value}
+              alt="Preview"
+              className={`rounded ${isSvgSupported ? 'h-20 w-24 object-contain' : 'h-24 w-24 object-cover'}`}
+              onError={(e) => {
+                console.error('Image failed to load:', value);
+                (e.target as HTMLImageElement).src = '';
+              }}
+            />
+          </div>
           <button
             type="button"
             onClick={() => onChange("")}

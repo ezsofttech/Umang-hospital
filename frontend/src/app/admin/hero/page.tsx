@@ -17,6 +17,7 @@ export default function HeroPage() {
     description: '',
     subtitle: '',
     backgroundImage: '',
+    logo: '',
     ctaButtonText: '',
     ctaButtonLink: '',
   });
@@ -36,6 +37,7 @@ export default function HeroPage() {
             description: data.description || '',
             subtitle: data.subtitle || '',
             backgroundImage: data.backgroundImage || '',
+            logo: data.logo || '',
             ctaButtonText: data.ctaButtonText || '',
             ctaButtonLink: data.ctaButtonLink || '',
           });
@@ -249,11 +251,38 @@ export default function HeroPage() {
               folder="hero"
               label=""
             />
-            {formData.backgroundImage && (
+            {/* {formData.backgroundImage && (
               <div className="mt-3 text-xs text-gray-500">
                 Current: {formData.backgroundImage.split('/').pop()}
               </div>
-            )}
+            )} */}
+          </div>
+
+          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
+              Logo (SVG, PNG, JPEG)
+            </p>
+            <CloudinaryUpload
+              value={formData.logo}
+              onChange={(url) =>
+                setFormData((prev) => ({ ...prev, logo: url }))
+              }
+              folder="logos"
+              label=""
+              isSvgSupported={true}
+            />
+            {/* {formData.logo && (
+              <div className="mt-3">
+                <p className="text-xs text-gray-500 mb-2">Current: {formData.logo.split('/').pop()}</p>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 flex items-center justify-center h-20">
+                  <img 
+                    src={formData.logo} 
+                    alt="Logo preview" 
+                    className="max-h-16 max-w-full object-contain"
+                  />
+                </div>
+              </div>
+            )} */}
           </div>
 
           {/* Info Box */}

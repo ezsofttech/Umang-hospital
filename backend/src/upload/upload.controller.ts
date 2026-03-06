@@ -33,4 +33,29 @@ export class UploadController {
     const url = await this.uploadService.uploadImage(file, folder ?? 'umang-hospital');
     return { url };
   }
+
+  @Post('logo')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: require('multer').memoryStorage(),
+      limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB for logos
+      fileFilter: (_req, file, cb) => {
+        const allowedMimes = ['image/svg+xml', 'image/png', 'image/jpeg', 'image/webp'];
+        if (!allowedMimes.includes(file.mimetype)) {
+          return cb(
+            new BadRequestException('Only SVG, PNG, JPEG, and WebP files are allowed'),
+            false,
+          );
+        }
+        cb(null, true);
+      },
+    }),
+  )
+  async uploadLogo(
+    @UploadedFile() file: Express.Multer.File,
+    @Query('folder') folder?: string,
+  ) {
+    const url = await this.uploadService.uploadLogo(file, folder ?? 'logos');
+    return { url };
+  }
 }

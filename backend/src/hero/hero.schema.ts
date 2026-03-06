@@ -14,6 +14,9 @@ export class Hero {
   @Prop({ required: false })
   backgroundImage?: string;
 
+  @Prop({ required: false })
+  logo?: string;
+
   @Prop({ default: true })
   active: boolean;
 
