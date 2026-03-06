@@ -27,6 +27,7 @@ export const useCreateCategory = () => {
       title: string;
       slug: string;
       description?: string;
+      shortDescription?: string;
       image?: string;
     }) => categoryService.create(data),
     onSuccess: () => {
@@ -44,7 +45,7 @@ export const useUpdateCategory = () => {
       data,
     }: {
       id: string;
-      data: Partial<{ title: string; slug: string; description: string; image: string; active: boolean }>;
+      data: Partial<{ title: string; slug: string; description: string; shortDescription: string; image: string; active: boolean }>;
     }) => categoryService.update(id, data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: CATEGORY_QUERY_KEY });

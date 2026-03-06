@@ -28,7 +28,7 @@ export default function SubcategoryFormPage() {
 
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    title: '', slug: '', description: '', explanation: '', image: '', categoryId: '',
+    title: '', slug: '', description: '', shortDescription: '', explanation: '', image: '', categoryId: '',
   });
 
   useEffect(() => {
@@ -43,6 +43,7 @@ export default function SubcategoryFormPage() {
       title: subcategory.title,
       slug: subcategory.slug || '',
       description: subcategory.description,
+      shortDescription: subcategory.shortDescription || '',
       explanation: subcategory.explanation,
       image: subcategory.image,
       categoryId: subcategory.categoryId,
@@ -57,9 +58,9 @@ export default function SubcategoryFormPage() {
     try {
       setError(null);
       if (isNew) {
-        await createSubcategory.mutateAsync({ title: formData.title, slug: finalSlug, description: formData.description, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId });
+        await createSubcategory.mutateAsync({ title: formData.title, slug: finalSlug, description: formData.description, shortDescription: formData.shortDescription, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId });
       } else {
-        await updateSubcategory.mutateAsync({ id: subcategoryId, data: { title: formData.title, slug: finalSlug, description: formData.description, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId } });
+        await updateSubcategory.mutateAsync({ id: subcategoryId, data: { title: formData.title, slug: finalSlug, description: formData.description, shortDescription: formData.shortDescription, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId } });
       }
       router.push('/admin/subcategories');
     } catch { setError('Failed to save subcategory'); }
@@ -139,6 +140,13 @@ export default function SubcategoryFormPage() {
                 <label className="block text-sm font-medium text-gray-700">Short Description</label>
                 <input type="text" name="description" value={formData.description} onChange={handleChange}
                   placeholder="Brief description shown in listings" className={inputCls} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Hero Section Description</label>
+                <textarea name="shortDescription" value={formData.shortDescription} onChange={handleChange}
+                  placeholder="Description shown in the hero section above (max 2-3 lines)..." rows={3}
+                  className={`${inputCls} resize-y`} />
+                <p className="mt-1 text-xs text-gray-500">This appears in the hero section. Leave blank to use listing description.</p>
               </div>
             </div>
           </div>

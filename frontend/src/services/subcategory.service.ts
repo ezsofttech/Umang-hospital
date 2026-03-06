@@ -26,6 +26,7 @@ export const subcategoryService = {
     title: string;
     slug: string;
     description?: string;
+    shortDescription?: string;
     explanation?: string;
     image?: string;
     categoryId: string;
@@ -40,6 +41,7 @@ export const subcategoryService = {
       title: string;
       slug: string;
       description: string;
+      shortDescription: string;
       explanation: string;
       image: string;
       categoryId: string;

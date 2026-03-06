@@ -1,12 +1,17 @@
-import Image from "next/image";
+"use client";
 
-const features = [
-  "Advanced IVF Lab With International-Standard Protocols",
-  "Expert Plastic Surgeons & Dermatologists",
-  "Board-Certified Cardiologists & Urologists",
-  "24/7 Emergency And Ambulance Services",
-  "Affordable, Transparent Pricing",
-];
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { aboutService } from "@/services/about.service";
+
+interface AboutData {
+  title: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  mainImage?: string;
+  experienceBadgeImage?: string;
+}
 
 const services = [
   {
@@ -31,7 +36,43 @@ const services = [
   },
 ];
 
+const DEFAULT_ABOUT: AboutData = {
+  title: "Bilaspur's Premier IVF & Super Specialty Hospital",
+  subtitle: "Super Specialty Hospital",
+  description:
+    "Umang IVF & Super Specialty Hospital Has Been Serving The People Of Bilaspur And Chhattisgarh With Dedication And Compassion. As The Region's Leading IVF Center And Super Specialty Hospital, We Combine Cutting-Edge Technology With Personalized Care — From Advanced Fertility Treatment, Cosmetic Surgery To Cardiology, Urology, And 24/7 Emergency Services.",
+  features: [
+    "Advanced IVF Lab With International-Standard Protocols",
+    "Expert Plastic Surgeons & Dermatologists",
+    "Board-Certified Cardiologists & Urologists",
+    "24/7 Emergency And Ambulance Services",
+    "Affordable, Transparent Pricing",
+  ],
+  mainImage: "/images/about-us-img.svg",
+  experienceBadgeImage: "/images/15plus-ex-img.svg",
+};
+
 export default function AboutUs() {
+  const [about, setAbout] = useState<AboutData>(DEFAULT_ABOUT);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAbout = async () => {
+      try {
+        const data = await aboutService.getActive();
+        if (data) {
+          setAbout(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch about data:", err);
+        // Keep default data if fetch fails
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAbout();
+  }, []);
   return (
     <section id="about" className="bg-white py-12 sm:py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -41,18 +82,14 @@ export default function AboutUs() {
               ABOUT US
             </p>
             <h2 className="mt-2 text-2xl font-bold sm:text-3xl md:text-4xl">
-              <span className="text-[var(--umang-navy)]">Bilaspur&apos;s Premier IVF & </span>
-              <span className="text-[var(--umang-green)]">Super Specialty Hospital</span>
+              <span className="text-[var(--umang-navy)]">{about.title.split('&')[0].trim()}&</span>
+              <span className="text-[var(--umang-green)]"> {about.subtitle}</span>
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-justify text-gray-700 sm:mt-4 sm:text-base">
-              Umang IVF & Super Specialty Hospital Has Been Serving The People Of Bilaspur And
-              Chhattisgarh With Dedication And Compassion. As The Region&apos;s Leading IVF Center
-              And Super Specialty Hospital, We Combine Cutting-Edge Technology With Personalized Care
-              — From Advanced Fertility Treatment, Cosmetic Surgery To Cardiology, Urology, And 24/7
-              Emergency Services.
+              {about.description}
             </p>
             <ul className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
-              {features.map((item, i) => (
+              {about.features.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--umang-navy)] text-white">
                     <i className="fi fi-sr-check text-sm" aria-hidden />
@@ -67,18 +104,19 @@ export default function AboutUs() {
               <div
                 className="h-full w-full"
                 style={{
-                  backgroundImage: "url(/images/about-us-img.svg)",
+                  backgroundImage: `url(${about.mainImage || '/images/about-us-img.svg'})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}
               />
               <div className="absolute left-4 top-3 z-10 md:left-4 md:top-4">
-                <Image
-                  src="/images/15plus-ex-img.svg"
+                <img
+                  src={about.experienceBadgeImage || "/images/15plus-ex-img.svg"}
                   alt="15+ years experience"
-                  width={100}
-                  height={100}
                   className="h-28 w-auto md:h-24"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/images/15plus-ex-img.svg";
+                  }}
                 />
               </div>
             </div>

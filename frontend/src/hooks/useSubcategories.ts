@@ -43,6 +43,7 @@ export const useCreateSubcategory = () => {
       title: string;
       slug: string;
       description?: string;
+      shortDescription?: string;
       explanation?: string;
       image?: string;
       categoryId: string;
@@ -69,6 +70,7 @@ export const useUpdateSubcategory = () => {
         title: string;
         slug: string;
         description: string;
+        shortDescription: string;
         explanation: string;
         image: string;
         categoryId: string;

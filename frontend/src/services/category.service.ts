@@ -16,6 +16,7 @@ export const categoryService = {
     title: string;
     slug: string;
     description?: string;
+    shortDescription?: string;
     image?: string;
   }): Promise<Category> => {
     const res = await axiosInstance.post('/categories', data);
@@ -24,7 +25,7 @@ export const categoryService = {
 
   update: async (
     id: string,
-    data: Partial<{ title: string; slug: string; description: string; image: string; active: boolean }>
+    data: Partial<{ title: string; slug: string; description: string; shortDescription: string; image: string; active: boolean }>
   ): Promise<Category> => {
     const res = await axiosInstance.put(`/categories/${id}`, data);
     return res.data;

@@ -70,7 +70,10 @@ export default async function CategoryDetailPage({ params }: Props) {
       <DepartmentJsonLd category={category} subcategories={subcategories} />
       <Header currentPath="/departments" />
       <main>
-        <DepartmentHero title={category.title} description={category.description} />
+        <DepartmentHero 
+          title={category.title} 
+          description={category.shortDescription || category.description} 
+        />
         <DepartmentView
           category={category}
           subcategories={subcategories}

@@ -3,6 +3,7 @@ export type Category = {
   title: string;
   slug: string;
   description: string;
+  shortDescription?: string;
   metaDescription?: string;
   keywords?: string;
   image: string;

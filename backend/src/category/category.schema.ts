@@ -14,6 +14,9 @@ export class Category extends Document {
   description: string;
 
   @Prop()
+  shortDescription?: string;
+
+  @Prop()
   metaDescription: string;
 
   @Prop()

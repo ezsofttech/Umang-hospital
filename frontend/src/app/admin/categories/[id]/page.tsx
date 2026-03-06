@@ -24,11 +24,17 @@ export default function CategoryFormPage() {
   const updateCategory = useUpdateCategory();
 
   const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState({ title: '', slug: '', description: '', image: '' });
+  const [formData, setFormData] = useState({ title: '', slug: '', description: '', shortDescription: '', image: '' });
 
   useEffect(() => {
     if (isNew || !category) return;
-    setFormData({ title: category.title, slug: category.slug || '', description: category.description, image: category.image });
+    setFormData({ 
+      title: category.title, 
+      slug: category.slug || '', 
+      description: category.description, 
+      shortDescription: category.shortDescription || '',
+      image: category.image 
+    });
   }, [category, isNew]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,9 +44,9 @@ export default function CategoryFormPage() {
     try {
       setError(null);
       if (isNew) {
-        await createCategory.mutateAsync({ title: formData.title, slug: finalSlug, description: formData.description, image: formData.image });
+        await createCategory.mutateAsync({ title: formData.title, slug: finalSlug, description: formData.description, shortDescription: formData.shortDescription, image: formData.image });
       } else {
-        await updateCategory.mutateAsync({ id: categoryId, data: { title: formData.title, slug: finalSlug, description: formData.description, image: formData.image } });
+        await updateCategory.mutateAsync({ id: categoryId, data: { title: formData.title, slug: finalSlug, description: formData.description, shortDescription: formData.shortDescription, image: formData.image } });
       }
       router.push('/admin/categories');
     } catch { setError('Failed to save category'); }
@@ -118,8 +124,15 @@ export default function CategoryFormPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Description</label>
                 <textarea name="description" value={formData.description} onChange={handleChange}
-                  placeholder="Brief description shown on the departments pageâ€¦" rows={5}
+                  placeholder="Full description shown on the department details page..." rows={5}
                   className={`${inputCls} resize-y`} />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Short Description (Hero Section)</label>
+                <textarea name="shortDescription" value={formData.shortDescription} onChange={handleChange}
+                  placeholder="Brief description shown in the hero section above (max 2-3 lines)..." rows={3}
+                  className={`${inputCls} resize-y`} />
+                <p className="mt-1 text-xs text-gray-500">This appears in the hero section. Leave blank to use full description.</p>
               </div>
             </div>
           </div>
