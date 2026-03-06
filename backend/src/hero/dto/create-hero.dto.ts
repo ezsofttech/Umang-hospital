@@ -15,6 +15,10 @@ export class CreateHeroDto {
 
   @IsString()
   @IsOptional()
+  logo?: string;
+
+  @IsString()
+  @IsOptional()
   ctaButtonText?: string;
 
   @IsString()

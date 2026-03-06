@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import MobileNav from "./MobileNav";
+import { useEffect, useState } from "react";
+import { heroService } from "@/services/hero.service";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -19,18 +23,36 @@ export default function Header({
 }: {
   currentPath?: string;
 }) {
+  const [logoUrl, setLogoUrl] = useState<string>("/images/nav-bar-logo.svg");
+
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const hero = await heroService.getActive();
+        if (hero?.logo) {
+          setLogoUrl(hero.logo);
+        }
+      } catch (err) {
+        console.error("Failed to fetch logo:", err);
+        // Fallback to default logo
+      }
+    };
+
+    fetchLogo();
+  }, []);
   return (
     <header className="sticky top-0 z-50 bg-[#FFFFFF] shadow-sm">
       {/* Top header row - logo left, contact right */}
       <div className="border-b border-gray-100">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-6">
           <Link href="/" className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <Image
-              src="/images/nav-bar-logo.svg"
+            <img
+              src={logoUrl}
               alt="UMANG Hospital"
-              width={140}
-              height={48}
               className="h-10 w-auto sm:h-12"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "/images/nav-bar-logo.svg";
+              }}
             />
           </Link>
           <div className="hidden flex-wrap items-center justify-end gap-4 text-xs text-[#16355A] sm:flex sm:gap-6 sm:text-sm md:gap-8">

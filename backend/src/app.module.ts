@@ -10,6 +10,7 @@ import { UploadModule } from './upload/upload.module';
 import { SlugMigrationModule } from './migration/slug-migration.module';
 import { SlugMigrationService } from './migration/slug-migration.service';
 import { HeroModule } from './hero/hero.module';
+import { AboutModule } from './about/about.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { HeroModule } from './hero/hero.module';
     UploadModule,
     SlugMigrationModule,
     HeroModule,
+    AboutModule,
   ],
 })
 export class AppModule implements OnModuleInit {

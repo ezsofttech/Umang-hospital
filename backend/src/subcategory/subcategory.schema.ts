@@ -15,6 +15,9 @@ export class Subcategory extends Document {
   description: string;
 
   @Prop()
+  shortDescription?: string;
+
+  @Prop()
   metaDescription: string;
 
   @Prop()

@@ -95,7 +95,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       <main>
         <DepartmentHero
           title={subcategory.title}
-          description={subcategory.description}
+          description={subcategory.shortDescription || subcategory.description}
           breadcrumb={breadcrumb}
         />
         <ServiceView

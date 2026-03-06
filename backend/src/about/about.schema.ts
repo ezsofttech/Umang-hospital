@@ -1,33 +1,30 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type HeroDocument = Hero & Document;
+export type AboutDocument = About & Document;
 
 @Schema({ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
-export class Hero {
+export class About {
   @Prop({ required: true })
   title: string;
 
   @Prop({ required: true })
+  subtitle: string;
+
+  @Prop({ required: true })
   description: string;
 
-  @Prop({ required: false })
-  backgroundImage?: string;
+  @Prop({ type: [String], default: [] })
+  features: string[];
 
   @Prop({ required: false })
-  logo?: string;
+  mainImage?: string;
+
+  @Prop({ required: false })
+  experienceBadgeImage?: string;
 
   @Prop({ default: true })
   active: boolean;
-
-  @Prop({ required: false })
-  ctaButtonText?: string;
-
-  @Prop({ required: false })
-  ctaButtonLink?: string;
-
-  @Prop({ default: 'Best IVF Center & Super Specialty Hospital in Bilaspur' })
-  subtitle?: string;
 }
 
-export const HeroSchema = SchemaFactory.createForClass(Hero);
+export const AboutSchema = SchemaFactory.createForClass(About);

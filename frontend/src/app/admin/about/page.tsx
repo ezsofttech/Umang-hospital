@@ -1,109 +1,124 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { heroService } from '@/services/hero.service';
-import type { Hero } from '@/services/hero.service';
+import { API_URL } from '@/lib/config';
 import CloudinaryUpload from '@/components/admin/CloudinaryUpload';
 
-export default function HeroPage() {
-  const [hero, setHero] = useState<Hero | null>(null);
+interface AboutData {
+  _id?: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  mainImage?: string;
+  experienceBadgeImage?: string;
+}
+
+export default function AboutPage() {
+  const [about, setAbout] = useState<AboutData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const isNew = !hero?._id;
+  const isNew = !about?._id;
+
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
     subtitle: '',
-    backgroundImage: '',
-    logo: '',
-    ctaButtonText: '',
-    ctaButtonLink: '',
+    description: '',
+    features: [] as string[],
+    mainImage: '',
+    experienceBadgeImage: '',
   });
 
-  // Fetch hero data on mount
+  const [newFeature, setNewFeature] = useState('');
+
+  // Fetch about data on mount
   useEffect(() => {
-    const loadHero = async () => {
+    const loadAbout = async () => {
       try {
         setIsLoading(true);
-        console.log('📥 Fetching hero data...');
-        const data = await heroService.getActive();
-        console.log('✅ Hero data fetched:', data);
+        const res = await fetch(`${API_URL}/about`, { credentials: 'include' });
+        if (!res.ok) throw new Error('Failed to load about section');
+        const data = await res.json();
         if (data) {
-          setHero(data);
+          setAbout(data);
           setFormData({
             title: data.title || '',
-            description: data.description || '',
             subtitle: data.subtitle || '',
-            backgroundImage: data.backgroundImage || '',
-            logo: data.logo || '',
-            ctaButtonText: data.ctaButtonText || '',
-            ctaButtonLink: data.ctaButtonLink || '',
+            description: data.description || '',
+            features: data.features || [],
+            mainImage: data.mainImage || '',
+            experienceBadgeImage: data.experienceBadgeImage || '',
           });
         }
-        // If data is null, hero doesn't exist yet — form stays empty for creation
       } catch (err) {
-        console.error('❌ Failed to load hero:', err);
-        setError('Failed to load hero section');
+        console.error('Failed to load about:', err);
+        setError('Failed to load about section');
       } finally {
         setIsLoading(false);
       }
     };
-    loadHero();
+    loadAbout();
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    console.log(`📝 Field changed: ${name} = "${value}"`);
-    setFormData((prev) => {
-      const updated = { ...prev, [name]: value };
-      console.log(`📋 Updated formData:`, updated);
-      return updated;
-    });
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const addFeature = () => {
+    if (newFeature.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        features: [...prev.features, newFeature.trim()],
+      }));
+      setNewFeature('');
+    }
+  };
+
+  const removeFeature = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      features: prev.features.filter((_, i) => i !== index),
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('🚀 Form submitted');
-    console.log('Form data at submit:', formData);
-    
-    if (!formData.title.trim()) {
-      setError('Title is required');
-      return;
-    }
-    
-    if (!formData.description.trim()) {
-      setError('Description is required');
+    setError(null);
+    setSuccess(null);
+
+    if (!formData.title.trim() || !formData.subtitle.trim() || !formData.description.trim()) {
+      setError('Title, subtitle, and description are required');
       return;
     }
 
     try {
-      setError(null);
-      setSuccess(null);
       setIsSaving(true);
+      const method = isNew ? 'POST' : 'PUT';
+      const endpoint = isNew ? '/about' : `/about/${about!._id}`;
+      const res = await fetch(`${API_URL}${endpoint}`, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(formData),
+      });
 
-      let saved: Hero;
-      if (isNew) {
-        console.log('💾 Creating new hero with data:', formData);
-        saved = await heroService.create(formData);
-        console.log('✅ Hero created successfully:', saved);
-        setSuccess('Hero section created successfully!');
-      } else {
-        console.log('💾 Saving hero with ID:', hero!._id);
-        console.log('💾 Sending data:', formData);
-        saved = await heroService.update(hero!._id!, formData);
-        console.log('✅ Hero updated successfully:', saved);
-        setSuccess('Hero section updated successfully!');
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data?.message || 'Failed to save about section');
       }
 
-      setHero(saved);
+      const saved = await res.json();
+      setAbout(saved);
+      setSuccess(`About section ${isNew ? 'created' : 'updated'} successfully!`);
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      console.error('❌ Save failed:', err);
-      setError(err instanceof Error ? err.message : 'Failed to save hero section');
+      setError(err instanceof Error ? err.message : 'Failed to save about section');
     } finally {
       setIsSaving(false);
     }
@@ -126,10 +141,10 @@ export default function HeroPage() {
       <div className="sticky top-0 z-10 flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white px-5 py-3 shadow-sm mb-6">
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-0.5">
-            <span className="text-gray-800 font-medium">Hero Section</span>
+            <span className="text-gray-800 font-medium">About Us Section</span>
           </div>
           <h1 className="text-base font-semibold text-[var(--umang-navy)]">
-            {isNew ? 'Create Hero Section' : 'Edit Hero Section'}
+            {isNew ? 'Create About Us' : 'Edit About Us'}
           </h1>
           {error && <p className="text-xs text-red-600 mt-0.5">{error}</p>}
           {success && <p className="text-xs text-green-600 mt-0.5">✓ {success}</p>}
@@ -140,7 +155,7 @@ export default function HeroPage() {
           className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--umang-teal)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 disabled:opacity-60"
         >
           <i className="fi fi-sr-check text-sm" aria-hidden />
-          {isSaving ? (isNew ? 'Creating...' : 'Saving...') : (isNew ? 'Create Hero' : 'Save Changes')}
+          {isSaving ? (isNew ? 'Creating...' : 'Saving...') : (isNew ? 'Create' : 'Save Changes')}
         </button>
       </div>
 
@@ -156,14 +171,14 @@ export default function HeroPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Hero Title <span className="text-red-500">*</span>
+                  Title <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
-                  placeholder="e.g., Best IVF Center & Super Specialty Hospital in Bilaspur"
+                  placeholder="e.g., Bilaspur's Premier IVF & Super Specialty Hospital"
                   required
                   className={inputCls}
                 />
@@ -171,14 +186,15 @@ export default function HeroPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Subtitle
+                  Subtitle <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   name="subtitle"
                   value={formData.subtitle}
                   onChange={handleChange}
-                  placeholder="e.g., Best IVF Center & Super Specialty Hospital in Bilaspur"
+                  placeholder="e.g., Super Specialty Hospital"
+                  required
                   className={inputCls}
                 />
               </div>
@@ -191,7 +207,7 @@ export default function HeroPage() {
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
-                  placeholder="Main hero description text..."
+                  placeholder="Main about section description..."
                   rows={6}
                   required
                   className={`${inputCls} resize-y`}
@@ -200,38 +216,42 @@ export default function HeroPage() {
             </div>
           </div>
 
-          {/* CTA Button */}
+          {/* Features */}
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">
-              Call to Action Button
+              Key Features
             </p>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Button Text
-                </label>
+            <div className="space-y-3">
+              <div className="flex gap-2">
                 <input
                   type="text"
-                  name="ctaButtonText"
-                  value={formData.ctaButtonText}
-                  onChange={handleChange}
-                  placeholder="e.g., Book an Appointment"
+                  value={newFeature}
+                  onChange={(e) => setNewFeature(e.target.value)}
+                  placeholder="Add a feature"
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
                   className={inputCls}
                 />
+                <button
+                  type="button"
+                  onClick={addFeature}
+                  className="mt-1 rounded-lg border border-[var(--umang-teal)] bg-[var(--umang-teal)]/10 px-3 py-2.5 text-sm font-medium text-[var(--umang-teal)] hover:bg-[var(--umang-teal)]/20"
+                >
+                  Add
+                </button>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Button Link
-                </label>
-                <input
-                  type="text"
-                  name="ctaButtonLink"
-                  value={formData.ctaButtonLink}
-                  onChange={handleChange}
-                  placeholder="e.g., #appointment"
-                  className={inputCls}
-                />
+              <div className="space-y-2">
+                {formData.features.map((feature, index) => (
+                  <div key={index} className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                    <span className="text-sm text-gray-800">{feature}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeFeature(index)}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <i className="fi fi-sr-trash text-sm" aria-hidden />
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -239,45 +259,54 @@ export default function HeroPage() {
 
         {/* Right – sidebar */}
         <div className="flex flex-col gap-5">
+          {/* Main Image */}
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
-              Background Image
+              Main Image
             </p>
             <CloudinaryUpload
-              value={formData.backgroundImage}
+              value={formData.mainImage}
               onChange={(url) =>
-                setFormData((prev) => ({ ...prev, backgroundImage: url }))
+                setFormData((prev) => ({ ...prev, mainImage: url }))
               }
-              folder="hero"
+              folder="about"
               label=""
             />
-            {/* {formData.backgroundImage && (
-              <div className="mt-3 text-xs text-gray-500">
-                Current: {formData.backgroundImage.split('/').pop()}
+            {/* {formData.mainImage && (
+              <div className="mt-3">
+                <p className="text-xs text-gray-500 mb-2">Current: {formData.mainImage.split('/').pop()}</p>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 flex items-center justify-center h-20">
+                  <img 
+                    src={formData.mainImage} 
+                    alt="Main image preview" 
+                    className="max-h-16 max-w-full object-contain"
+                  />
+                </div>
               </div>
             )} */}
           </div>
 
+          {/* Experience Badge */}
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
-              Logo (SVG, PNG, JPEG)
+              Experience Badge
             </p>
             <CloudinaryUpload
-              value={formData.logo}
+              value={formData.experienceBadgeImage}
               onChange={(url) =>
-                setFormData((prev) => ({ ...prev, logo: url }))
+                setFormData((prev) => ({ ...prev, experienceBadgeImage: url }))
               }
-              folder="logos"
+              folder="badges"
               label=""
               isSvgSupported={true}
             />
-            {/* {formData.logo && (
+            {/* {formData.experienceBadgeImage && (
               <div className="mt-3">
-                <p className="text-xs text-gray-500 mb-2">Current: {formData.logo.split('/').pop()}</p>
+                <p className="text-xs text-gray-500 mb-2">Current: {formData.experienceBadgeImage.split('/').pop()}</p>
                 <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 flex items-center justify-center h-20">
                   <img 
-                    src={formData.logo} 
-                    alt="Logo preview" 
+                    src={formData.experienceBadgeImage} 
+                    alt="Badge preview" 
                     className="max-h-16 max-w-full object-contain"
                   />
                 </div>
@@ -289,7 +318,7 @@ export default function HeroPage() {
           <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
             <p className="text-xs font-semibold text-blue-900 mb-1">💡 Tip</p>
             <p className="text-xs text-blue-800">
-              The hero section appears at the top of your website. Make sure your title and description are compelling!
+              The About Us section introduces your hospital to visitors. Make it compelling and informative!
             </p>
           </div>
         </div>

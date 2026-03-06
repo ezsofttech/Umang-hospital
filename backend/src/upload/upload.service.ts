@@ -34,6 +34,27 @@ export class UploadService implements OnModuleInit {
     });
   }
 
+  async uploadLogo(file: Express.Multer.File, folder = 'logos'): Promise<string> {
+    if (!file) throw new BadRequestException('No file provided');
+
+    return new Promise((resolve, reject) => {
+      const issvg = file.mimetype === 'image/svg+xml';
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder,
+          resource_type: 'image',
+          ...(issvg && { quality: 100, fetch_format: 'svg' }),
+          ...(!issvg && { quality: 'auto', fetch_format: 'auto' }),
+        },
+        (error, result) => {
+          if (error) return reject(new BadRequestException(error.message));
+          resolve(result!.secure_url);
+        },
+      );
+      uploadStream.end(file.buffer);
+    });
+  }
+
   async deleteImage(url: string): Promise<void> {
     if (!url || !url.includes('res.cloudinary.com')) return;
     try {

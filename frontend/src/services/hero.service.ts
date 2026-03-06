@@ -5,6 +5,7 @@ export interface Hero {
   title: string;
   description: string;
   backgroundImage?: string;
+  logo?: string;
   ctaButtonText?: string;
   ctaButtonLink?: string;
   subtitle?: string;
