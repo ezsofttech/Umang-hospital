@@ -24,7 +24,7 @@ export default function Hero() {
         <h1 className="max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
           <span className="block">{title}</span>
         </h1>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/95 sm:mt-6 sm:text-lg">
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-justify text-white/95 sm:mt-6 sm:text-lg">
           {description}
         </p>
         <Link

@@ -20,7 +20,7 @@ export default function DoctorProfile() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="relative flex justify-center lg:justify-start">
-            <div className="relative h-[260px] w-[260px] shrink-0 sm:h-[320px] sm:w-[320px] md:h-[400px] md:w-[360px] lg:h-[500px] lg:w-[400px]">
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-full lg:h-auto lg:max-w-sm shrink-0">
               <div
                 className="h-full w-full rounded-full bg-gray-200 bg-cover bg-center"
                 style={{ backgroundImage: `url(${doctor.image})` }}

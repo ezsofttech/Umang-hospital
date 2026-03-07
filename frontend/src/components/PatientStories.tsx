@@ -79,13 +79,12 @@ export default function PatientStories({ reviews, googlePlaceId }: PatientStorie
 
         <div
           ref={scrollRef}
-          className="mt-8 flex gap-4 overflow-x-auto pb-4 scroll-smooth sm:mt-12 sm:gap-6 md:gap-8"
-          style={{ scrollbarWidth: "thin" }}
+          className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:mt-12 sm:gap-6 md:gap-8"
         >
           {testimonials.map((t, i) => (
             <article
               key={i}
-              className="min-w-[280px] max-w-[320px] shrink-0 rounded-xl bg-[#f8f7fa] p-5 shadow-sm sm:min-w-[320px] sm:max-w-[360px] sm:p-6"
+              className="rounded-xl bg-[#f8f7fa] p-5 shadow-sm sm:p-6"
             >
               <StarRating rating={t.rating} />
               <blockquote className="mt-3 text-sm italic leading-relaxed text-justify text-[#1e293b] sm:mt-4 sm:text-base">
