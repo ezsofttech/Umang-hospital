@@ -11,11 +11,11 @@ export default function Departments() {
     <section id="departments" className="bg-gray-50 py-12 sm:py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 grid gap-4 sm:mb-12 sm:gap-6 md:grid-cols-2 md:items-end">
-          <h2 className="text-2xl font-bold text-[var(--umang-navy)] sm:text-3xl md:text-4xl">
+          <h2 className="text-2xl font-bold text-(--umang-navy) sm:text-3xl md:text-4xl">
             Explore all departments
           </h2>
           <p className="text-sm text-justify text-gray-700 sm:text-base">
-            <span className="text-[var(--umang-green)]">
+            <span className="text-(--umang-green)">
               Umang IVF And Superspeciality Hospital, Bilaspur Is A Leading Healthcare Center,{" "}
             </span>
             Offering Advanced Services In Maternity, Pediatrics, Gynecology, IVF, ICU Care, And
@@ -41,7 +41,7 @@ export default function Departments() {
                     style={{ backgroundImage: `url(${category.image})` }}
                   />
                   <div className="dept-card-content">
-                    <h3 className="text-sm font-bold text-[var(--umang-navy)] sm:text-base">{category.title}</h3>
+                    <h3 className="text-sm font-bold text-(--umang-navy) sm:text-base">{category.title}</h3>
                     <p className="mt-1.5 text-xs leading-relaxed text-justify text-[#4A4A4A] sm:mt-2 sm:text-sm">
                       {category.description}
                     </p>
@@ -51,7 +51,7 @@ export default function Departments() {
             ))}
             <Link
               href="/departments"
-              className="dept-card-cta flex min-h-[160px] flex-col justify-end bg-[#6FA179] p-4 text-white transition hover:opacity-95 sm:min-h-[200px] sm:p-6"
+              className="dept-card-cta flex min-h-40 flex-col justify-end bg-[#6FA179] p-4 text-white transition hover:opacity-95 sm:min-h-50 sm:p-6"
             >
               <span className="block text-lg font-bold leading-tight sm:text-xl md:text-2xl">
                 Explore

@@ -3,6 +3,17 @@ import { Document } from 'mongoose';
 import mongoose from 'mongoose';
 import { generateSlug } from '../utils/slug';
 
+@Schema({ _id: false })
+export class Stat {
+  @Prop({ required: true })
+  value: string;
+
+  @Prop({ required: true })
+  label: string;
+}
+
+const StatSchema = SchemaFactory.createForClass(Stat);
+
 @Schema({ timestamps: true })
 export class Subcategory extends Document {
   @Prop({ required: true })
@@ -31,6 +42,9 @@ export class Subcategory extends Document {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true })
   categoryId: string;
+
+  @Prop({ type: [StatSchema], default: [] })
+  stats?: Stat[];
 
   @Prop({ default: true })
   active: boolean;

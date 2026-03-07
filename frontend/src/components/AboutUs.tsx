@@ -78,12 +78,12 @@ export default function AboutUs() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-8">
           <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--umang-navy)]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-(--umang-navy)">
               ABOUT US
             </p>
             <h2 className="mt-2 text-2xl font-bold sm:text-3xl md:text-4xl">
-              <span className="text-[var(--umang-navy)]">{about.title.split('&')[0].trim()}&</span>
-              <span className="text-[var(--umang-green)]"> {about.subtitle}</span>
+              <span className="text-(--umang-navy)">{about.title.split('&')[0].trim()}&</span>
+              <span className="text-(--umang-green)"> {about.subtitle}</span>
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-justify text-gray-700 sm:mt-4 sm:text-base">
               {about.description}
@@ -91,7 +91,7 @@ export default function AboutUs() {
             <ul className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
               {about.features.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--umang-navy)] text-white">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-(--umang-navy) text-white">
                     <i className="fi fi-sr-check text-sm" aria-hidden />
                   </span>
                   <span className="text-gray-800 text-sm sm:text-base">{item}</span>
@@ -127,7 +127,7 @@ export default function AboutUs() {
           {services.map((s, i) => (
             <div
               key={i}
-              className="about-us-service-card flex flex-col border-b border-gray-200 bg-white px-4 py-6 last:border-b-0 sm:border-b-0 sm:border-l sm:border-gray-200 sm:px-6 sm:py-8 [&:first-child]:sm:border-l-0"
+              className="about-us-service-card flex flex-col border-b border-gray-200 bg-white px-4 py-6 last:border-b-0 sm:border-b-0 sm:border-l sm:border-gray-200 sm:px-6 sm:py-8 first:sm:border-l-0"
             >
               <div className="about-us-card-icon flex h-14 w-14 shrink-0">
                 <Image
@@ -138,7 +138,7 @@ export default function AboutUs() {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <h3 className="mt-4 text-xl font-bold text-[var(--umang-navy)]">{s.title}</h3>
+              <h3 className="mt-4 text-xl font-bold text-(--umang-navy)">{s.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-justify text-gray-500">{s.description}</p>
             </div>
           ))}

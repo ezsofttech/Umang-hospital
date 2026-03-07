@@ -89,12 +89,12 @@ export default function Header({
             <Link
               key={i}
               href={link.href}
-              className={`text-sm font-semibold text-[#16355A] hover:text-[var(--umang-green)] sm:text-base ${
+              className={`text-sm font-semibold text-[#16355A] hover:text-(--umang-green) sm:text-base ${
                 (currentPath === "/services" && link.href === "/services") ||
                 (currentPath === "/doctors" && link.href === "/doctors") ||
                 (currentPath === "/contact" && link.href === "/contact") ||
                 (currentPath === "/blogs" && link.href === "/blogs")
-                  ? "text-[var(--umang-teal)]"
+                  ? "text-(--umang-teal)"
                   : ""
               }`}
             >

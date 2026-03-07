@@ -151,11 +151,14 @@ export default function ServiceView({ subcategory, category, relatedServices }: 
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4">
-            {[
-              { value: "10+", label: "Years of Experience" },
-              { value: "1000+", label: "Successful Cases" },
-              { value: "NABH", label: "Certified Hospital" },
-            ].map((stat) => (
+            {(subcategory.stats && subcategory.stats.length > 0
+              ? subcategory.stats
+              : [
+                  { value: "10+", label: "Years of Experience" },
+                  { value: "1000+", label: "Successful Cases" },
+                  { value: "NABH", label: "Certified Hospital" },
+                ]
+            ).map((stat) => (
               <div
                 key={stat.label}
                 className="rounded-lg border border-gray-200 bg-white p-4 text-center shadow-sm"

@@ -37,20 +37,20 @@ export default function DoctorProfile() {
             </div>
           </div>
           <div className="flex flex-col justify-center">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--umang-navy)]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-(--umang-navy)">
               {doctor.tag}
             </p>
-            <h2 className="mt-1 text-2xl font-bold text-[var(--umang-navy)] sm:text-3xl md:text-4xl">{doctor.name}</h2>
-            <p className="mt-1.5 text-sm text-[var(--umang-teal)] sm:mt-2 sm:text-base">{doctor.role}</p>
+            <h2 className="mt-1 text-2xl font-bold text-(--umang-navy) sm:text-3xl md:text-4xl">{doctor.name}</h2>
+            <p className="mt-1.5 text-sm text-(--umang-teal) sm:mt-2 sm:text-base">{doctor.role}</p>
             <p className="mt-4 text-sm sm:mt-6 sm:text-base">
-              <span className="font-semibold text-[var(--umang-navy)]">Qualifications: </span>
-              <span className="text-[var(--umang-navy)]">{doctor.qualification}</span>
+              <span className="font-semibold text-(--umang-navy)">Qualifications: </span>
+              <span className="text-(--umang-navy)">{doctor.qualification}</span>
             </p>
-            <p className="mt-4 leading-relaxed text-justify text-[var(--umang-navy)] sm:mt-6 sm:text-base">{doctor.about}</p>
-            <p className="mt-4 leading-relaxed text-justify text-[var(--umang-navy)] sm:mt-6 sm:text-base">{doctor.specializations}</p>
+            <p className="mt-4 leading-relaxed text-justify text-(--umang-navy) sm:mt-6 sm:text-base">{doctor.about}</p>
+            <p className="mt-4 leading-relaxed text-justify text-(--umang-navy) sm:mt-6 sm:text-base">{doctor.specializations}</p>
             <Link
               href="#appointment"
-              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-[var(--umang-navy)] px-6 py-3 text-sm font-medium text-white transition hover:bg-[#1e3a8a] sm:mt-8 sm:px-8 sm:py-3.5 sm:text-base"
+              className="mt-6 inline-flex w-fit items-center justify-center rounded-lg bg-(--umang-navy) px-6 py-3 text-sm font-medium text-white transition hover:bg-[#1e3a8a] sm:mt-8 sm:px-8 sm:py-3.5 sm:text-base"
             >
               Book an Appointment
             </Link>

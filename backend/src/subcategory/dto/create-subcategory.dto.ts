@@ -1,4 +1,13 @@
-import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsArray, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class CreateStatDto {
+  @IsString()
+  value: string;
+
+  @IsString()
+  label: string;
+}
 
 export class CreateSubcategoryDto {
   @IsString()
@@ -34,6 +43,12 @@ export class CreateSubcategoryDto {
 
   @IsString()
   categoryId: string;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateStatDto)
+  stats?: CreateStatDto[];
 
   @IsOptional()
   @IsBoolean()

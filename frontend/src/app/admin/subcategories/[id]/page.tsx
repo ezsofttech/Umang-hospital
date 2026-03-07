@@ -27,8 +27,13 @@ export default function SubcategoryFormPage() {
   const updateSubcategory = useUpdateSubcategory();
 
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [formData, setFormData] = useState({
-    title: '', slug: '', description: '', shortDescription: '', explanation: '', image: '', categoryId: '',
+    title: '', slug: '', description: '', shortDescription: '', explanation: '', image: '', categoryId: '', stats: [
+      { value: '', label: '' },
+      { value: '', label: '' },
+      { value: '', label: '' },
+    ],
   });
 
   useEffect(() => {
@@ -47,6 +52,13 @@ export default function SubcategoryFormPage() {
       explanation: subcategory.explanation,
       image: subcategory.image,
       categoryId: subcategory.categoryId,
+      stats: subcategory.stats && subcategory.stats.length > 0
+        ? subcategory.stats
+        : [
+            { value: '', label: '' },
+            { value: '', label: '' },
+            { value: '', label: '' },
+          ],
     });
   }, [subcategory, isNew]);
 
@@ -55,15 +67,33 @@ export default function SubcategoryFormPage() {
     if (!formData.title.trim()) { setError('Subcategory title is required'); return; }
     if (!formData.categoryId) { setError('Please select a category'); return; }
     const finalSlug = formData.slug || slugify(formData.title);
+    const filteredStats = formData.stats.filter(stat => stat.value.trim() && stat.label.trim());
     try {
       setError(null);
+      setSuccess(null);
+      const payload = {
+        title: formData.title,
+        slug: finalSlug,
+        description: formData.description,
+        shortDescription: formData.shortDescription,
+        explanation: formData.explanation,
+        image: formData.image,
+        categoryId: formData.categoryId,
+        ...(filteredStats.length > 0 && { stats: filteredStats }),
+      };
+      console.log('Submitting payload with stats:', payload);
       if (isNew) {
-        await createSubcategory.mutateAsync({ title: formData.title, slug: finalSlug, description: formData.description, shortDescription: formData.shortDescription, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId });
+        await createSubcategory.mutateAsync(payload);
       } else {
-        await updateSubcategory.mutateAsync({ id: subcategoryId, data: { title: formData.title, slug: finalSlug, description: formData.description, shortDescription: formData.shortDescription, explanation: formData.explanation, image: formData.image, categoryId: formData.categoryId } });
+        await updateSubcategory.mutateAsync({ id: subcategoryId, data: payload });
       }
-      router.push('/admin/subcategories');
-    } catch { setError('Failed to save subcategory'); }
+      setSuccess(`Service ${isNew ? 'created' : 'updated'} successfully!`);
+      setTimeout(() => router.push('/admin/subcategories'), 1500);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to save subcategory';
+      console.error('Error saving subcategory:', err);
+      setError(message);
+    }
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,6 +110,15 @@ export default function SubcategoryFormPage() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleStatChange = (index: number, field: 'value' | 'label', text: string) => {
+    setFormData(prev => ({
+      ...prev,
+      stats: prev.stats.map((stat, i) =>
+        i === index ? { ...stat, [field]: text } : stat
+      ),
+    }));
+  };
+
   if (isLoading && !isNew) {
     return <div className="flex justify-center py-12 text-gray-500">Loadingâ€¦</div>;
   }
@@ -93,14 +132,15 @@ export default function SubcategoryFormPage() {
       <div className="sticky top-0 z-10 flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white px-5 py-3 shadow-sm mb-6">
         <div>
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-0.5">
-            <Link href="/admin/subcategories" className="hover:text-[var(--umang-teal)] transition">Services</Link>
+            <Link href="/admin/subcategories" className="hover:text-(--umang-teal) transition">Services</Link>
             <span>/</span>
             <span className="text-gray-800 font-medium">{isNew ? 'New' : 'Edit'}</span>
           </div>
-          <h1 className="text-base font-semibold text-[var(--umang-navy)]">
+          <h1 className="text-base font-semibold text-(--umang-navy)">
             {isNew ? 'New Service / Treatment' : 'Edit Service / Treatment'}
           </h1>
           {error && <p className="text-xs text-red-600 mt-0.5">{error}</p>}
+          {success && <p className="text-xs text-green-600 mt-0.5">{success}</p>}
         </div>
         <div className="flex items-center gap-2">
           <button type="button" onClick={() => router.back()}
@@ -108,7 +148,7 @@ export default function SubcategoryFormPage() {
             Cancel
           </button>
           <button type="submit" disabled={isSaving}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--umang-teal)] px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 disabled:opacity-60">
+            className="inline-flex items-center gap-1.5 rounded-lg bg-(--umang-teal) px-4 py-2 text-sm font-medium text-white shadow-sm hover:opacity-90 disabled:opacity-60">
             <i className="fi fi-sr-check text-sm" aria-hidden />
             {isSaving ? 'Savingâ€¦' : isNew ? 'Create' : 'Save Changes'}
           </button>
@@ -132,7 +172,7 @@ export default function SubcategoryFormPage() {
                   <span className="text-xs text-gray-400">Slug:</span>
                   <input
                     type="text" name="slug" value={formData.slug} onChange={handleChange} required
-                    className="flex-1 rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-600 outline-none focus:border-[var(--umang-teal)] focus:ring-1 focus:ring-[var(--umang-teal)]"
+                    className="flex-1 rounded-md border border-gray-200 bg-gray-50 px-2 py-1 text-xs text-gray-600 outline-none focus:border-(--umang-teal) focus:ring-1 focus:ring-(--umang-teal)"
                   />
                 </div>
               </div>
@@ -160,9 +200,40 @@ export default function SubcategoryFormPage() {
               placeholder="Write a detailed explanationâ€¦ Use the toolbar for bold, italic, bullet points, headings and more."
             />
           </div>
+          {/* Stats */}
+          <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">Service Stats</p>
+            <div className="space-y-4">
+              {formData.stats.map((stat, index) => (
+                <div key={index} className="flex gap-3">
+                  <div className="flex-1">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Value <span className="text-gray-400">(e.g., 10+, 1000+)</span></label>
+                    <input
+                      type="text"
+                      value={stat.value}
+                      onChange={(e) => handleStatChange(index, 'value', e.target.value)}
+                      placeholder="e.g., 10+"
+                      className={inputCls}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Label</label>
+                    <input
+                      type="text"
+                      value={stat.label}
+                      onChange={(e) => handleStatChange(index, 'label', e.target.value)}
+                      placeholder="e.g., Years of Experience"
+                      className={inputCls}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-gray-500">Leave empty to use default stats on the service page.</p>
+          </div>
         </div>
 
-        {/* Right â€” sidebar */}
+        {/* Right – sidebar */}
         <div className="flex flex-col gap-5">
           {/* Category */}
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
