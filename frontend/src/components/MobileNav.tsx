@@ -64,8 +64,8 @@ export default function MobileNav({
                       (currentPath === "/doctors" && link.href === "/doctors") ||
                       (currentPath === "/contact" && link.href === "/contact") ||
                       (currentPath === "/blogs" && link.href === "/blogs")
-                        ? "text-[var(--umang-teal)]"
-                        : "text-[#16355A] hover:bg-gray-50 hover:text-[var(--umang-green)]"
+                        ? "text-(--umang-teal)"
+                        : "text-[#16355A] hover:bg-gray-50 hover:text-(--umang-green)"
                     }`}
                   >
                     {link.label}

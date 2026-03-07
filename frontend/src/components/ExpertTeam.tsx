@@ -29,10 +29,10 @@ export default function ExpertTeam({ doctors: propDoctors }: Props) {
   return (
     <section className="border-t border-gray-200 bg-gray-50/50 py-10 sm:py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-xs font-semibold uppercase tracking-wider text-[var(--umang-navy)]">
+        <p className="text-center text-xs font-semibold uppercase tracking-wider text-(--umang-navy)">
           OUR SPECIALISTS
         </p>
-        <h2 className="mt-2 text-center text-2xl font-bold text-[var(--umang-navy)] sm:text-3xl md:text-4xl">
+        <h2 className="mt-2 text-center text-2xl font-bold text-(--umang-navy) sm:text-3xl md:text-4xl">
           Meet Our Expert Team
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-gray-600 sm:mt-4 sm:text-base">
@@ -95,7 +95,7 @@ export default function ExpertTeam({ doctors: propDoctors }: Props) {
                   {doc.department && (
                     <div className="mt-3">
                       <p className="text-xs font-semibold text-gray-700">DEPARTMENT</p>
-                      <p className="mt-0.5 text-sm text-[var(--umang-teal)]">
+                      <p className="mt-0.5 text-sm text-(--umang-teal)">
                         {doc.department}
                       </p>
                     </div>
@@ -132,7 +132,7 @@ export default function ExpertTeam({ doctors: propDoctors }: Props) {
                   <div className="mt-5 flex flex-wrap items-center gap-4">
                     <Link
                       href={`/doctors/${doc.slug}`}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--umang-green)] px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-95"
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-(--umang-green) px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-95"
                     >
                       View Full Profile
                       <i className="fi fi-sr-arrow-right text-sm" aria-hidden />

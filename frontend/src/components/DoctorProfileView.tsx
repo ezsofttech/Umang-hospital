@@ -34,8 +34,8 @@ export default function DoctorProfileView({ doctor }: Props) {
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-xl font-bold text-[var(--umang-navy)] sm:text-2xl">{doctor.name}</h2>
-                <p className="mt-1 text-sm font-medium text-[var(--umang-teal)] sm:text-base">{doctor.role}</p>
+                <h2 className="text-xl font-bold text-(--umang-navy) sm:text-2xl">{doctor.name}</h2>
+                <p className="mt-1 text-sm font-medium text-(--umang-teal) sm:text-base">{doctor.role}</p>
                 <ul className="mt-4 space-y-1.5 text-sm text-gray-700">
                   <li>{doctor.qualification}</li>
                   <li className="flex items-center gap-2">
@@ -45,7 +45,7 @@ export default function DoctorProfileView({ doctor }: Props) {
                   {doctor.department && (
                     <li>
                       <span className="font-semibold text-[#1e3a5f]">DEPARTMENT: </span>
-                      <span className="text-[var(--umang-green)]">{doctor.department}</span>
+                      <span className="text-(--umang-green)">{doctor.department}</span>
                     </li>
                   )}
                 </ul>
@@ -55,7 +55,7 @@ export default function DoctorProfileView({ doctor }: Props) {
 
           {/* About */}
           <section aria-labelledby="about-heading">
-            <h2 id="about-heading" className="text-lg font-bold text-[var(--umang-navy)] sm:text-xl">
+            <h2 id="about-heading" className="text-lg font-bold text-(--umang-navy) sm:text-xl">
               About {doctor.name}
             </h2>
             <p className="mt-3 leading-relaxed text-justify text-gray-700 sm:text-base">{doctor.about}</p>
@@ -64,7 +64,7 @@ export default function DoctorProfileView({ doctor }: Props) {
           {/* Specializations */}
           {doctor.specializations && (
             <section aria-labelledby="specializations-heading">
-              <h2 id="specializations-heading" className="text-lg font-bold text-[var(--umang-navy)] sm:text-xl">
+              <h2 id="specializations-heading" className="text-lg font-bold text-(--umang-navy) sm:text-xl">
                 Specializations
               </h2>
               <p className="mt-3 leading-relaxed text-justify text-gray-700 sm:text-base">{doctor.specializations}</p>
@@ -74,14 +74,14 @@ export default function DoctorProfileView({ doctor }: Props) {
           {/* Areas of expertise */}
           {doctor.expertise && doctor.expertise.length > 0 && (
             <section aria-labelledby="expertise-heading">
-              <h2 id="expertise-heading" className="text-lg font-bold text-[var(--umang-navy)] sm:text-xl">
+              <h2 id="expertise-heading" className="text-lg font-bold text-(--umang-navy) sm:text-xl">
                 Areas of Expertise
               </h2>
               <ul className="mt-4 flex flex-wrap gap-2 sm:gap-3">
                 {doctor.expertise.map((item, i) => (
                   <li key={i}>
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-800 shadow-sm">
-                      <i className="fi fi-sr-check h-4 w-4 shrink-0 text-[var(--umang-green)]" aria-hidden />
+                      <i className="fi fi-sr-check h-4 w-4 shrink-0 text-(--umang-green)" aria-hidden />
                       {item}
                     </span>
                   </li>
@@ -114,7 +114,7 @@ export default function DoctorProfileView({ doctor }: Props) {
         <aside className="w-full shrink-0 lg:w-80 xl:w-96" aria-label="Book appointment and other doctors">
           {/* Book appointment card - sticky on desktop so it stays visible when scrolling */}
           <div className="lg:sticky lg:top-24 lg:z-10 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <h3 className="text-lg font-bold text-[var(--umang-navy)]">
+            <h3 className="text-lg font-bold text-(--umang-navy)">
               Book Appointment with {doctor.name.split(" ").slice(1).join(" ").replace("Dr. ", "")}
             </h3>
             <p className="mt-2 text-sm text-justify text-gray-600">
@@ -123,13 +123,13 @@ export default function DoctorProfileView({ doctor }: Props) {
             <div className="mt-4 space-y-3">
               <a
                 href={`tel:${HOSPITAL_PHONE_1.replace(/\s/g, "")}`}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--umang-teal)] px-4 py-3 text-sm font-medium text-white transition hover:opacity-95"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-(--umang-teal) px-4 py-3 text-sm font-medium text-white transition hover:opacity-95"
               >
                 <i className="fi fi-sr-phone-call" aria-hidden /> Call: {HOSPITAL_PHONE_1}
               </a>
               <a
                 href={`tel:${HOSPITAL_PHONE_2.replace(/\s/g, "")}`}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--umang-navy)] px-4 py-3 text-sm font-medium text-white transition hover:opacity-95"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-(--umang-navy) px-4 py-3 text-sm font-medium text-white transition hover:opacity-95"
               >
                 <i className="fi fi-sr-phone-call" aria-hidden /> Call: {HOSPITAL_PHONE_2}
               </a>
@@ -148,15 +148,15 @@ export default function DoctorProfileView({ doctor }: Props) {
 
           {/* Other doctors */}
           <div className="mt-8">
-            <h3 className="text-base font-bold text-[var(--umang-navy)]">Other Doctors</h3>
+            <h3 className="text-base font-bold text-(--umang-navy)">Other Doctors</h3>
             <ul className="mt-3 space-y-2">
               {otherDoctors.map((d) => (
                 <li key={d.slug}>
                   <Link
                     href={`/doctors/${d.slug}`}
-                    className="flex items-center gap-2 text-sm text-gray-700 hover:text-[var(--umang-green)]"
+                    className="flex items-center gap-2 text-sm text-gray-700 hover:text-(--umang-green)"
                   >
-                    <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--umang-teal)]" aria-hidden />
+                    <span className="h-2 w-2 shrink-0 rounded-full bg-(--umang-teal)" aria-hidden />
                     {d.name} – {d.tag.replace(/\s*&\s*.*$/, "")}
                   </Link>
                 </li>
@@ -164,7 +164,7 @@ export default function DoctorProfileView({ doctor }: Props) {
             </ul>
             <Link
               href="/doctors"
-              className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--umang-navy)] hover:text-[var(--umang-green)]"
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-(--umang-navy) hover:text-(--umang-green)"
             >
               View All Doctors
               <i className="fi fi-sr-arrow-right text-sm" aria-hidden />

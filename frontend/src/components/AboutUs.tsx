@@ -76,14 +76,14 @@ export default function AboutUs() {
   return (
     <section id="about" className="bg-white py-12 sm:py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-2 sm:gap-4 lg:grid-cols-2 lg:gap-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--umang-navy)]">
+        <div className="grid gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-8">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-wider text-(--umang-navy)">
               ABOUT US
             </p>
             <h2 className="mt-2 text-2xl font-bold sm:text-3xl md:text-4xl">
-              <span className="text-[var(--umang-navy)]">{about.title.split('&')[0].trim()}&</span>
-              <span className="text-[var(--umang-green)]"> {about.subtitle}</span>
+              <span className="text-(--umang-navy)">{about.title.split('&')[0].trim()}&</span>
+              <span className="text-(--umang-green)"> {about.subtitle}</span>
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-justify text-gray-700 sm:mt-4 sm:text-base">
               {about.description}
@@ -91,16 +91,16 @@ export default function AboutUs() {
             <ul className="mt-4 space-y-2 sm:mt-6 sm:space-y-3">
               {about.features.map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--umang-navy)] text-white">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-(--umang-navy) text-white">
                     <i className="fi fi-sr-check text-sm" aria-hidden />
                   </span>
-                  <span className="text-gray-800">{item}</span>
+                  <span className="text-gray-800 text-sm sm:text-base">{item}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="relative flex justify-center my-12 lg:justify-end lg:items-center">
-            <div className="relative h-[550px] w-[380px] sm:h-[260px] sm:w-[260px] md:h-[400px] md:w-[320px] lg:h-[500px] lg:w-[350px]">
+          <div className="relative flex justify-center my-6 sm:my-8 lg:justify-end lg:items-center">
+            <div className="relative h-115 w-80 sm:h-72 sm:w-72 md:h-96 md:w-80 lg:h-125 lg:w-87.5">
               <div
                 className="h-full w-full"
                 style={{
@@ -109,11 +109,11 @@ export default function AboutUs() {
                   backgroundPosition: "center",
                 }}
               />
-              <div className="absolute left-4 top-3 z-10 md:left-4 md:top-4">
+              <div className="absolute left-6 top-3 z-10 md:left-4 md:top-4 lg:top-2.5">
                 <img
                   src={about.experienceBadgeImage || "/images/15plus-ex-img.svg"}
                   alt="15+ years experience"
-                  className="h-28 w-auto md:h-24"
+                  className="h-20 w-auto sm:h-24 md:h-24 lg:h-28"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "/images/15plus-ex-img.svg";
                   }}
@@ -127,7 +127,7 @@ export default function AboutUs() {
           {services.map((s, i) => (
             <div
               key={i}
-              className="about-us-service-card flex flex-col border-b border-gray-200 bg-white px-4 py-6 last:border-b-0 sm:border-b-0 sm:border-l sm:border-gray-200 sm:px-6 sm:py-8 [&:first-child]:sm:border-l-0"
+              className="about-us-service-card flex flex-col border-b border-gray-200 bg-white px-4 py-6 last:border-b-0 sm:border-b-0 sm:border-l sm:border-gray-200 sm:px-6 sm:py-8 first:sm:border-l-0"
             >
               <div className="about-us-card-icon flex h-14 w-14 shrink-0">
                 <Image
@@ -138,7 +138,7 @@ export default function AboutUs() {
                   className="h-full w-full object-contain"
                 />
               </div>
-              <h3 className="mt-4 text-xl font-bold text-[var(--umang-navy)]">{s.title}</h3>
+              <h3 className="mt-4 text-xl font-bold text-(--umang-navy)">{s.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-justify text-gray-500">{s.description}</p>
             </div>
           ))}

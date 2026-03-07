@@ -23,6 +23,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umang-hospital.ver
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   title: {
     default: "UMANG Hospital | Best IVF Center & Super Specialty Hospital in Bilaspur",
     template: "%s | UMANG Hospital",

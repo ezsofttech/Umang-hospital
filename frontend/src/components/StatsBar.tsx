@@ -12,7 +12,7 @@ export default function StatsBar() {
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-10 sm:gap-y-8 md:flex-nowrap md:justify-between md:gap-x-16 lg:px-8">
         {stats.map((stat, i) => (
           <div key={i} className="min-w-0 text-center sm:flex-1">
-            <p className="text-2xl font-bold text-[var(--umang-green)] sm:text-3xl md:text-4xl">{stat.value}</p>
+            <p className="text-2xl font-bold text-(--umang-green) sm:text-3xl md:text-4xl">{stat.value}</p>
             <p className="mt-0.5 text-xs font-medium text-gray-800 sm:mt-1 sm:text-sm">{stat.label}</p>
           </div>
         ))}

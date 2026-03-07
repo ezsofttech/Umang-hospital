@@ -1,3 +1,8 @@
+export type Stat = {
+  value: string;
+  label: string;
+};
+
 export type Subcategory = {
   _id: string;
   title: string;
@@ -9,6 +14,7 @@ export type Subcategory = {
   explanation: string;
   image: string;
   categoryId: string;
+  stats?: Stat[];
   active: boolean;
   createdAt: string;
   updatedAt: string;

@@ -7,18 +7,18 @@ export default function DoctorProfileHero({ doctor }: Props) {
   const subtitle = `${doctor.role} at Umang IVF & Super Speciality Hospital, Bilaspur`;
 
   return (
-    <section className="bg-[var(--umang-navy)] px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-12 md:pt-20 md:pb-16 lg:px-8 lg:pt-24">
+    <section className="bg-(--umang-navy) px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-12 md:pt-20 md:pb-16 lg:px-8 lg:pt-24">
       <div className="mx-auto max-w-7xl">
         <nav className="mb-3 text-xs text-white/90 sm:mb-4 sm:text-sm" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5">
             <li>
-              <Link href="/" className="hover:text-[var(--umang-teal)]">
+              <Link href="/" className="hover:text-(--umang-teal)">
                 Home
               </Link>
             </li>
             <i className="fi fi-sr-angle-right text-white/70" aria-hidden />
             <li>
-              <Link href="/doctors" className="hover:text-[var(--umang-teal)]">
+              <Link href="/doctors" className="hover:text-(--umang-teal)">
                 Our Doctors
               </Link>
             </li>

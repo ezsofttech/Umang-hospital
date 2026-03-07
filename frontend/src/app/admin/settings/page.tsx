@@ -127,7 +127,7 @@ function SettingsContent() {
             <p className="text-xs font-medium uppercase tracking-wide text-gray-400">Role</p>
             <span className={`mt-1 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize ${
               user?.role === "admin"
-                ? "bg-[var(--umang-navy)]/10 text-[var(--umang-navy)]"
+                ? "bg-(--umang-navy)/10 text-(--umang-navy)"
                 : "bg-teal-50 text-teal-700"
             }`}>
               {user?.role ?? "—"}
@@ -163,7 +163,7 @@ function SettingsContent() {
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 placeholder="Enter current password"
-                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 pr-10 text-sm text-gray-800 outline-none transition focus:border-[var(--umang-teal)] focus:ring-2 focus:ring-[var(--umang-teal)]/20"
+                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 pr-10 text-sm text-gray-800 outline-none transition focus:border-(--umang-teal) focus:ring-2 focus:ring-(--umang-teal)/20"
               />
               <button
                 type="button"
@@ -187,7 +187,7 @@ function SettingsContent() {
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 placeholder="Min. 6 characters"
-                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 pr-10 text-sm text-gray-800 outline-none transition focus:border-[var(--umang-teal)] focus:ring-2 focus:ring-[var(--umang-teal)]/20"
+                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 pr-10 text-sm text-gray-800 outline-none transition focus:border-(--umang-teal) focus:ring-2 focus:ring-(--umang-teal)/20"
               />
               <button
                 type="button"
@@ -211,7 +211,7 @@ function SettingsContent() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Repeat new password"
-                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 pr-10 text-sm text-gray-800 outline-none transition focus:border-[var(--umang-teal)] focus:ring-2 focus:ring-[var(--umang-teal)]/20"
+                className="w-full rounded-lg border border-gray-300 px-3.5 py-2.5 pr-10 text-sm text-gray-800 outline-none transition focus:border-(--umang-teal) focus:ring-2 focus:ring-(--umang-teal)/20"
               />
               <button
                 type="button"
@@ -239,7 +239,7 @@ function SettingsContent() {
           <button
             type="submit"
             disabled={pwLoading}
-            className="w-full rounded-lg bg-gradient-to-r from-[var(--umang-navy)] to-[var(--umang-teal)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            className="w-full rounded-lg bg-linear-to-r from-(--umang-navy) to-(--umang-teal) px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           >
             {pwLoading ? "Updating…" : "Update Password"}
           </button>
@@ -262,7 +262,7 @@ function SettingsContent() {
           <button
             onClick={handleRunMigration}
             disabled={migrating}
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--umang-navy)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-lg bg-(--umang-navy) px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <DatabaseZap size={15} />
             {migrating ? "Running migration…" : "Run Slug Migration"}

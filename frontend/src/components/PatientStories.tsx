@@ -61,10 +61,10 @@ export default function PatientStories({ reviews, googlePlaceId }: PatientStorie
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-6 sm:gap-8 md:grid-cols-3 md:items-start">
           <div className="md:col-span-1">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--umang-navy)]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-(--umang-navy)">
               COMPASSION AT THE HEART OF ALL CARE
             </p>
-            <h2 className="mt-2 text-2xl font-bold text-[var(--umang-navy)] sm:text-3xl md:text-4xl">
+            <h2 className="mt-2 text-2xl font-bold text-(--umang-navy) sm:text-3xl md:text-4xl">
               Patient care stories that inspire us
             </h2>
           </div>
@@ -79,13 +79,12 @@ export default function PatientStories({ reviews, googlePlaceId }: PatientStorie
 
         <div
           ref={scrollRef}
-          className="mt-8 flex gap-4 overflow-x-auto pb-4 scroll-smooth sm:mt-12 sm:gap-6 md:gap-8"
-          style={{ scrollbarWidth: "thin" }}
+          className="mt-8 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:mt-12 sm:gap-6 md:gap-8"
         >
           {testimonials.map((t, i) => (
             <article
               key={i}
-              className="min-w-[280px] max-w-[320px] shrink-0 rounded-xl bg-[#f8f7fa] p-5 shadow-sm sm:min-w-[320px] sm:max-w-[360px] sm:p-6"
+              className="rounded-xl bg-[#f8f7fa] p-5 shadow-sm sm:p-6"
             >
               <StarRating rating={t.rating} />
               <blockquote className="mt-3 text-sm italic leading-relaxed text-justify text-[#1e293b] sm:mt-4 sm:text-base">
@@ -110,7 +109,7 @@ export default function PatientStories({ reviews, googlePlaceId }: PatientStorie
               href={placeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-[var(--umang-green)] hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-medium text-(--umang-green) hover:underline"
             >
               View all reviews on Google
               <i className="fi fi-sr-arrow-up-right text-sm" aria-hidden />

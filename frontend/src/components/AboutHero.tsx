@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function DoctorHero() {
+export default function AboutHero() {
   return (
     <section className="bg-(--umang-navy) px-4 py-10 sm:px-6 sm:py-12 md:py-16 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -13,21 +13,17 @@ export default function DoctorHero() {
             </li>
             <i className="fi fi-sr-angle-right text-white/70" aria-hidden />
             <li className="text-white font-medium" aria-current="page">
-              Our Doctors
+              About Us
             </li>
           </ol>
         </nav>
         <h1 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
-          Our Expert Doctors
+          About UMANG Hospital
         </h1>
-        <p className="mt-3 max-w-4xl text-base leading-relaxed text-justify text-white/95 sm:mt-4 sm:text-lg">
-          Physician leads with expert care and compassion, improving health in every step we take.
-          Our team brings new ideas, tools, and heart to ensure every patient is heard and helped.
-        </p>
-        <p className="mt-2 max-w-4xl text-base leading-relaxed text-justify text-white/90 sm:mt-3 sm:text-lg">
-          Senior Consultants & Specialists at Umang IVF & Super Speciality Hospital, Bilaspur. Our
-          board-certified team brings decades of experience in IVF, Plastic Surgery, Cardiology,
-          Urology, and more.
+        <p className="mt-3 max-w-3xl text-base leading-relaxed text-justify text-white/95 sm:mt-4 sm:text-lg">
+          Discover our journey of providing world-class healthcare services with cutting-edge
+          technology, experienced specialists, and compassionate care to the people of Bilaspur and
+          Chhattisgarh.
         </p>
       </div>
     </section>

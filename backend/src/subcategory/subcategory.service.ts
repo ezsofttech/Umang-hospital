@@ -112,11 +112,14 @@ export class SubcategoryService {
 
   async create(createSubcategoryDto: CreateSubcategoryDto) {
     const slug = createSubcategoryDto.slug || await generateUniqueSlug(createSubcategoryDto.title, this.subcategoryModel);
+    console.log('Creating subcategory with data:', { title: createSubcategoryDto.title, slug, stats: createSubcategoryDto.stats });
     const newSubcategory = new this.subcategoryModel({
       ...createSubcategoryDto,
       slug,
     });
-    return await newSubcategory.save();
+    const saved = await newSubcategory.save();
+    console.log('Subcategory saved with stats:', saved.stats);
+    return saved;
   }
 
   async findAll() {
@@ -181,11 +184,15 @@ export class SubcategoryService {
       // Try to find by ID first (in case it's a valid MongoDB ObjectId)
       let result = await this.subcategoryModel.findById(id).catch(() => null);
       if (result) {
+        console.log('Found subcategory by ID with stats:', result.stats);
         return result;
       }
       
       // If not found by ID, try to find by slug
       result = await this.subcategoryModel.findOne({ slug: id }).catch(() => null);
+      if (result) {
+        console.log('Found subcategory by slug with stats:', result.stats);
+      }
       return result;
     } catch (error) {
       console.error('Error in findOne:', error);
@@ -200,7 +207,14 @@ export class SubcategoryService {
     } else if (updateSubcategoryDto.title) {
       updateData['slug'] = await generateUniqueSlug(updateSubcategoryDto.title, this.subcategoryModel, id);
     }
-    return await this.subcategoryModel.findByIdAndUpdate(id, updateData, { new: true });
+    // Explicitly handle stats array
+    if (updateSubcategoryDto.stats && Array.isArray(updateSubcategoryDto.stats)) {
+      updateData['stats'] = updateSubcategoryDto.stats;
+    }
+    console.log('Updating subcategory with data:', { id, stats: updateData.stats });
+    const result = await this.subcategoryModel.findByIdAndUpdate(id, updateData, { new: true });
+    console.log('Subcategory updated with stats:', result?.stats);
+    return result;
   }
 
   async remove(id: string) {

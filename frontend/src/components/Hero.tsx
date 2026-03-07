@@ -14,17 +14,17 @@ export default function Hero() {
   const ctaButtonLink = hero?.ctaButtonLink || "#appointment";
 
   return (
-    <section className="relative min-h-[420px] overflow-hidden bg-gray-700 sm:min-h-[500px] md:min-h-[600px]">
+    <section className="relative min-h-105 overflow-hidden bg-gray-700 sm:min-h-125 md:min-h-150">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       />
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
-      <div className="relative z-20 mx-auto flex max-w-7xl flex-col justify-center px-4 pt-20 pb-16 sm:px-6 sm:pt-24 sm:pb-24 md:min-h-[600px] md:py-32 lg:px-8">
+      <div className="absolute inset-0 z-10 bg-linear-to-r from-black/80 via-black/50 to-transparent" />
+      <div className="relative z-20 mx-auto flex max-w-7xl flex-col justify-center px-4 pt-20 pb-16 sm:px-6 sm:pt-24 sm:pb-24 md:min-h-150 md:py-32 lg:px-8">
         <h1 className="max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
           <span className="block">{title}</span>
         </h1>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/95 sm:mt-6 sm:text-lg">
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-justify text-white/95 sm:mt-6 sm:text-lg">
           {description}
         </p>
         <Link

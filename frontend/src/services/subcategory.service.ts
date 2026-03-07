@@ -30,6 +30,7 @@ export const subcategoryService = {
     explanation?: string;
     image?: string;
     categoryId: string;
+    stats?: Array<{ value: string; label: string }>;
   }): Promise<Subcategory> => {
     const res = await axiosInstance.post('/subcategories', data);
     return res.data;
@@ -45,6 +46,7 @@ export const subcategoryService = {
       explanation: string;
       image: string;
       categoryId: string;
+      stats: Array<{ value: string; label: string }>;
       active: boolean;
     }>
   ): Promise<Subcategory> => {

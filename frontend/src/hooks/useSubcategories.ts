@@ -47,6 +47,7 @@ export const useCreateSubcategory = () => {
       explanation?: string;
       image?: string;
       categoryId: string;
+      stats?: Array<{ value: string; label: string }>;
     }) => subcategoryService.create(data),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: SUBCATEGORY_QUERY_KEY });
@@ -74,6 +75,7 @@ export const useUpdateSubcategory = () => {
         explanation: string;
         image: string;
         categoryId: string;
+        stats: Array<{ value: string; label: string }>;
         active: boolean;
       }>;
     }) => subcategoryService.update(id, data),

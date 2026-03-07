@@ -97,12 +97,12 @@ export default function ContactPage() {
           <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
             {/* Contact information */}
             <section aria-labelledby="contact-info-heading" className="flex flex-col gap-4 sm:gap-6">
-              <h2 id="contact-info-heading" className="text-lg font-bold text-[var(--umang-navy)] sm:text-xl">
+              <h2 id="contact-info-heading" className="text-lg font-bold text-(--umang-navy) sm:text-xl">
                 Contact information
               </h2>
 
               <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--umang-green)]">
+                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-(--umang-green)">
                   <i className="fi fi-sr-marker text-sm" aria-hidden />
                   Office
                 </h3>
@@ -113,7 +113,7 @@ export default function ContactPage() {
                   href={mapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--umang-teal)] hover:underline"
+                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-(--umang-teal) hover:underline"
                 >
                   <i className="fi fi-sr-marker text-sm" aria-hidden />
                   View on Google Maps
@@ -123,7 +123,7 @@ export default function ContactPage() {
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-stretch">
                 <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-                  <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--umang-green)]">
+                  <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-(--umang-green)">
                     <i className="fi fi-sr-phone-call text-sm" aria-hidden />
                     Phone
                   </h3>
@@ -131,14 +131,14 @@ export default function ContactPage() {
                   <p className="mt-0.5 text-sm text-gray-700 sm:text-base">{CONTACT.phone2}</p>
                   <a
                     href={`tel:${CONTACT.phone1.replace(/\s/g, "")}`}
-                    className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-lg bg-[var(--umang-navy)] px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-95 sm:mt-4"
+                    className="mt-auto inline-flex w-fit items-center gap-1.5 rounded-lg bg-(--umang-navy) px-4 py-2.5 text-sm font-medium text-white transition hover:opacity-95 sm:mt-4"
                   >
                     <i className="fi fi-sr-phone-call text-sm" aria-hidden />
                     Call now
                   </a>
                 </div>
                 <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-                  <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--umang-green)]">
+                  <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-(--umang-green)">
                     <i className="fi fi-sr-envelope text-sm" aria-hidden />
                     Email
                   </h3>
@@ -154,7 +154,7 @@ export default function ContactPage() {
               </div>
 
               <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--umang-green)]">
+                <h3 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-(--umang-green)">
                   <i className="fi fi-sr-clock text-sm" aria-hidden />
                   Opening hours
                 </h3>
@@ -171,11 +171,11 @@ export default function ContactPage() {
 
           {/* Row 2: Find us full width */}
           <section aria-labelledby="map-heading" className="mt-8 flex flex-col gap-4 sm:gap-6 sm:mt-10 lg:mt-12">
-            <h2 id="map-heading" className="text-lg font-bold text-[var(--umang-navy)] sm:text-xl">
+            <h2 id="map-heading" className="text-lg font-bold text-(--umang-navy) sm:text-xl">
               Find us
             </h2>
             {/* Google Maps–style layout: info panel left, map right */}
-            <div className="grid gap-0 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm md:grid-cols-[minmax(0,320px)_1fr] md:min-h-[360px]">
+            <div className="grid gap-0 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm md:grid-cols-[minmax(0,320px)_1fr] md:min-h-90">
               {/* Left: place info panel */}
               <div className="flex flex-col gap-3 border-b border-gray-200 bg-white p-4 md:border-b-0 md:border-r md:border-gray-200 md:p-5">
                     <h3 className="text-base font-bold text-gray-900 sm:text-lg">
@@ -215,7 +215,7 @@ export default function ContactPage() {
                 </a>
               </div>
               {/* Right: map */}
-              <div className="aspect-[4/3] min-h-[240px] overflow-hidden bg-gray-100 md:aspect-auto md:h-full md:min-h-[360px]">
+              <div className="aspect-4/3 min-h-60 overflow-hidden bg-gray-100 md:aspect-auto md:h-full md:min-h-90">
                     {mapEmbedUrl ? (
                       <iframe
                         src={mapEmbedUrl}
@@ -226,20 +226,20 @@ export default function ContactPage() {
                         loading="lazy"
                         referrerPolicy="no-referrer-when-downgrade"
                         title="UMANG Hospital location on Google Maps"
-                        className="h-full min-h-[240px] w-full"
+                        className="h-full min-h-60 w-full"
                       />
                     ) : (
                       <a
                         href={mapUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex h-full min-h-[240px] w-full flex-col items-center justify-center gap-2 bg-gray-100 p-6 text-center transition hover:bg-gray-200"
+                        className="flex h-full min-h-60 w-full flex-col items-center justify-center gap-2 bg-gray-100 p-6 text-center transition hover:bg-gray-200"
                       >
                         <i className="fi fi-sr-marker text-4xl text-gray-500" aria-hidden />
                         <span className="text-sm font-medium text-gray-700 sm:text-base">
                           UMANG Hospital, Bilaspur
                         </span>
-                        <span className="text-sm text-[var(--umang-teal)] underline">
+                        <span className="text-sm text-(--umang-teal) underline">
                           Open in Google Maps
                         </span>
                       </a>
