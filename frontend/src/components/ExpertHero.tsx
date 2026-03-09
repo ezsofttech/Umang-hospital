@@ -4,7 +4,7 @@ export default function ExpertHero() {
       {/* Full-width background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(/images/hospital-img.svg)" }}
+        style={{ backgroundImage: "url(/images/UmangHospital.jpeg)" }}
       />
       {/* Top edge gradient (soft frame) */}
       <div
