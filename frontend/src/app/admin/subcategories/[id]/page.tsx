@@ -119,6 +119,20 @@ export default function SubcategoryFormPage() {
     }));
   };
 
+  const addStat = () => {
+    setFormData(prev => ({
+      ...prev,
+      stats: [...prev.stats, { value: '', label: '' }],
+    }));
+  };
+
+  const removeStat = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      stats: prev.stats.filter((_, i) => i !== index),
+    }));
+  };
+
   if (isLoading && !isNew) {
     return <div className="flex justify-center py-12 text-gray-500">Loadingâ€¦</div>;
   }
@@ -202,34 +216,61 @@ export default function SubcategoryFormPage() {
           </div>
           {/* Stats */}
           <div className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">Service Stats</p>
-            <div className="space-y-4">
-              {formData.stats.map((stat, index) => (
-                <div key={index} className="flex gap-3">
-                  <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Value <span className="text-gray-400">(e.g., 10+, 1000+)</span></label>
-                    <input
-                      type="text"
-                      value={stat.value}
-                      onChange={(e) => handleStatChange(index, 'value', e.target.value)}
-                      placeholder="e.g., 10+"
-                      className={inputCls}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Label</label>
-                    <input
-                      type="text"
-                      value={stat.label}
-                      onChange={(e) => handleStatChange(index, 'label', e.target.value)}
-                      placeholder="e.g., Years of Experience"
-                      className={inputCls}
-                    />
-                  </div>
-                </div>
-              ))}
+            <div className="flex items-center gap-2 mb-4">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--umang-green)]/10">
+                <i className="fi fi-sr-chart-simple text-[var(--umang-green)]" aria-hidden />
+              </div>
+              <p className="text-sm font-semibold uppercase tracking-wider text-gray-900">Service Stats</p>
             </div>
-            <p className="mt-3 text-xs text-gray-500">Leave empty to use default stats on the service page.</p>
+            
+            <div className="space-y-3">
+              {formData.stats.length === 0 ? (
+                <p className="text-sm text-gray-500">No stats added yet. Click the button below to add one.</p>
+              ) : (
+                formData.stats.map((stat, index) => (
+                  <div key={index} className="flex gap-3 items-end">
+                    <div className="flex-1">
+                      <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wider">Value</label>
+                      <input
+                        type="text"
+                        value={stat.value}
+                        onChange={(e) => handleStatChange(index, 'value', e.target.value)}
+                        placeholder="e.g., 10+, 1000+"
+                        className={inputCls}
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="block text-xs font-semibold text-gray-700 mb-2 uppercase tracking-wider">Label</label>
+                      <input
+                        type="text"
+                        value={stat.label}
+                        onChange={(e) => handleStatChange(index, 'label', e.target.value)}
+                        placeholder="e.g., Years of Experience"
+                        className={inputCls}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeStat(index)}
+                      className="px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-lg transition font-medium text-sm"
+                    >
+                      <i className="fi fi-sr-trash" aria-hidden />
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={addStat}
+              className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 text-[var(--umang-teal)] bg-[var(--umang-teal)]/10 hover:bg-[var(--umang-teal)]/20 rounded-lg transition font-medium text-sm"
+            >
+              <i className="fi fi-sr-plus-small" aria-hidden />
+              Add Stat
+            </button>
+
+            <p className="mt-3 text-xs text-gray-500">Leave empty to use default hospital stats on the service page.</p>
           </div>
         </div>
 

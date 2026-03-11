@@ -11,7 +11,6 @@ const navLinks = [
   { href: "/about", label: "About Us" },
   { href: "/#departments", label: "Departments" },
   { href: "/services", label: "Our Services" },
-  { href: "/#network", label: "Our Network" },
   { href: "/doctors", label: "Doctors" },
   { href: "/#gallery", label: "Gallery" },
   { href: "/blogs", label: "Blogs" },
@@ -57,21 +56,21 @@ export default function Header({
           </Link>
           <div className="hidden flex-wrap items-center justify-end gap-4 text-xs text-[#16355A] sm:flex sm:gap-6 sm:text-sm md:gap-8">
             <div className="flex min-w-0 items-center gap-2">
-              <Image src="/images/watch-icon.svg" alt="" width={20} height={20} className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
+              <Image src="/images/watch-icon.svg" alt="Hospital operating hours" width={20} height={20} className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
               <div className="min-w-0">
                 <p className="truncate font-medium sm:truncate-none">Mon–Fri 08:00–19:00</p>
                 <p className="text-[10px] sm:text-xs">24/7 Emergency</p>
               </div>
             </div>
             <div className="flex min-w-0 items-center gap-2">
-              <Image src="/images/phone-icon.svg" alt="" width={20} height={20} className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
+              <Image src="/images/phone-icon.svg" alt="UMANG Hospital phone number" width={20} height={20} className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
               <div className="min-w-0">
                 <p className="font-medium">+91 7710203022</p>
                 <p className="hidden text-xs sm:block">umanghospitalbsp@gmail.com</p>
               </div>
             </div>
             <div className="hidden min-w-0 items-center gap-2 md:flex md:pl-2">
-              <Image src="/images/location-icon.svg" alt="" width={20} height={20} className="h-5 w-5 shrink-0" />
+              <Image src="/images/location-icon.svg" alt="UMANG Hospital location in Bilaspur" width={20} height={20} className="h-5 w-5 shrink-0" />
               <div className="min-w-0">
                 <p className="truncate font-medium">Rani Sati Mandir, Gaurav Path</p>
                 <p className="text-xs">Bilaspur, Chhattisgarh 495001</p>

@@ -56,7 +56,7 @@ export default function ExpertTeam({ doctors: propDoctors }: Props) {
                     {doc.image ? (
                       <Image
                         src={doc.image}
-                        alt=""
+                        alt={`${doc.name}, ${doc.role} at UMANG Hospital`}
                         fill
                         className="object-cover object-top"
                         sizes="64px"

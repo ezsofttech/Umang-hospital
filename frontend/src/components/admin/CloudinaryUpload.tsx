@@ -112,7 +112,7 @@ export default function CloudinaryUpload({
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-2 shadow-sm">
             <img
               src={value}
-              alt="Preview"
+              alt="Uploaded image preview"
               className={`rounded ${isSvgSupported ? 'h-20 w-24 object-contain' : 'h-24 w-24 object-cover'}`}
               onError={(e) => {
                 console.error('Image failed to load:', value);

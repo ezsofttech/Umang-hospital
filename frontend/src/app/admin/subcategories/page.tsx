@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useSubcategories, useDeleteSubcategory } from '@/hooks/useSubcategories';
 import { useCategories } from '@/hooks/useCategories';
+import { statisticsService } from '@/services/statistics.service';
 
 export default function SubcategoriesPage() {
   const { data: subcategories = [], isLoading, error } = useSubcategories();
@@ -12,6 +13,19 @@ export default function SubcategoriesPage() {
   const [filterCategoryId, setFilterCategoryId] = React.useState<string | null>(null);
   const [deleting, setDeleting] = React.useState<string | null>(null);
   const [deleteError, setDeleteError] = React.useState<string | null>(null);
+  const [statsCount, setStatsCount] = React.useState(0);
+
+  React.useEffect(() => {
+    const loadStatsCount = async () => {
+      try {
+        const stats = await statisticsService.getAll();
+        setStatsCount(stats.length);
+      } catch (err) {
+        console.error('Failed to load stats count:', err);
+      }
+    };
+    loadStatsCount();
+  }, []);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this subcategory?')) return;
@@ -35,6 +49,45 @@ export default function SubcategoriesPage() {
 
   return (
     <div className="space-y-6">
+        {/* Quick Stats Card */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="rounded-xl border border-gray-200 bg-gradient-to-br from-blue-50 to-blue-100/50 p-5 shadow-sm hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 font-medium">Total Services</p>
+                <p className="text-3xl font-bold text-[var(--umang-navy)] mt-1">{subcategories.length}</p>
+              </div>
+              <i className="fi fi-sr-list text-4xl text-blue-300" aria-hidden />
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-gray-200 bg-gradient-to-br from-green-50 to-green-100/50 p-5 shadow-sm hover:shadow-md transition">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 font-medium">Active Services</p>
+                <p className="text-3xl font-bold text-[var(--umang-green)] mt-1">
+                  {subcategories.filter(s => s.active).length}
+                </p>
+              </div>
+              <i className="fi fi-sr-check-circle text-4xl text-green-300" aria-hidden />
+            </div>
+          </div>
+
+          <Link
+            href="/admin/statistics"
+            className="rounded-xl border border-gray-200 bg-gradient-to-br from-[var(--umang-teal)]/5 to-[var(--umang-teal)]/10 p-5 shadow-sm hover:shadow-md transition cursor-pointer group"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 font-medium">Hospital Stats</p>
+                <p className="text-3xl font-bold text-[var(--umang-teal)] mt-1">{statsCount}</p>
+                <p className="text-xs text-[var(--umang-teal)] mt-2 font-medium group-hover:underline">Manage Stats →</p>
+              </div>
+              <i className="fi fi-sr-chart-simple text-4xl text-[var(--umang-teal)]/30 group-hover:text-[var(--umang-teal)]/50 transition" aria-hidden />
+            </div>
+          </Link>
+        </div>
+
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-[var(--umang-navy)] sm:text-3xl">

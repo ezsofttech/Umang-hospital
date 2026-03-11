@@ -35,16 +35,21 @@ export default function Departments() {
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 lg:gap-8">
             {limitedCategories.map((category) => (
               <Link key={category._id} href={`/departments/${category.slug || category._id}`}>
-                <article className="dept-card cursor-pointer transition-transform hover:scale-105">
-                  <div
-                    className="dept-card-image h-40 bg-gray-200 bg-cover bg-center sm:h-48"
-                    style={{ backgroundImage: `url(${category.image})` }}
+                <article className="dept-card cursor-pointer transition-transform hover:scale-105 flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+                  <img
+                    src={category.image}
+                    alt={category.title}
+                    className="dept-card-image h-44 w-full object-cover"
                   />
-                  <div className="dept-card-content">
-                    <h3 className="text-sm font-bold text-(--umang-navy) sm:text-base">{category.title}</h3>
-                    <p className="mt-1.5 text-xs leading-relaxed text-justify text-[#4A4A4A] sm:mt-2 sm:text-sm">
+                  <div className="dept-card-content flex flex-col h-full p-4 sm:p-5">
+                    <h3 className="text-base font-bold text-(--umang-navy)">{category.title}</h3>
+                    <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-justify text-gray-600 sm:text-sm">
                       {category.description}
                     </p>
+                    <span className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-(--umang-teal)">
+                      Read more
+                      <i className="fi fi-sr-arrow-right text-xs" aria-hidden />
+                    </span>
                   </div>
                 </article>
               </Link>

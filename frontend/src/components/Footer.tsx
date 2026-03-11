@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import FooterAccordion from "./FooterAccordion";
+import { useCategories } from "@/hooks/useCategories";
 
 const quickLinks = [
   { label: "About Us", href: "/#about" },
@@ -10,17 +14,6 @@ const quickLinks = [
   { label: "Gallery", href: "/#gallery" },
   { label: "IVF", href: "/services" },
   { label: "Blogs", href: "/blogs" },
-];
-
-const departments = [
-  "INFERTILITY / IVF / REPRODUCTIVE MEDICINE",
-  "OBSTETRICS and GYNAECOLOGY",
-  "BURN/PLASTIC SURGERY",
-  "CARDIOLOGY",
-  "COSMETIC SURGERY",
-  "LASER SURGERY",
-  "PAEDIATRICS / NEONATOLOGY",
-  "EMERGENCY MEDICINE",
 ];
 
 const social = [
@@ -39,10 +32,22 @@ const insuranceLogos = [
 ];
 
 export default function Footer() {
+  const { data: categories = [] } = useCategories();
+  const [departments, setDepartments] = useState<Array<{ title: string; slug: string }>>([]);
+
+  useEffect(() => {
+    if (categories.length > 0) {
+      const activeDepts = categories
+        .filter((cat) => cat.active)
+        .slice(0, 6)
+        .map((cat) => ({ title: cat.title, slug: cat.slug }));
+      setDepartments(activeDepts);
+    }
+  }, [categories]);
   return (
     <footer className="relative bg-white">
       {/* White area: space for certification band; band overlaps into dark section (md+) */}
-      <div className="text-center text-xs font-semibold uppercase tracking-wider text-[#16355A] opacity-60 sm:mb-3 sm:text-xs md:mb-4">over empanelments</div>
+      <div className="text-center text-xs font-semibold uppercase tracking-wider text-[#16355A] opacity-60 sm:mb-3 sm:text-xs md:mb-4">our empanelments</div>
       <div className="bg-white pb-40 md:pt-14 lg:pb-2 relative">
         {/* Certification band: full-width on mobile to avoid dark peeking at edges; floating on desktop */}
         <div className="mx-auto max-w-4xl left-0 right-0 my-3 px-4 sm:px-4 absolute md:left-1/2 md:top-0 md:z-10 md:-translate-x-1/2 md:px-6">
@@ -121,10 +126,13 @@ export default function Footer() {
               </FooterAccordion>
               <FooterAccordion title="Department">
                 <ul className="space-y-2.5">
-                  {departments.map((name, i) => (
+                  {departments.map((dept, i) => (
                     <li key={i}>
-                      <Link href="/#departments" className="text-sm text-white/90 transition hover:text-white">
-                        {name}
+                      <Link
+                        href={`/departments/${dept.slug}`}
+                        className="text-sm text-white/90 transition hover:text-white"
+                      >
+                        {dept.title}
                       </Link>
                     </li>
                   ))}
@@ -188,10 +196,13 @@ export default function Footer() {
             <div>
               <h3 className="mb-4 text-xs font-bold uppercase tracking-wider text-[#699C78]">DEPARTMENT</h3>
               <ul className="space-y-2.5">
-                {departments.map((name, i) => (
+                {departments.map((dept, i) => (
                   <li key={i}>
-                    <Link href="/#departments" className="text-sm text-white/90 transition hover:text-white">
-                      {name}
+                    <Link
+                      href={`/departments/${dept.slug}`}
+                      className="text-sm text-white/90 transition hover:text-white"
+                    >
+                      {dept.title}
                     </Link>
                   </li>
                 ))}
@@ -211,9 +222,21 @@ export default function Footer() {
           </div>
 
           {/* Copyright */}
-          <div className="mt-12 pt-8 text-center text-xs text-white/50 sm:text-sm">
-            Made with <i className="fi fi-sr-heart text-red-500" aria-hidden /> by EZ
-            Softtech Pvt Ltd.
+          <div className="mt-12 pt-8 border-t border-white/10">
+            <p className="text-center text-xs text-white/70 sm:text-sm">
+              &copy; {new Date().getFullYear()} UMANG Hospital. All rights reserved.
+            </p>
+            <p className="mt-3 text-center text-xs text-white/60 sm:text-sm">
+              Developed by{" "}
+              <Link
+                href="https://www.ezsofttech.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-[#699C78] hover:text-white transition-colors"
+              >
+                EZ Soft Tech
+              </Link>
+            </p>
           </div>
         </div>
       </div>

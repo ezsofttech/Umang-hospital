@@ -79,9 +79,10 @@ export default function DepartmentView({ category, subcategories, allCategories 
           <article className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
             <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center">
               {category.image && (
-                <div
-                  className="h-40 w-full shrink-0 rounded-lg bg-gray-100 bg-cover bg-center sm:h-48 sm:w-56"
-                  style={{ backgroundImage: `url(${category.image})` }}
+                <img
+                  src={category.image}
+                  alt={category.title}
+                  className="h-40 w-full shrink-0 rounded-lg object-cover sm:h-48 sm:w-56"
                 />
               )}
               <div className="min-w-0 flex-1">
@@ -121,7 +122,7 @@ export default function DepartmentView({ category, subcategories, allCategories 
                   >
                     <article className="flex h-full flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-300 group-hover:shadow-md">
                       {sub.image && (
-                        <div className="relative h-36 overflow-hidden bg-gray-100">
+                        <div className="relative h-40 overflow-hidden bg-gray-100">
                           <img
                             src={sub.image}
                             alt={`${sub.title} at UMANG Hospital`}
@@ -130,14 +131,14 @@ export default function DepartmentView({ category, subcategories, allCategories 
                           />
                         </div>
                       )}
-                      <div className="flex grow flex-col p-4">
-                        <h3 className="text-sm font-bold text-(--umang-navy) transition-colors group-hover:text-(--umang-green) sm:text-base">
+                      <div className="flex grow flex-col p-4 sm:p-5">
+                        <h3 className="text-base font-bold text-(--umang-navy) transition-colors group-hover:text-(--umang-green)">
                           {sub.title}
                         </h3>
-                        <p className="mt-2 grow text-xs leading-relaxed text-justify text-gray-600 sm:text-sm">
+                        <p className="mt-2 grow line-clamp-3 text-xs leading-relaxed text-justify text-gray-600 sm:text-sm">
                           {sub.description}
                         </p>
-                        <span className="mt-4 flex items-center gap-1 text-xs font-medium text-(--umang-green)">
+                        <span className="mt-auto pt-3 flex items-center gap-1 text-xs font-medium text-(--umang-teal)">
                           Learn More
                           <i className="fi fi-sr-arrow-right text-xs" aria-hidden />
                         </span>

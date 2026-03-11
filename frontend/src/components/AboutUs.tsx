@@ -132,7 +132,7 @@ export default function AboutUs() {
               <div className="about-us-card-icon flex h-14 w-14 shrink-0">
                 <Image
                   src={s.icon}
-                  alt=""
+                  alt={`${s.title} - ${s.description}`}
                   width={56}
                   height={56}
                   className="h-full w-full object-contain"

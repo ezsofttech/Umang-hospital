@@ -50,18 +50,23 @@ export default async function DepartmentsPage() {
                     href={`/departments/${category.slug || category._id}`}
                     className="group focus:outline-none focus-visible:ring-2 focus-visible:ring-(--umang-navy) rounded-lg"
                   >
-                    <article className="cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow group-hover:shadow-md">
-                      <div
-                        className="h-48 bg-gray-200 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"
-                        style={{ backgroundImage: `url(${category.image})` }}
+                    <article className="cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow group-hover:shadow-md flex h-full flex-col">
+                      <img
+                        src={category.image}
+                        alt={category.title}
+                        className="h-44 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
-                      <div className="p-4">
-                        <h3 className="text-sm font-bold text-(--umang-navy) transition-colors group-hover:text-(--umang-green) sm:text-base">
+                      <div className="p-4 sm:p-5 flex flex-col h-full">
+                        <h3 className="text-base font-bold text-(--umang-navy) transition-colors group-hover:text-(--umang-green)">
                           {category.title}
                         </h3>
-                        <p className="mt-2 text-xs leading-relaxed text-justify text-gray-600 sm:text-sm">
+                        <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-justify text-gray-600 sm:text-sm">
                           {category.description}
                         </p>
+                        <span className="mt-auto pt-3 inline-flex items-center gap-1 text-xs font-medium text-(--umang-teal)">
+                          Read more
+                          <i className="fi fi-sr-arrow-right text-xs" aria-hidden />
+                        </span>
                       </div>
                     </article>
                   </Link>

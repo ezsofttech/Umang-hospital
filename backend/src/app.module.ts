@@ -11,6 +11,7 @@ import { SlugMigrationModule } from './migration/slug-migration.module';
 import { SlugMigrationService } from './migration/slug-migration.service';
 import { HeroModule } from './hero/hero.module';
 import { AboutModule } from './about/about.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AboutModule } from './about/about.module';
     SlugMigrationModule,
     HeroModule,
     AboutModule,
+    StatisticsModule,
   ],
 })
 export class AppModule implements OnModuleInit {
