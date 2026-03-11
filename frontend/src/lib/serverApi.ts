@@ -4,7 +4,7 @@
  * `url.parse()` deprecation warning (DEP0169) on Node.js 22+.
  */
 
-import type { Blog, Doctor, Category, Subcategory } from '@/types';
+import type { Blog, Doctor, Category, Subcategory, Facilities } from '@/types';
 import type { Message } from '@/types';
 import { SERVER_API_URL } from '@/lib/config';
 
@@ -137,6 +137,23 @@ export async function fetchSubcategoriesByCategory(categoryId: string): Promise<
 export async function fetchCategoryById(id: string): Promise<Category | null> {
   try {
     return await apiFetch<Category>(`/categories/${encodeURIComponent(id)}`);
+  } catch {
+    return null;
+  }
+}
+
+// Facilities
+export async function fetchFacilities(publishedOnly = false): Promise<Facilities[]> {
+  try {
+    return await apiFetch<Facilities[]>('/facilities', { published: String(publishedOnly) });
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchFacilitiesBySlug(slug: string): Promise<Facilities | null> {
+  try {
+    return await apiFetch<Facilities>(`/facilities/slug/${encodeURIComponent(slug)}`);
   } catch {
     return null;
   }

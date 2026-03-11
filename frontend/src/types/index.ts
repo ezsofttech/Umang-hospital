@@ -3,6 +3,7 @@ export type { Category } from './category.types';
 export type { Subcategory } from './subcategory.types';
 export type { Message } from './message.types';
 export type { Doctor, CreateDoctorInput } from './doctor.types';
+export type { Facilities } from './facilities.types';
 export type {
   UserRole,
   AuthUser,
