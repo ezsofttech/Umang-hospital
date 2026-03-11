@@ -12,6 +12,7 @@ import { SlugMigrationService } from './migration/slug-migration.service';
 import { HeroModule } from './hero/hero.module';
 import { AboutModule } from './about/about.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { FacilitiesModule } from './facilities/facilities.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     HeroModule,
     AboutModule,
     StatisticsModule,
+    FacilitiesModule,
   ],
 })
 export class AppModule implements OnModuleInit {

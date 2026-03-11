@@ -7,9 +7,10 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/#departments", label: "Departments" },
-  { href: "/services", label: "Our Services" },
-  { href: "/#network", label: "Our Network" },
+  // { href: "/services", label: "Our Services" },
+  // { href: "/#network", label: "Our Network" },
   { href: "/doctors", label: "Doctors" },
+  { href: "/facilities", label: "Facilities" },
   { href: "/#gallery", label: "Gallery" },
   { href: "/blogs", label: "Blogs" },
   { href: "/contact", label: "Contact Us" },
@@ -64,6 +65,7 @@ export default function MobileNav({
                       (currentPath === "/services" && link.href === "/services") ||
                       (currentPath === "/doctors" && link.href === "/doctors") ||
                       (currentPath === "/contact" && link.href === "/contact") ||
+                      (currentPath === "/facilities" && link.href === "/facilities") ||
                       (currentPath === "/blogs" && link.href === "/blogs")
                         ? "text-(--umang-teal)"
                         : "text-[#16355A] hover:bg-gray-50 hover:text-(--umang-green)"
