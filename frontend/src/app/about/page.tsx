@@ -52,7 +52,7 @@ function AboutJsonLd() {
       "State-of-the-art IVF and super specialty hospital providing advanced fertility treatments, plastic surgery, and comprehensive healthcare services in Bilaspur, Chhattisgarh.",
     image: `${SITE_URL}/images/about-us-img.svg`,
     telephone: "+91 7710203022",
-    email: "umanghospitalbsp@gmail.com",
+    email: "umanghospital.hr@gmail.com",
     address: {
       "@type": "PostalAddress",
       streetAddress:

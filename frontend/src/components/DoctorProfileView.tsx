@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/config";
 
 const HOSPITAL_PHONE_1 = "+91 7710203022";
 const HOSPITAL_PHONE_2 = "+91 8889450411";
-const HOSPITAL_EMAIL = "umanghospitalbsp@gmail.com";
+const HOSPITAL_EMAIL = "umanghospital.hr@gmail.com";
 const HOSPITAL_ADDRESS =
   "In front of Rani Sati Mandir, Gaurav Path-Ring Road-2, Bilaspur, Chhattisgarh 495001";
 

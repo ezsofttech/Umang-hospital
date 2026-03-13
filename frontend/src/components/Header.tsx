@@ -67,7 +67,7 @@ export default function Header({
               <Image src="/images/phone-icon.svg" alt="UMANG Hospital phone number" width={20} height={20} className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
               <div className="min-w-0">
                 <p className="font-medium">+91 7710203022</p>
-                <p className="hidden text-xs sm:block">umanghospitalbsp@gmail.com</p>
+                <p className="hidden text-xs sm:block">umanghospital.hr@gmail.com</p>
               </div>
             </div>
             <div className="hidden min-w-0 items-center gap-2 md:flex md:pl-2">

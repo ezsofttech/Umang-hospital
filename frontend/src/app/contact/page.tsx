@@ -8,7 +8,7 @@ import { SITE_URL } from "@/lib/config";
 export const metadata: Metadata = {
   title: "Contact Us | UMANG Hospital Bilaspur – Address, Phone, Email",
   description:
-    "Contact UMANG IVF & Super Specialty Hospital, Bilaspur. Address: Rani Sati Mandir, Gaurav Path-Ring Road-2. Phone: +91 7710203022, +91 8889450411. Email: umanghospitalbsp@gmail.com. 24/7 emergency care.",
+    "Contact UMANG IVF & Super Specialty Hospital, Bilaspur. Address: Rani Sati Mandir, Gaurav Path-Ring Road-2. Phone: +91 7710203022, +91 8889450411. Email: umanghospital.hr@gmail.com. 24/7 emergency care.",
   keywords: [
     "contact Umang Hospital",
     "UMANG Hospital Bilaspur address",
@@ -27,7 +27,7 @@ const CONTACT = {
   address: "In front of Rani Sati Mandir, Gaurav Path-Ring Road-2, Bilaspur, Chhattisgarh 495001",
   phone1: "+91 7710203022",
   phone2: "+91 8889450411",
-  email: "umanghospitalbsp@gmail.com",
+  email: "umanghospital.hr@gmail.com",
   hours: "Mon–Fri 08:00–19:00",
   emergency: "24/7 Emergency",
   googlePlaceId: "ChIJC8IdN40LKDoR_sXGdLfwCzc",

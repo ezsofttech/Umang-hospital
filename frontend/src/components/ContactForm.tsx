@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useCreateMessage } from "@/hooks/useMessage";
 
-const HOSPITAL_EMAIL = "umanghospitalbsp@gmail.com";
+const HOSPITAL_EMAIL = "umanghospital.hr@gmail.com";
 
 export default function ContactForm() {
   const [name, setName] = useState("");

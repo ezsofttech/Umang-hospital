@@ -142,7 +142,7 @@ export default function Footer() {
                 <p className="text-sm text-white/90">+91 7710203022 / +91 8889450411</p>
               </FooterAccordion>
               <FooterAccordion title="Email">
-                <p className="text-sm text-white/90">umanghospitalbsp@gmail.com</p>
+                <p className="text-sm text-white/90">umanghospital.hr@gmail.com</p>
               </FooterAccordion>
               <FooterAccordion title="Office">
                 <p className="text-sm leading-relaxed text-justify text-white/90">
@@ -217,7 +217,7 @@ export default function Footer() {
               <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-[#699C78]">PHONE</h3>
               <p className="text-sm text-white/90">+91 7710203022 / +91 8889450411</p>
               <h3 className="mt-6 text-xs font-bold uppercase tracking-wider text-[#699C78]">EMAIL</h3>
-              <p className="text-sm text-white/90">umanghospitalbsp@gmail.com</p>
+              <p className="text-sm text-white/90">umanghospital.hr@gmail.com</p>
             </div>
           </div>
 

@@ -5,25 +5,25 @@ import { useEffect, useState } from "react";
 import { blogService } from "@/services/blog.service";
 import type { Blog } from "@/types";
 
-const fallbackArticles = [
-  {
-    title: "How modern hospitals are redefining patient-centered care",
-    category: "MEDICAL ADVICE",
-    image: "/images/medical-ad-img.svg",
-    slug: "hospital-patient-care",
-  },
-  {
-    title: "How modern hospitals are redefining patient-centered care",
-    category: "MEDICAL ADVICE",
-    image: "/images/medical-ad-two.svg",
-    slug: "hospital-patient-care",
-  },
-  {
-    title: "How modern hospitals are redefining patient-centered care",
-    category: "MEDICAL ADVICE",
-    image: "/images/medical-ad-three.svg",
-    slug: "hospital-patient-care",
-  },
+const fallbackArticles: Blog[] = [
+  // {
+  //   title: "How modern hospitals are redefining patient-centered care",
+  //   category: "MEDICAL ADVICE",
+  //   image: "/images/medical-ad-img.svg",
+  //   slug: "hospital-patient-care",
+  // },
+  // {
+  //   title: "How modern hospitals are redefining patient-centered care",
+  //   category: "MEDICAL ADVICE",
+  //   image: "/images/medical-ad-two.svg",
+  //   slug: "hospital-patient-care",
+  // },
+  // {
+  //   title: "How modern hospitals are redefining patient-centered care",
+  //   category: "MEDICAL ADVICE",
+  //   image: "/images/medical-ad-three.svg",
+  //   slug: "hospital-patient-care",
+  // },
 ];
 
 export default function LatestStories() {
@@ -100,12 +100,12 @@ export default function LatestStories() {
         <div className="mt-8 grid gap-4 sm:mt-12 sm:gap-6 lg:grid-cols-3 lg:gap-8">
           {articles.map((article, i) => {
             const isMiddle = i === 1;
-            const slug = ("slug" in article && article.slug) || "hospital-patient-care";
-            const image =
+            const slug: string = ("slug" in article && article.slug) || "hospital-patient-care";
+            const image: string =
               ("image" in article && article.image) ||
               "/images/medical-ad-img.svg";
-            const category =
-              ("category" in article && article.category) || "MEDICAL ADVICE";
+            const category: string =
+              ("category" in article && String(article.category)) || "MEDICAL ADVICE";
 
             return (
               <Link
