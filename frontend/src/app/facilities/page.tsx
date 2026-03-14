@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Header from "@/components/Header";
 import FacilitiesHero from "@/components/FacilitiesHero";
 import Footer from "@/components/Footer";
@@ -39,46 +38,58 @@ export default async function FacilitiesPage() {
           {!error && facilities.length === 0 && (
             <p className="text-center text-gray-600">No facilities available yet. Check back soon.</p>
           )}
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {facilities.map((facility) => (
-              <li key={facility.id}>
-                <Link
-                  href={`/facilities/${facility.slug}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:border-[var(--umang-teal)] hover:shadow-md"
-                >
-                  {facility.image ? (
-                    <div className="h-44 overflow-hidden bg-gray-100">
-                      <img
-                        src={facility.image}
-                        alt={facility.title}
-                        className="h-full w-full object-cover transition group-hover:scale-105"
-                      />
+          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {facilities.map((facility, index) => {
+              const isImageRight = index % 2 === 1;
+              return (
+                <li key={facility.id} className="flex">
+                  <article
+                    className={`flex min-h-[280px] w-full flex-col overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-md sm:h-[340px] sm:flex-row md:h-[360px] ${isImageRight ? "sm:flex-row-reverse" : ""}`}
+                  >
+                    {/* Image column (~40%) - left on even cards, right on odd */}
+                    <div
+                      className={`h-52 w-full shrink-0 overflow-hidden border-b-2 border-gray-200 bg-gray-100 sm:h-full sm:w-[42%] sm:border-b-0 ${
+                        isImageRight
+                          ? "rounded-t-2xl sm:rounded-t-none sm:rounded-r-2xl sm:border-l-2"
+                          : "rounded-t-2xl sm:rounded-t-none sm:rounded-l-2xl sm:border-r-2"
+                      }`}
+                    >
+                      {facility.image ? (
+                        <img
+                          src={facility.image}
+                          alt={facility.title}
+                          className="h-full w-full object-cover object-center"
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-gradient-to-br from-[var(--umang-navy)] to-[var(--umang-teal)] opacity-90" />
+                      )}
                     </div>
-                  ) : (
-                    <div className="h-44 bg-gradient-to-br from-[var(--umang-navy)] to-[var(--umang-teal)] opacity-80" />
-                  )}
-                  <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    <time className="text-xs font-medium text-gray-500" dateTime={facility.createdAt}>
-                      {new Date(facility.createdAt).toLocaleDateString("en-IN", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </time>
-                    <h2 className="mt-2 text-lg font-bold text-[var(--umang-navy)] line-clamp-2 sm:text-xl">
-                      {facility.title}
-                    </h2>
-                    {facility.excerpt && (
-                      <p className="mt-2 line-clamp-3 text-justify text-sm text-gray-600">{facility.excerpt}</p>
-                    )}
-                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[var(--umang-teal)]">
-                      Learn more
-                      <i className="fi fi-sr-arrow-right text-sm" aria-hidden />
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            ))}
+                    {/* Title + description column (~58%) - right on even cards, left on odd */}
+                    <div className="flex min-w-0 flex-1 flex-col gap-4 p-4 sm:p-5 md:gap-5 md:p-6">
+                      <div className="px-4">
+                        <h2 className="text-lg font-bold leading-snug text-[var(--umang-navy)] sm:text-xl">
+                          {facility.title}
+                        </h2>
+                      </div>
+                      <div className="flex flex-1 flex-col px-4 py-2">
+                        {facility.excerpt ? (
+                          <p className="line-clamp-5 flex-1 text-base leading-relaxed text-gray-600 text-justify md:line-clamp-6">
+                            {facility.excerpt}
+                          </p>
+                        ) : null}
+                        <time className="mt-3 block text-sm text-gray-400" dateTime={facility.createdAt}>
+                          {new Date(facility.createdAt).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </time>
+                      </div>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <Footer />

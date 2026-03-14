@@ -4,6 +4,7 @@ export type { Subcategory } from './subcategory.types';
 export type { Message } from './message.types';
 export type { Doctor, CreateDoctorInput } from './doctor.types';
 export type { Facilities } from './facilities.types';
+export type { Gallery } from './gallery.types';
 export type {
   UserRole,
   AuthUser,

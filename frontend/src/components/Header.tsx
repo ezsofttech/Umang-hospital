@@ -13,7 +13,7 @@ const navLinks = [
   // { href: "/services", label: "Our Services" },
   { href: "/doctors", label: "Doctors" },
   { href: "/facilities", label: "Facilities" },
-  { href: "/#gallery", label: "Gallery" },
+  { href: "/gallery", label: "Gallery" },
   { href: "/blogs", label: "Blogs" },
   { href: "/contact", label: "Contact Us" },
 ];
@@ -95,6 +95,7 @@ export default function Header({
                 (currentPath === "/doctors" && link.href === "/doctors") ||
                 (currentPath === "/contact" && link.href === "/contact") ||
                 (currentPath === "/facilities" && link.href === "/facilities") ||
+                (currentPath === "/gallery" && link.href === "/gallery") ||
                 (currentPath === "/blogs" && link.href === "/blogs")
                   ? "text-(--umang-teal)"
                   : ""
