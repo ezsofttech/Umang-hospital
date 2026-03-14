@@ -13,6 +13,7 @@ import { HeroModule } from './hero/hero.module';
 import { AboutModule } from './about/about.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { FacilitiesModule } from './facilities/facilities.module';
+import { GalleryModule } from './gallery/gallery.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { FacilitiesModule } from './facilities/facilities.module';
     AboutModule,
     StatisticsModule,
     FacilitiesModule,
+    GalleryModule,
   ],
 })
 export class AppModule implements OnModuleInit {
