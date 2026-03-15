@@ -53,6 +53,17 @@ export default function AdminShell({ children }: Props) {
     );
   }
 
+  // Redirect to login if not authenticated (client-side guard)
+  if (!isAuthenticated) {
+    const loginUrl = `/admin/login?next=${encodeURIComponent(pathname)}`;
+    router.replace(loginUrl);
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-50">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-[var(--umang-teal)] border-t-transparent" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
       {isMobile && !sidebarCollapsed && (
