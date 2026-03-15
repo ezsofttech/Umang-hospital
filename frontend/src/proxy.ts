@@ -52,17 +52,3 @@ export function proxy(request: NextRequest) {
 
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: [
-    "/admin",
-    "/admin/dashboard",
-    "/admin/blogs/:path*",
-    "/admin/messages",
-    "/admin/settings",
-    "/admin/staff",
-    "/admin/staff/:path*",
-    "/admin/categories/:path*",
-    "/admin/subcategories/:path*",
-  ],
-};
